@@ -1,6 +1,13 @@
+import 'package:cv_app/bloc/auth/auth_bloc.dart';
+import 'package:cv_app/bloc/auth/auth_event.dart';
+import 'package:cv_app/bloc/auth/auth_state.dart';
+import 'package:cv_app/data/models/from_status/from_status.dart';
+import 'package:cv_app/screens/auth/dialog/my_show_dialog.dart';
 import 'package:cv_app/screens/auth/log_in/log_in_screen.dart';
+import 'package:cv_app/screens/auth/verification/verification_screen.dart';
 import 'package:cv_app/screens/auth/widget/auth_button.dart';
 import 'package:cv_app/screens/auth/widget/auth_input.dart';
+import 'package:cv_app/screens/home/home_screen.dart';
 import 'package:cv_app/screens/widget/global_button.dart';
 import 'package:cv_app/utils/app_colors.dart';
 import 'package:cv_app/utils/app_images.dart';
@@ -8,6 +15,7 @@ import 'package:cv_app/utils/app_reg_exp.dart';
 import 'package:cv_app/utils/app_size.dart';
 import 'package:cv_app/utils/app_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -18,7 +26,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final TextEditingController controllerName = TextEditingController();
+  final TextEditingController controllerFullName = TextEditingController();
   final TextEditingController controllerEmail = TextEditingController();
   final TextEditingController controllerPassword = TextEditingController();
 
@@ -36,7 +44,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
 
@@ -52,123 +59,143 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 20.we, vertical: 16.he),
-              child: Column(
-                children: [
-                  AuthMyButton(
-                    onTab: () {},
-                    title: "Google orqali kirish",
-                    iconPathSvg: AppImages.googleLogoSvg,
-                  ),
-                  12.getH(),
-                  AuthMyButton(
-                    onTab: () {},
-                    title: "Apple orqali kirish",
-                    iconPathSvg: AppImages.appleLogoSvg,
-                  ),
-                  20.getH(),
-                  Text(
-                    "Yoki",
-                    style: AppTextStyle.seoulRobotoRegular.copyWith(
-                      color: AppColors.c010A27.withOpacity(0.40),
-                      fontSize: 16.sp,
-                    ),
-                  ),
-                  20.getH(),
-                  AuthMyInput(
-                    textEditingController: controllerName,
-                    hintText: 'Ismingiz',
-                    errorText: errorTextForName,
-                  ),
-                  12.getH(),
-                  AuthMyInput(
-                    textInputType: TextInputType.emailAddress,
-                    textEditingController: controllerEmail,
-                    hintText: 'Elektron pochta',
-                    errorText: errorTextForEmail,
-                  ),
-                  12.getH(),
-                  AuthMyInput(
-                    textInputAction: TextInputAction.done,
-                    textEditingController: controllerPassword,
-                    hintText: 'Parol',
-                    isPasswordInput: obscureText,
-                    obscureText: obscureText,
-                    onTabEye: () {
-                      setState(() {
-                        obscureText = !obscureText;
-                      });
-                    },
-                    errorText: errorTextForPassword,
-                  ),
-                  20.getH(),
-                  GlobalMyButton(
-                    loading: false,
-                    backgroundColor: _validationInput ? null : Colors.grey,
-                    margin: EdgeInsets.zero,
-                    onTab: _validationInput ? () {} : null,
-                    title: "Ro‘yxatdan o‘tish",
-                  ),
-                  20.getH(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+      body: BlocConsumer<AuthBloc, AuthState>(
+        builder: (BuildContext context, AuthState state) {
+          return Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 20.we, vertical: 16.he),
+                  child: Column(
                     children: [
+                      AuthMyButton(
+                        onTab: () {},
+                        title: "Google orqali kirish",
+                        iconPathSvg: AppImages.googleLogoSvg,
+                      ),
+                      12.getH(),
+                      AuthMyButton(
+                        onTab: () {},
+                        title: "Apple orqali kirish",
+                        iconPathSvg: AppImages.appleLogoSvg,
+                      ),
+                      20.getH(),
                       Text(
-                        "Profilngiz bormi?",
+                        "Yoki",
                         style: AppTextStyle.seoulRobotoRegular.copyWith(
-                          color: AppColors.c010A27,
+                          color: AppColors.c010A27.withOpacity(0.40),
                           fontSize: 16.sp,
                         ),
                       ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4.r),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const LoginInScreen();
-                              },
-                            ),
-                          );
+                      20.getH(),
+                      AuthMyInput(
+                        textEditingController: controllerFullName,
+                        hintText: 'Ismingiz',
+                        errorText: errorTextForName,
+                      ),
+                      12.getH(),
+                      AuthMyInput(
+                        textInputType: TextInputType.emailAddress,
+                        textEditingController: controllerEmail,
+                        hintText: 'Elektron pochta',
+                        errorText: errorTextForEmail,
+                      ),
+                      12.getH(),
+                      AuthMyInput(
+                        textInputAction: TextInputAction.done,
+                        textEditingController: controllerPassword,
+                        hintText: 'Parol',
+                        isPasswordInput: obscureText,
+                        obscureText: obscureText,
+                        onTabEye: () {
+                          setState(() {
+                            obscureText = !obscureText;
+                          });
                         },
-                        child: Text(
-                          "Kirish",
-                          style: AppTextStyle.seoulRobotoRegular.copyWith(
-                            color: AppColors.cF07448,
-                            fontSize: 16.sp,
+                        errorText: errorTextForPassword,
+                      ),
+                      20.getH(),
+                      GlobalMyButton(
+                        loading: state.fromStatus == FromStatus.loading,
+                        backgroundColor: _validationInput ? null : Colors.grey,
+                        margin: EdgeInsets.zero,
+                        onTab: _validationInput
+                            ? () {
+                                FocusScope.of(context).unfocus();
+                                context.read<AuthBloc>().add(
+                                      AuthRegisterEvent(
+                                        email: controllerEmail.text,
+                                        fullName: controllerFullName.text,
+                                        password: controllerPassword.text,
+                                      ),
+                                    );
+                              }
+                            : null,
+                        title: "Ro‘yxatdan o‘tish",
+                      ),
+                      20.getH(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Profilngiz bormi?",
+                            style: AppTextStyle.seoulRobotoRegular.copyWith(
+                              color: AppColors.c010A27,
+                              fontSize: 16.sp,
+                            ),
                           ),
-                        ),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4.r),
+                              ),
+                            ),
+                            onPressed: () {
+                              if (state.fromStatus != FromStatus.loading) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return const LoginInScreen();
+                                    },
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text(
+                              "Kirish",
+                              style: AppTextStyle.seoulRobotoRegular.copyWith(
+                                color: AppColors.cF07448,
+                                fontSize: 16.sp,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              bottom: 30.he,
-              left: 20.we,
-              right: 20.we,
-            ),
-            child: Text(
-              textAlign: TextAlign.center,
-              "Ro'yxatdan o'tayotib, shaxsiy ma'lumotlarni qayta ishlash va ilovadan foydalanish shartlarini qabul qilasiz.",
-              style: AppTextStyle.seoulRobotoRegular.copyWith(
-                  color: AppColors.c010A27.withOpacity(0.40), fontSize: 14.sp),
-            ),
-          ),
-        ],
+              Padding(
+                padding: EdgeInsets.only(
+                  bottom: 30.he,
+                  left: 20.we,
+                  right: 20.we,
+                ),
+                child: Text(
+                  textAlign: TextAlign.center,
+                  "Ro'yxatdan o'tayotib, shaxsiy ma'lumotlarni qayta ishlash va ilovadan foydalanish shartlarini qabul qilasiz.",
+                  style: AppTextStyle.seoulRobotoRegular.copyWith(
+                      color: AppColors.c010A27.withOpacity(0.40),
+                      fontSize: 14.sp),
+                ),
+              ),
+            ],
+          );
+        },
+        listener: _listenAuthBloc,
       ),
     );
   }
@@ -176,63 +203,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool get _validationInput {
     return (AppRegExp.passwordRegExp.hasMatch(controllerPassword.text) &&
             AppRegExp.emailRegExp.hasMatch(controllerEmail.text)) &&
-        controllerName.text.isNotEmpty;
+        controllerFullName.text.isNotEmpty;
   }
 
-  // _listenAuthBloc(BuildContext context, AuthState state) {
-  //   if (state.fromStatus == FromStatus.success) {
-  //     if (state.statusMessage == "good") {
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) {
-  //             return VerificationScreen(
-  //               email: controllerEmail.text,
-  //             );
-  //           },
-  //         ),
-  //       );
-  //     } else if (state.statusMessage == "_resetPassword") {
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) {
-  //             return ResetPasswordConfirmScreen(
-  //               email: state.userEmail,
-  //             );
-  //           },
-  //         ),
-  //       );
-  //       myShowDialog(
-  //         context,
-  //         onTab: () {
-  //           Navigator.pop(context);
-  //         },
-  //         title: state.message,
-  //       );
-  //     } else if (state.statusMessage == "_resetPasswordConfirm") {
-  //       Navigator.pop(context);
-  //       Navigator.pop(context);
-  //     }
-  //   } else if (state.fromStatus == FromStatus.authenticated) {
-  //     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-  //       builder: (context) {
-  //         return const SettingScreen();
-  //       },
-  //     ), (route) => false);
-  //   } else if (state.fromStatus == FromStatus.error) {
-  //     myShowDialog(
-  //       context,
-  //       title: state.errorText,
-  //       onTab: () {
-  //         Navigator.pop(context);
-  //       },
-  //     );
-  //   }
-  // }
+  _listenAuthBloc(BuildContext context, AuthState state) {
+    if (state.fromStatus == FromStatus.authenticated) {
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+        builder: (context) {
+          return const HomeScreen();
+        },
+      ), (route) => false);
+    } else if (state.fromStatus == FromStatus.success) {
+      if (state.statusMessage == "_register") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return const VerificationScreen();
+            },
+          ),
+        );
+      }
+    } else if (state.fromStatus == FromStatus.error) {
+      myShowDialog(
+        context,
+        title: state.errorText,
+        onTab: () {
+          Navigator.pop(context);
+        },
+      );
+    }
+  }
 
   _listenTextController() {
-    controllerName.addListener(() {
+    controllerFullName.addListener(() {
       setState(() {});
     });
     controllerEmail.addListener(() {
@@ -271,7 +275,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void dispose() {
     controllerPassword.dispose();
     controllerEmail.dispose();
-    controllerName.dispose();
+    controllerFullName.dispose();
     super.dispose();
   }
 }

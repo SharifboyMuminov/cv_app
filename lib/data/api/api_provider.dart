@@ -24,7 +24,7 @@ class ApiProvider extends ApiClient {
             {"email": email, "full_name": fullName, "password": password}),
       );
 
-      if (response.statusCode != 201) {
+      if (response.statusCode != 200) {
         networkResponse.errorText =
             response.data["message"] as String? ?? "Error :(";
       }
@@ -42,12 +42,16 @@ class ApiProvider extends ApiClient {
     required String activateCode,
   }) async {
     NetworkResponse networkResponse = NetworkResponse();
+
+    // debugPrint("${email} --------");
+    // debugPrint("${activateCode} --------");
     try {
-      Response response = await dio.post(
-        'https://api.cvmaker.uz/v1/users/verify?code=$activateCode&email=$email',
+      Response response = await dio.get(
+        'https://api.cvmaker.uz/v1/users/verify',
+        queryParameters: {"code": activateCode, "email": email},
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         debugPrint("${response.data} -------------");
         StorageRepository.setString(
           key: "user_id",
@@ -55,13 +59,13 @@ class ApiProvider extends ApiClient {
         );
         networkResponse.data = UserModel.fromJson(response.data);
       } else {
-        networkResponse.errorText = "Error password :(";
+        networkResponse.errorText =
+            response.data["message"] as String? ?? "Error password :(";
       }
     } on SocketException {
       networkResponse.errorText = "No Internet connection";
     } catch (error) {
-      // debugPrint("${error}  ----------------");
-      networkResponse.errorText = "Error activate code or email";
+      networkResponse.errorText = "catch (error) :(";
     }
 
     return networkResponse;
@@ -73,7 +77,7 @@ class ApiProvider extends ApiClient {
   }) async {
     NetworkResponse networkResponse = NetworkResponse();
     try {
-      debugPrint("Password: $password");
+      debugPrint("Password: $email");
       Response response = await dio.post(
         'https://api.cvmaker.uz/v1/users/login',
         data: jsonEncode({"email": email, "password": password}),
@@ -85,7 +89,7 @@ class ApiProvider extends ApiClient {
           value: response.data["id"] as String? ?? "",
         );
 
-        networkResponse.data = UserModel.fromJson(response.data);
+        // networkResponse.data = UserModel.fromJson(response.data);
       } else {
         networkResponse.errorText =
             response.data["message"] as String? ?? "Error Login :(";

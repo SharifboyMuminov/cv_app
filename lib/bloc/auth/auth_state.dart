@@ -23,7 +23,7 @@ class AuthState extends Equatable {
     String? statusMessage,
     String? message,
     String? userEmail,
-    String? password,
+    String? userPassword,
     FromStatus? fromStatus,
   }) {
     return AuthState(
@@ -32,7 +32,7 @@ class AuthState extends Equatable {
       statusMessage: statusMessage ?? this.statusMessage,
       message: message ?? this.message,
       userEmail: userEmail ?? this.userEmail,
-      userPassword: password ?? this.userPassword,
+      userPassword: userPassword ?? this.userPassword,
     );
   }
 

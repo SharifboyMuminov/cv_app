@@ -56,6 +56,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _verify(AuthVerifyEvent event, emit) async {
     emit(state.copyWith(fromStatus: FromStatus.loading));
 
+    // debugPrint("${state.userEmail} --------");
+    // debugPrint("${event.activateCode} --------");
+
     NetworkResponse networkResponse = await _authRepository.verify(
       email: state.userEmail,
       activateCode: event.activateCode,
@@ -80,7 +83,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(fromStatus: FromStatus.loading));
 
     NetworkResponse networkResponse = await _authRepository.login(
-      email: state.userEmail,
+      email: event.email,
       password: event.password,
     );
     if (networkResponse.errorText.isEmpty) {
