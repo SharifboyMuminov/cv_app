@@ -36,7 +36,7 @@ class GlobalMyButton extends StatelessWidget {
         style: TextButton.styleFrom(
           padding: padding ?? EdgeInsets.symmetric(vertical: 17.he),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4.r),
+            borderRadius: BorderRadius.circular(10.r),
           ),
           backgroundColor: backgroundColor ?? AppColors.cF07448,
         ),
