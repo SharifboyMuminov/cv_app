@@ -1,8 +1,8 @@
+import 'package:cv_app/screens/auth/sign_up/sing_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'screens/home_screen/home_screen.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,11 +26,11 @@ class MyApp extends StatelessWidget {
         ScreenUtil.init(context);
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(useMaterial3: false),
+          theme: ThemeData(useMaterial3: true),
           home: child,
         );
       },
-      child: HomeScreen(),
+      child: SignUpScreen(),
     );
   }
 }
