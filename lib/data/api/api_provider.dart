@@ -39,7 +39,7 @@ class ApiProvider extends ApiClient {
 
   Future<NetworkResponse> verify({
     required String email,
-    required int activateCode,
+    required String activateCode,
   }) async {
     NetworkResponse networkResponse = NetworkResponse();
     try {

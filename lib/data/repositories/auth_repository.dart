@@ -19,7 +19,7 @@ class AuthRepository {
 
   Future<NetworkResponse> verify({
     required String email,
-    required int activateCode,
+    required String activateCode,
   }) =>
       _apiProvider.verify(
         email: email,

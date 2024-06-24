@@ -22,19 +22,12 @@ class AuthRegisterEvent extends AuthEvent {
 }
 
 class AuthVerifyEvent extends AuthEvent {
-  final String email;
   final String activateCode;
 
-  AuthVerifyEvent({
-    required this.email,
-    required this.activateCode,
-  });
+  AuthVerifyEvent({required this.activateCode});
 
   @override
-  List<Object?> get props => [
-        activateCode,
-        email,
-      ];
+  List<Object?> get props => [activateCode];
 }
 
 class AuthResetPasswordEvent extends AuthEvent {
