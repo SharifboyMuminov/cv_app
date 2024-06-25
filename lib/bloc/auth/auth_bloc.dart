@@ -22,7 +22,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthLoginEvent>(_login);
     on<AuthResetPasswordEvent>(_forgetPassword);
     on<AuthForgetPasswordCodeEvent>(_forgetPasswordCode);
-    on<AuthResetPasswordConfirmEvent>(_resetPasswordConfirm);
+    on<AuthForgetSetPasswordEvent>(_setPassword);
   }
 
   final AuthRepository _authRepository;
@@ -154,8 +154,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _resetPasswordConfirm(
-      AuthResetPasswordConfirmEvent event, emit) async {
+  Future<void> _setPassword(AuthForgetSetPasswordEvent event, emit) async {
     emit(state.copyWith(fromStatus: FromStatus.loading));
+
+    NetworkResponse networkResponse = await _authRepository.forgetSetPassword(
+      email: event.email,
+      password: event.newPassword,
+    );
+
+    if (networkResponse.errorText.isEmpty) {
+      emit(
+        state.copyWith(fromStatus: FromStatus.authenticated),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          fromStatus: FromStatus.error,
+          errorText: networkResponse.errorText,
+        ),
+      );
+    }
   }
 }

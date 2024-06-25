@@ -156,5 +156,37 @@ class ApiProvider extends ApiClient {
     return networkResponse;
   }
 
+  Future<NetworkResponse> forgetSetPassword({
+    required String email,
+    required String password,
+  }) async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    try {
+      Response response = await dio.put(
+        'https://api.cvmaker.uz/v1/users/password?email=$email&password=$password',
+      );
+
+      int statusCode = (response.statusCode ?? 400);
+
+      if (statusCode >= 200 && statusCode <= 300) {
+        StorageRepository.setString(
+          key: "user_id",
+          value: response.data["id"] as String? ?? "",
+        );
+        networkResponse.data = UserModel.fromJson(response.data);
+      } else {
+        networkResponse.errorText =
+            response.data["message"] as String? ?? "Error password :(";
+      }
+    } on SocketException {
+      networkResponse.errorText = "No Internet connection";
+    } catch (error) {
+      networkResponse.errorText = "Invalid code :(";
+    }
+
+    return networkResponse;
+  }
+
 //TODO End Auth ------------------------------------------------------------
 }

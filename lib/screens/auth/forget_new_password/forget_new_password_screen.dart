@@ -1,3 +1,7 @@
+import 'package:cv_app/bloc/auth/auth_bloc.dart';
+import 'package:cv_app/bloc/auth/auth_event.dart';
+import 'package:cv_app/bloc/auth/auth_state.dart';
+import 'package:cv_app/data/models/from_status/from_status.dart';
 import 'package:cv_app/screens/auth/widget/auth_input.dart';
 import 'package:cv_app/screens/widget/global_button.dart';
 import 'package:cv_app/utils/app_colors.dart';
@@ -6,6 +10,7 @@ import 'package:cv_app/utils/app_reg_exp.dart';
 import 'package:cv_app/utils/app_size.dart';
 import 'package:cv_app/utils/app_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -36,73 +41,89 @@ class _ForgetNewPasswordScreenState extends State<ForgetNewPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Yangi parol",
-          style: AppTextStyle.seoulRobotoRegular.copyWith(
-            color: AppColors.c010A27,
-            fontSize: 20.sp,
-          ),
-        ),
-        leading: IconButton(
-          onPressed: () {},
-          icon: SvgPicture.asset(
-            AppImages.arrowBackSvg,
-            width: 24.we,
-            height: 24.we,
-          ),
-        ),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 20.we),
-              child: Column(
-                children: [
-                  4.getH(),
-                  Text(
-                    "Elektron pochtangizni va yangi parolni kiriting",
-                    textAlign: TextAlign.center,
-                    style: AppTextStyle.seoulRobotoRegular.copyWith(
-                      color: AppColors.c010A27.withOpacity(0.40),
-                      fontSize: 16.sp,
-                    ),
-                  ),
-                  20.getH(),
-                  AuthMyInput(
-                    errorText: errorTextEmail,
-                    textEditingController: controllerEmail,
-                    hintText: "email",
-                  ),
-                  12.getH(),
-                  AuthMyInput(
-                    errorText: errorTextNewPassword,
-                    textInputAction: TextInputAction.done,
-                    textEditingController: controllerNewPassword,
-                    hintText: 'Parol',
-                    isPasswordInput: obscureText,
-                    obscureText: obscureText,
-                    onTabEye: () {
-                      setState(() {
-                        obscureText = !obscureText;
-                      });
-                    },
-                  ),
-                ],
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (BuildContext context, AuthState state) {
+        return PopScope(
+          canPop: (state.fromStatus != FromStatus.loading),
+          child: Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text(
+                "Yangi parol",
+                style: AppTextStyle.seoulRobotoRegular.copyWith(
+                  color: AppColors.c010A27,
+                  fontSize: 20.sp,
+                ),
+              ),
+              leading: IconButton(
+                onPressed: () {},
+                icon: SvgPicture.asset(
+                  AppImages.arrowBackSvg,
+                  width: 24.we,
+                  height: 24.we,
+                ),
               ),
             ),
+            body: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(horizontal: 20.we),
+                    child: Column(
+                      children: [
+                        4.getH(),
+                        Text(
+                          "Elektron pochtangizni va yangi parolni kiriting",
+                          textAlign: TextAlign.center,
+                          style: AppTextStyle.seoulRobotoRegular.copyWith(
+                            color: AppColors.c010A27.withOpacity(0.40),
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                        20.getH(),
+                        AuthMyInput(
+                          errorText: errorTextEmail,
+                          textEditingController: controllerEmail,
+                          hintText: "email",
+                        ),
+                        12.getH(),
+                        AuthMyInput(
+                          errorText: errorTextNewPassword,
+                          textInputAction: TextInputAction.done,
+                          textEditingController: controllerNewPassword,
+                          hintText: 'Parol',
+                          isPasswordInput: obscureText,
+                          obscureText: obscureText,
+                          onTabEye: () {
+                            setState(() {
+                              obscureText = !obscureText;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                GlobalMyButton(
+                  loading: state.fromStatus == FromStatus.loading,
+                  backgroundColor: _checkInput ? null : Colors.grey,
+                  onTab: _checkInput
+                      ? () {
+                          context.read<AuthBloc>().add(
+                                AuthForgetSetPasswordEvent(
+                                  email: controllerEmail.text,
+                                  newPassword: controllerNewPassword.text,
+                                ),
+                              );
+                        }
+                      : null,
+                  title: "Davom etish",
+                ),
+              ],
+            ),
           ),
-          GlobalMyButton(
-            loading: false,
-            backgroundColor: _checkInput ? null : Colors.grey,
-            onTab: _checkInput ? () {} : null,
-            title: "Davom etish",
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
