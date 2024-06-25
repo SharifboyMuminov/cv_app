@@ -24,7 +24,9 @@ class ApiProvider extends ApiClient {
             {"email": email, "full_name": fullName, "password": password}),
       );
 
-      if (response.statusCode != 200) {
+      int statusCode = (response.statusCode ?? 400);
+
+      if (statusCode < 200 || statusCode > 300) {
         networkResponse.errorText =
             response.data["message"] as String? ?? "Error :(";
       }

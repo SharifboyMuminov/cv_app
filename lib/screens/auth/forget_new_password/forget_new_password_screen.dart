@@ -30,7 +30,7 @@ class _ForgetNewPasswordScreenState extends State<ForgetNewPasswordScreen> {
   String? errorTextNewPassword;
   String? errorTextEmail;
 
-  bool obscureText = false;
+  bool obscureText = true;
 
   @override
   void initState() {
