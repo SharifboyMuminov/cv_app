@@ -20,7 +20,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthRegisterEvent>(_register);
     on<AuthVerifyEvent>(_verify);
     on<AuthLoginEvent>(_login);
-    on<AuthResetPasswordEvent>(_resetPassword);
+    on<AuthResetPasswordEvent>(_forgetPassword);
+    on<AuthForgetPasswordCodeEvent>(_forgetPasswordCode);
     on<AuthResetPasswordConfirmEvent>(_resetPasswordConfirm);
   }
 
@@ -102,8 +103,55 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _resetPassword(AuthResetPasswordEvent event, emit) async {
+  Future<void> _forgetPassword(AuthResetPasswordEvent event, emit) async {
     emit(state.copyWith(fromStatus: FromStatus.loading));
+
+    NetworkResponse networkResponse =
+        await _authRepository.forgetPassword(email: event.email);
+
+    if (networkResponse.errorText.isEmpty) {
+      emit(
+        state.copyWith(
+          statusMessage: "_resetPassword",
+          fromStatus: FromStatus.success,
+          userEmail: event.email,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          fromStatus: FromStatus.error,
+          errorText: networkResponse.errorText,
+        ),
+      );
+    }
+  }
+
+  Future<void> _forgetPasswordCode(
+      AuthForgetPasswordCodeEvent event, emit) async {
+    emit(state.copyWith(fromStatus: FromStatus.loading));
+
+    NetworkResponse networkResponse = await _authRepository.forgetPasswordCode(
+      email: event.email,
+      activeCode: event.activeCode,
+    );
+
+    if (networkResponse.errorText.isEmpty) {
+      emit(
+        state.copyWith(
+          statusMessage: "_forgetPasswordCode",
+          fromStatus: FromStatus.success,
+          userEmail: event.email,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          fromStatus: FromStatus.error,
+          errorText: networkResponse.errorText,
+        ),
+      );
+    }
   }
 
   Future<void> _resetPasswordConfirm(

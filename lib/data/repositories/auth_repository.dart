@@ -34,4 +34,17 @@ class AuthRepository {
         email: email,
         password: password,
       );
+
+  Future<NetworkResponse> forgetPassword({required String email}) =>
+      _apiProvider.forgetPassword(email: email);
+
+
+  Future<NetworkResponse> forgetPasswordCode({
+    required String email,
+    required String activeCode,
+  }) =>
+      _apiProvider.forgetPasswordCode(
+        email: email,
+        activeCode: activeCode,
+      );
 }

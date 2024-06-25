@@ -3,6 +3,8 @@ import 'package:cv_app/bloc/auth/auth_event.dart';
 import 'package:cv_app/bloc/auth/auth_state.dart';
 import 'package:cv_app/data/models/from_status/from_status.dart';
 import 'package:cv_app/screens/auth/dialog/my_show_dialog.dart';
+import 'package:cv_app/screens/auth/forget_new_password/forget_new_password_screen.dart';
+import 'package:cv_app/screens/auth/forget_password_code/forget_password_code_screen.dart';
 import 'package:cv_app/screens/auth/log_in/log_in_screen.dart';
 import 'package:cv_app/screens/auth/verification/verification_screen.dart';
 import 'package:cv_app/screens/auth/widget/auth_button.dart';
@@ -220,6 +222,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
           MaterialPageRoute(
             builder: (context) {
               return const VerificationScreen();
+            },
+          ),
+        );
+      } else if (state.statusMessage == "_resetPassword") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return ForgetPasswordCodeScreen(email: state.userEmail);
+            },
+          ),
+        );
+      } else if (state.statusMessage == "_forgetPasswordCode") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return ForgetNewPasswordScreen(email: state.userEmail);
             },
           ),
         );

@@ -9,29 +9,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
-class ResetPasswordConfirmScreen extends StatefulWidget {
-  const ResetPasswordConfirmScreen({super.key, required this.email});
+class ForgetNewPasswordScreen extends StatefulWidget {
+  const ForgetNewPasswordScreen({super.key, required this.email});
 
   final String email;
 
   @override
-  State<ResetPasswordConfirmScreen> createState() =>
-      _ResetPasswordConfirmScreenState();
+  State<ForgetNewPasswordScreen> createState() =>
+      _ForgetNewPasswordScreenState();
 }
 
-class _ResetPasswordConfirmScreenState
-    extends State<ResetPasswordConfirmScreen> {
+class _ForgetNewPasswordScreenState extends State<ForgetNewPasswordScreen> {
   final TextEditingController controllerNewPassword = TextEditingController();
-  final TextEditingController controllerConfirmPassword =
-      TextEditingController();
-  final TextEditingController controllerActiveCode = TextEditingController();
+  final TextEditingController controllerEmail = TextEditingController();
   String? errorTextNewPassword;
-  String? errorTextConfirmPassword;
-  String? errorTextActiveCode;
+  String? errorTextEmail;
+
+  bool obscureText = false;
 
   @override
   void initState() {
+    controllerEmail.text = widget.email;
     _listenControllers();
     super.initState();
   }
@@ -49,9 +47,7 @@ class _ResetPasswordConfirmScreenState
           ),
         ),
         leading: IconButton(
-          onPressed: () {
-
-          },
+          onPressed: () {},
           icon: SvgPicture.asset(
             AppImages.arrowBackSvg,
             width: 24.we,
@@ -68,7 +64,7 @@ class _ResetPasswordConfirmScreenState
                 children: [
                   4.getH(),
                   Text(
-                    "Elektron pochtangizni kelgan kodni va yangi parolni kiriting",
+                    "Elektron pochtangizni va yangi parolni kiriting",
                     textAlign: TextAlign.center,
                     style: AppTextStyle.seoulRobotoRegular.copyWith(
                       color: AppColors.c010A27.withOpacity(0.40),
@@ -77,25 +73,23 @@ class _ResetPasswordConfirmScreenState
                   ),
                   20.getH(),
                   AuthMyInput(
+                    errorText: errorTextEmail,
+                    textEditingController: controllerEmail,
+                    hintText: "email",
+                  ),
+                  12.getH(),
+                  AuthMyInput(
                     errorText: errorTextNewPassword,
-                    textEditingController: controllerNewPassword,
-                    hintText: "Yangi parol",
-                  ),
-                  12.getH(),
-                  AuthMyInput(
-                    errorText: errorTextConfirmPassword,
-                    textEditingController: controllerConfirmPassword,
-                    hintText: "Yangi parolni qaytadan kiriting",
-                  ),
-                  12.getH(),
-                  AuthMyInput(
-                    errorText: errorTextActiveCode,
-                    maxLength: 6,
-                    textInputType: TextInputType.number,
-                    digitsOnly: true,
                     textInputAction: TextInputAction.done,
-                    textEditingController: controllerActiveCode,
-                    hintText: "The code you received",
+                    textEditingController: controllerNewPassword,
+                    hintText: 'Parol',
+                    isPasswordInput: obscureText,
+                    obscureText: obscureText,
+                    onTabEye: () {
+                      setState(() {
+                        obscureText = !obscureText;
+                      });
+                    },
                   ),
                 ],
               ),
@@ -104,11 +98,7 @@ class _ResetPasswordConfirmScreenState
           GlobalMyButton(
             loading: false,
             backgroundColor: _checkInput ? null : Colors.grey,
-            onTab: _checkInput
-                ? () {
-
-            }
-                : null,
+            onTab: _checkInput ? () {} : null,
             title: "Davom etish",
           ),
         ],
@@ -117,9 +107,8 @@ class _ResetPasswordConfirmScreenState
   }
 
   bool get _checkInput {
-    return AppRegExp.passwordRegExp.hasMatch(controllerNewPassword.text) &&
-        AppRegExp.passwordRegExp.hasMatch(controllerConfirmPassword.text) &&
-        controllerActiveCode.text.length == 6;
+    return AppRegExp.emailRegExp.hasMatch(controllerEmail.text) &&
+        AppRegExp.passwordRegExp.hasMatch(controllerNewPassword.text);
   }
 
   _listenControllers() {
@@ -139,38 +128,18 @@ class _ResetPasswordConfirmScreenState
         });
       }
     });
-    controllerConfirmPassword.addListener(() {
-      if (controllerConfirmPassword.text.isEmpty) {
+    controllerEmail.addListener(() {
+      if (controllerEmail.text.isEmpty) {
         setState(() {
-          errorTextConfirmPassword = 'Password is required';
+          errorTextEmail = 'Email is required';
         });
-      } else if (!AppRegExp.passwordRegExp
-          .hasMatch(controllerConfirmPassword.text)) {
+      } else if (!AppRegExp.passwordRegExp.hasMatch(controllerEmail.text)) {
         setState(() {
-          errorTextConfirmPassword = 'Enter a valid password';
-        });
-      } else if (controllerConfirmPassword.text != controllerNewPassword.text) {
-        setState(() {
-          errorTextConfirmPassword = "Not equal to the new password :)";
+          errorTextEmail = 'Enter a valid email';
         });
       } else {
         setState(() {
-          errorTextConfirmPassword = null;
-        });
-      }
-    });
-    controllerActiveCode.addListener(() {
-      if (controllerActiveCode.text.isEmpty) {
-        setState(() {
-          errorTextActiveCode = 'Active code is required';
-        });
-      } else if (controllerActiveCode.text.length < 6) {
-        setState(() {
-          errorTextActiveCode = 'maxLength > 5 :)';
-        });
-      } else {
-        setState(() {
-          errorTextActiveCode = null;
+          errorTextEmail = null;
         });
       }
     });
@@ -179,8 +148,7 @@ class _ResetPasswordConfirmScreenState
   @override
   void dispose() {
     controllerNewPassword.dispose();
-    controllerConfirmPassword.dispose();
-    controllerActiveCode.dispose();
+    controllerEmail.dispose();
     super.dispose();
   }
 }

@@ -2,6 +2,7 @@ import 'package:cv_app/bloc/auth/auth_bloc.dart';
 import 'package:cv_app/bloc/auth/auth_event.dart';
 import 'package:cv_app/bloc/auth/auth_state.dart';
 import 'package:cv_app/data/models/from_status/from_status.dart';
+import 'package:cv_app/screens/auth/forget_password/forget_password_screen.dart';
 import 'package:cv_app/screens/auth/widget/auth_button.dart';
 import 'package:cv_app/screens/auth/widget/auth_input.dart';
 import 'package:cv_app/screens/widget/global_button.dart';
@@ -106,17 +107,17 @@ class _LoginInScreenState extends State<LoginInScreen> {
                         GlobalMyButton(
                           loading: state.fromStatus == FromStatus.loading,
                           backgroundColor:
-                              _validationInput ? null : Colors.grey,
+                          _validationInput ? null : Colors.grey,
                           margin: EdgeInsets.zero,
                           onTab: _validationInput
                               ? () {
-                                  context.read<AuthBloc>().add(
-                                        AuthLoginEvent(
-                                          email: controllerEmail.text,
-                                          password: controllerPassword.text,
-                                        ),
-                                      );
-                                }
+                            context.read<AuthBloc>().add(
+                              AuthLoginEvent(
+                                email: controllerEmail.text,
+                                password: controllerPassword.text,
+                              ),
+                            );
+                          }
                               : null,
                           title: "Kirish",
                         ),
@@ -129,14 +130,14 @@ class _LoginInScreenState extends State<LoginInScreen> {
                             ),
                           ),
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) {
-                            //       return const ResetPasswordScreen();
-                            //     },
-                            //   ),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const ForgetPasswordScreen();
+                                },
+                              ),
+                            );
                           },
                           child: Text(
                             "Parolni unutdingizmi?",

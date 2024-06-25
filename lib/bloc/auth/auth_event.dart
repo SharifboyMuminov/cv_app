@@ -41,6 +41,19 @@ class AuthResetPasswordEvent extends AuthEvent {
   List<Object?> get props => [email];
 }
 
+class AuthForgetPasswordCodeEvent extends AuthEvent {
+  final String email;
+  final String activeCode;
+
+  AuthForgetPasswordCodeEvent({
+    required this.email,
+    required this.activeCode,
+  });
+
+  @override
+  List<Object?> get props => [email, activeCode];
+}
+
 class AuthResetPasswordConfirmEvent extends AuthEvent {
   final String email;
   final String activationCode;

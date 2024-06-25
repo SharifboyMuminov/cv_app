@@ -51,7 +51,8 @@ class ApiProvider extends ApiClient {
         queryParameters: {"code": activateCode, "email": email},
       );
 
-      if (response.statusCode == 201) {
+      if ((response.statusCode ?? 400) >= 200 &&
+          (response.statusCode ?? 400) <= 300) {
         debugPrint("${response.data} -------------");
         StorageRepository.setString(
           key: "user_id",
@@ -65,7 +66,12 @@ class ApiProvider extends ApiClient {
     } on SocketException {
       networkResponse.errorText = "No Internet connection";
     } catch (error) {
-      networkResponse.errorText = "catch (error) :(";
+      if (error is DioException) {
+        networkResponse.errorText = "invalid password";
+        // networkResponse.errorText = error.message ?? "invalid password :(";
+      } else {
+        networkResponse.errorText = "catch (error) :(";
+      }
     }
 
     return networkResponse;
@@ -103,59 +109,52 @@ class ApiProvider extends ApiClient {
     return networkResponse;
   }
 
+  Future<NetworkResponse> forgetPassword({required String email}) async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    try {
+      Response response = await dio
+          .get('https://api.cvmaker.uz/v1/users/set/{email}?email=$email');
+
+      int statusCode = (response.statusCode ?? 400);
+
+      if (statusCode < 200 && statusCode > 300) {
+        networkResponse.errorText =
+            response.data["message"] as String? ?? "Error Login :(";
+      }
+    } on SocketException {
+      networkResponse.errorText = "No Internet connection";
+    } catch (error) {
+      networkResponse.errorText = "catch (error)";
+    }
+
+    return networkResponse;
+  }
+
+  Future<NetworkResponse> forgetPasswordCode({
+    required String email,
+    required String activeCode,
+  }) async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    try {
+      Response response = await dio.get(
+          'https://api.cvmaker.uz/v1/users/code?code=$activeCode&email=$email');
+
+      int statusCode = (response.statusCode ?? 400);
+
+      if (statusCode < 200 && statusCode > 300) {
+        networkResponse.errorText =
+            response.data["message"] as String? ?? "Error Login :(";
+      }
+    } on SocketException {
+      networkResponse.errorText = "No Internet connection";
+    } catch (error) {
+      networkResponse.errorText = "Invalid code :(";
+    }
+
+    return networkResponse;
+  }
+
 //TODO End Auth ------------------------------------------------------------
-
-//TODO start App info ------------------------------------------------------------
-
-  Future<NetworkResponse> getAppInfo() async {
-    NetworkResponse networkResponse = NetworkResponse();
-    try {
-      Response response = await dio.get(
-        'https://nuqtalar.idrok.group/api/infos/info/',
-      );
-
-      if (response.statusCode == 200) {
-        // networkResponse.data = (response.data["results"] as List?)
-        //         ?.map((e) => AppInfoModel.fromJson(e))
-        //         .toList() ??
-        //     [];
-      } else {
-        networkResponse.errorText = "Error :(";
-      }
-    } on SocketException {
-      networkResponse.errorText = "No Internet connection";
-    } catch (error) {
-      networkResponse.errorText = error.toString();
-    }
-
-    return networkResponse;
-  }
-
-//TODO End App info ------------------------------------------------------------
-
-//TODO Start Book  ------------------------------------------------------------
-  Future<NetworkResponse> fetchBooks() async {
-    NetworkResponse networkResponse = NetworkResponse();
-    try {
-      Response response = await dio.get(
-        'https://nuqtalar.idrok.group/api/book/?limit=5',
-      );
-
-      if (response.statusCode == 200) {
-        // networkResponse.data = (response.data["results"] as List?)
-        //         ?.map((e) => BookModel.fromJson(e))
-        //         .toList() ??
-        //     [];
-      } else {
-        networkResponse.errorText = "Error :(";
-      }
-    } on SocketException {
-      networkResponse.errorText = "No Internet connection";
-    } catch (error) {
-      networkResponse.errorText = error.toString();
-    }
-
-    return networkResponse;
-  }
-//TODO End Book  ------------------------------------------------------------
 }
