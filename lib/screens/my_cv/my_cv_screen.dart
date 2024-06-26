@@ -2,6 +2,9 @@ import 'package:cv_app/screens/my_cv/certificates/certificate_input_screen.dart'
 import 'package:cv_app/screens/my_cv/education/education_input_screen.dart';
 import 'package:cv_app/screens/my_cv/interest/interest_input_screen.dart';
 import 'package:cv_app/screens/my_cv/language/language_input_screen.dart';
+import 'package:cv_app/screens/my_cv/location/location_input_screen.dart';
+import 'package:cv_app/screens/my_cv/main_input/main_input_screen.dart';
+import 'package:cv_app/screens/my_cv/profile/profile_input_screen.dart';
 import 'package:cv_app/screens/my_cv/projects/project_input_screen.dart';
 import 'package:cv_app/screens/my_cv/skill/skill_inout_screen.dart';
 import 'package:cv_app/screens/my_cv/soft_skills/soft_skill_input_screen.dart';
@@ -151,6 +154,45 @@ class _MyCvScreenState extends State<MyCvScreen> {
                 );
               },
               child: Text("interests"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const ProfileInputScreen();
+                    },
+                  ),
+                );
+              },
+              child: Text("ProfileInputScreen"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const LocationInputScreen();
+                    },
+                  ),
+                );
+              },
+              child: Text("LocationInputScreen"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const MainInputScreen();
+                    },
+                  ),
+                );
+              },
+              child: Text("MainInputScreen"),
             ),
           ],
         ),
