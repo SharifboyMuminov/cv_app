@@ -22,12 +22,12 @@ class AuthMyButton extends StatelessWidget {
     return TextButton(
       style: TextButton.styleFrom(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4.r),
+          borderRadius: BorderRadius.circular(10.r),
         ),
         side:
             BorderSide(color: AppColors.c010A27.withOpacity(0.40), width: 1.we),
         padding: EdgeInsets.symmetric(
-          vertical: 17.he,
+          vertical: 15.he,
         ),
       ),
       onPressed: onTab,
