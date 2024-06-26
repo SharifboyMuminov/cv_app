@@ -1,3 +1,4 @@
+import 'package:cv_app/screens/my_cv/certificates/certificate_input_screen.dart';
 import 'package:cv_app/screens/my_cv/education/education_input_screen.dart';
 import 'package:cv_app/screens/my_cv/projects/project_input_screen.dart';
 import 'package:cv_app/screens/my_cv/works/work_screen.dart';
@@ -81,6 +82,19 @@ class _MyCvScreenState extends State<MyCvScreen> {
                 );
               },
               child: Text("education"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const CertificateInputScreen();
+                    },
+                  ),
+                );
+              },
+              child: Text("certificates"),
             ),
           ],
         ),

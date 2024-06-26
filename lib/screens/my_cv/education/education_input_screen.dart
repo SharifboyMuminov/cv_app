@@ -1,4 +1,5 @@
 import 'package:cv_app/screens/my_cv/widget/cv_input.dart';
+import 'package:cv_app/screens/widget/global_button.dart';
 import 'package:cv_app/utils/app_colors.dart';
 import 'package:cv_app/utils/app_images.dart';
 import 'package:cv_app/utils/app_size.dart';
@@ -31,7 +32,7 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
       appBar: AppBar(
         centerTitle: false,
         title: Text(
-          "Work experience",
+          "Education",
           style: AppTextStyle.seoulRobotoMedium.copyWith(
             color: AppColors.c010A27,
             fontSize: 20.sp,
@@ -173,6 +174,10 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
               ),
             ),
           ),
+          GlobalMyButton(
+            onTab: () {},
+            title: "Save",
+          ),
         ],
       ),
     );
@@ -193,7 +198,11 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
             _showMySnackBar();
           } else {
             startDate = dateTime.year.toString();
+            setState(() {});
           }
+        } else {
+          startDate = dateTime.year.toString();
+          setState(() {});
         }
       } else {
         if (startDate.length == 4) {
@@ -201,10 +210,13 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
             _showMySnackBar();
           } else {
             endDate = dateTime.year.toString();
+            setState(() {});
           }
+        } else {
+          endDate = dateTime.year.toString();
+          setState(() {});
         }
       }
-      setState(() {});
     }
   }
 
