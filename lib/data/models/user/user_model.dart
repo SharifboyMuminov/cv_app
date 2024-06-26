@@ -5,7 +5,6 @@ class UserModel {
   final String imageUrl;
   final String phoneNum;
   final String role;
-  final String accessToken;
   final String refreshToken;
 
   UserModel({
@@ -15,7 +14,6 @@ class UserModel {
     required this.imageUrl,
     required this.phoneNum,
     required this.role,
-    required this.accessToken,
     required this.refreshToken,
   });
 
@@ -27,7 +25,6 @@ class UserModel {
       imageUrl: json['image_url'] as String? ?? "",
       phoneNum: json['phone_num'] as String? ?? "",
       role: json['role'] as String? ?? "",
-      accessToken: json['access_token'] as String? ?? "",
       refreshToken: json['refresh_token'] as String? ?? "",
     );
   }
@@ -40,8 +37,19 @@ class UserModel {
       'image_url': imageUrl,
       'phone_num': phoneNum,
       'role': role,
-      'access_token': accessToken,
       'refresh_token': refreshToken,
     };
+  }
+
+  factory UserModel.innit() {
+    return UserModel(
+      id: "",
+      fullName: "",
+      email: "",
+      imageUrl: "",
+      phoneNum: "",
+      role: "",
+      refreshToken: "",
+    );
   }
 }

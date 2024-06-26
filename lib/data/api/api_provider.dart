@@ -245,7 +245,7 @@ class ApiProvider extends ApiClient {
     String userId = StorageRepository.getString(key: "user_id");
 
     if (userId.isEmpty) {
-      debugPrint("empty_user_id");
+      // debugPrint("empty_user_id");
       networkResponse.errorText = "empty_user_id";
       return networkResponse;
     }
@@ -257,18 +257,18 @@ class ApiProvider extends ApiClient {
       int statusCode = (response.statusCode ?? 400);
 
       if (statusCode >= 200 && statusCode <= 300) {
-        debugPrint("Good: ${response.data} -----------");
-        // networkResponse.data = response.data;
+        // debugPrint("Good: ${response.data} -----------");
+        networkResponse.data = UserModel.fromJson(response.data);
       } else {
-        debugPrint("Error: ${response.statusCode}   -------------");
+        // debugPrint("Error: ${response.statusCode}   -------------");
         networkResponse.errorText = "Error :(";
       }
     } on SocketException {
-      debugPrint("No Internet connection");
+      // debugPrint("No Internet connection");
 
       networkResponse.errorText = "No Internet connection";
     } catch (error) {
-      debugPrint("Invalid code :(");
+      // debugPrint("Invalid code :(");
 
       networkResponse.errorText = "Invalid code :(";
     }
