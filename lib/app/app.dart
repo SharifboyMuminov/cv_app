@@ -3,6 +3,7 @@ import 'package:cv_app/bloc/user/user_bloc.dart';
 import 'package:cv_app/data/api/api_provider.dart';
 import 'package:cv_app/data/repositories/auth_repository.dart';
 import 'package:cv_app/data/repositories/user_repository.dart';
+import 'package:cv_app/screens/my_cv/my_cv_screen.dart';
 import 'package:cv_app/screens/tab/tab_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +50,7 @@ class App extends StatelessWidget {
               home: child,
             );
           },
-          child: const TabScreen(),
+          child: const MyCvScreen(),
         ),
       ),
     );
