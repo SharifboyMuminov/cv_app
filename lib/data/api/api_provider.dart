@@ -62,7 +62,7 @@ class ApiProvider extends ApiClient {
         );
         StorageRepository.setString(
           key: "access_token",
-          value: response.data["id"] as String? ?? "",
+          value: response.data["access_token"] as String? ?? "",
         );
         networkResponse.data = UserModel.fromJson(response.data);
       } else {
@@ -101,7 +101,7 @@ class ApiProvider extends ApiClient {
           value: response.data["id"] as String? ?? "",
         );
         StorageRepository.setString(
-          key: "user_id",
+          key: "access_token",
           value: response.data["access_token"] as String? ?? "",
         );
 
@@ -202,8 +202,6 @@ class ApiProvider extends ApiClient {
     return networkResponse;
   }
 
-//TODO End Auth ------------------------------------------------------------
-
 // TODO uploadImage -----------------------
 
   Future<NetworkResponse> uploadImage(File file) async {
@@ -236,6 +234,44 @@ class ApiProvider extends ApiClient {
       networkResponse.errorText = "Boshqa xatolik: $e";
     }
 
+    return networkResponse;
+  }
+
+  //TODO User ------------------------
+
+  Future<NetworkResponse> getUser() async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    String userId = StorageRepository.getString(key: "user_id");
+
+    if (userId.isEmpty) {
+      debugPrint("empty_user_id");
+      networkResponse.errorText = "empty_user_id";
+      return networkResponse;
+    }
+
+    try {
+      Response response =
+          await dio.get("https://api.cvmaker.uz/v1/users/$userId");
+
+      int statusCode = (response.statusCode ?? 400);
+
+      if (statusCode >= 200 && statusCode <= 300) {
+        debugPrint("Good: ${response.data} -----------");
+        // networkResponse.data = response.data;
+      } else {
+        debugPrint("Error: ${response.statusCode}   -------------");
+        networkResponse.errorText = "Error :(";
+      }
+    } on SocketException {
+      debugPrint("No Internet connection");
+
+      networkResponse.errorText = "No Internet connection";
+    } catch (error) {
+      debugPrint("Invalid code :(");
+
+      networkResponse.errorText = "Invalid code :(";
+    }
     return networkResponse;
   }
 }
