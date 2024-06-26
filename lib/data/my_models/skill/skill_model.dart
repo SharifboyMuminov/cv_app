@@ -22,6 +22,6 @@ class SkillModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {"name": "Go/Java/TypeScript", "level": "", "keywords": []};
+    return {"name": name, "level": level, "keywords": keywords};
   }
 }
