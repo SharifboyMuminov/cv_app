@@ -105,7 +105,7 @@ class _TabScreenState extends State<TabScreen> {
                               child: Column(
                                 children: [
                                   ListTile(
-                                    title: Text('Online'),
+                                    title: const Text('Online'),
                                     onTap: () {
                                       setModalState(() {
                                         _selectedOption = "Online";
@@ -128,7 +128,7 @@ class _TabScreenState extends State<TabScreen> {
                                     color: CupertinoColors.systemOrange.withOpacity(.5),
                                   ),
                                   ListTile(
-                                    title: Text('Offline'),
+                                    title: const Text('Offline'),
                                     onTap: () {
                                       setModalState(() {
                                         _selectedOption = "Offline";
@@ -261,7 +261,6 @@ class _TabScreenState extends State<TabScreen> {
                   onPressed: () {
                     setState(() {
                       currentIndex = 1;
-                      print(currentIndex);
                     });
                   },
                 ),
