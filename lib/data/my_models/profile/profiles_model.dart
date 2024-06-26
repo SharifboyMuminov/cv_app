@@ -21,6 +21,10 @@ class ProfileModel {
     );
   }
 
+  factory ProfileModel.initial() {
+    return ProfileModel(network: "", url: "", username: "");
+  }
+
   Map<String, dynamic> toJson() {
     return {"network": network, "username": username, "url": url};
   }

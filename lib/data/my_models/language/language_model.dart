@@ -11,6 +11,10 @@ class LanguageModel {
     );
   }
 
+  factory LanguageModel.initial() {
+    return LanguageModel(fluency: "", language: "");
+  }
+
   Map<String, dynamic> toJson() {
     return {"language": language, "fluency": fluency};
   }

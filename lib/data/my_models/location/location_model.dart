@@ -18,8 +18,15 @@ class LocationModel {
     );
   }
 
-  Map<String, dynamic> toJson() {
+  factory LocationModel.initial() {
+    return LocationModel(
+      city: "",
+      countryCode: "",
+      region: "",
+    );
+  }
 
+  Map<String, dynamic> toJson() {
     return {"city": city, "countryCode": countryCode, "region": region};
   }
 }

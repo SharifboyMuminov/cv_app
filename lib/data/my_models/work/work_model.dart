@@ -29,6 +29,16 @@ class WorkModel {
     );
   }
 
+  factory WorkModel.initial() {
+    return WorkModel(
+      position: "",
+      company: "",
+      location: "",
+      startDate: "",
+      summary: "",
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       "position": position,

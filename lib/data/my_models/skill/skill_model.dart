@@ -21,6 +21,10 @@ class SkillModel {
     );
   }
 
+  factory SkillModel.initial() {
+    return SkillModel(name: "", keywords: [], level: "");
+  }
+
   Map<String, dynamic> toJson() {
     return {"name": name, "level": level, "keywords": keywords};
   }

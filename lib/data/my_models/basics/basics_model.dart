@@ -48,6 +48,20 @@ class BasicsModel {
     );
   }
 
+  factory BasicsModel.initial() {
+    return BasicsModel(
+      name: "",
+      location: LocationModel.initial(),
+      url: '',
+      summary: "",
+      email: "",
+      phone: "",
+      image: "",
+      label: "",
+      profiles: [],
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       "name": name,

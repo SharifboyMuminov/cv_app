@@ -1,3 +1,4 @@
+
 class ProjectModel {
   final String name;
   final String description;
@@ -19,6 +20,10 @@ class ProjectModel {
       name: name ?? this.name,
       description: description ?? this.description,
     );
+  }
+
+  factory ProjectModel.initial() {
+    return ProjectModel(url: '', name: '', description: '');
   }
 
   Map<String, dynamic> toJson() {

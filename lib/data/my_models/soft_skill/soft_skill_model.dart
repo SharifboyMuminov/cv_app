@@ -9,6 +9,10 @@ class SoftSkillModel {
     );
   }
 
+  factory SoftSkillModel.initial(){
+    return SoftSkillModel(name: '');
+  }
+
   Map<String, dynamic> toJson() {
     return {"name": name};
   }

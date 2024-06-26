@@ -41,6 +41,19 @@ class EducationModel {
     );
   }
 
+  factory EducationModel.initial() {
+    return EducationModel(
+      startDate: "",
+      location: "",
+      score: "",
+      area: "",
+      courses: [],
+      endDate: "",
+      institution: "",
+      studyType: "",
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       "institution": institution,

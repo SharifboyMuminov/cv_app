@@ -14,6 +14,13 @@ class InterestModel {
     );
   }
 
+  factory InterestModel.initial() {
+    return InterestModel(
+      name: "",
+      keywords: [],
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {"name": name, "keywords": keywords};
   }

@@ -14,6 +14,10 @@ class MetaModel {
     );
   }
 
+  factory MetaModel.initial() {
+    return MetaModel(lang: "en", template: "classic");
+  }
+
   Map<String, dynamic> toJson() {
     return {"template": template, "lang": lang};
   }

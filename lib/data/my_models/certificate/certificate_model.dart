@@ -14,6 +14,13 @@ class CertificatesModel {
     );
   }
 
+  factory CertificatesModel.initial() {
+    return CertificatesModel(
+      title: "",
+      issuer: "",
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       "title": title,
