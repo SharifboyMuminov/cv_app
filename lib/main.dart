@@ -1,36 +1,33 @@
-import 'package:cv_app/screens/auth/sign_up/sing_up_screen.dart';
+import 'dart:io';
+import 'package:cv_app/app/app.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:cv_app/data/local/storage_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  StorageRepository.instance;
 
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(414, 896),
-      builder: (context, child) {
-        ScreenUtil.init(context);
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(useMaterial3: true),
-          home: child,
-        );
-      },
-      child: SignUpScreen(),
-    );
-  }
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [
+        Locale("en", "EN"),
+        Locale("uz", "UZ"),
+      ],
+      path: "assets/translations",
+      fallbackLocale:
+          (Platform.localeName.split("-").first.toLowerCase() == "uz" ||
+                  Platform.localeName.split("-").last.toLowerCase() == "uz")
+              ? const Locale("uz", "UZ")
+              : const Locale("en", "EN"),
+      child:  App(),
+    ),
+  );
 }
