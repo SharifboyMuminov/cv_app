@@ -19,6 +19,7 @@ class LocationModel {
   }
 
   Map<String, dynamic> toJson() {
+
     return {"city": city, "countryCode": countryCode, "region": region};
   }
 }
