@@ -62,6 +62,7 @@ class _ProjectInputScreenState extends State<ProjectInputScreen> {
                     hintText: "Project name",
                   ),
                   CvMyInput(
+                    isMaxLines: true,
                     margin: EdgeInsets.symmetric(vertical: 6.he),
                     textEditingController: controllerDescription,
                     hintText: "Description",
