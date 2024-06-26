@@ -19,6 +19,12 @@ class _SoftSkillInputScreenState extends State<SoftSkillInputScreen> {
   final TextEditingController controllerName = TextEditingController();
 
   @override
+  void initState() {
+    _listenControllers();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -58,12 +64,21 @@ class _SoftSkillInputScreenState extends State<SoftSkillInputScreen> {
             ),
           ),
           GlobalMyButton(
+            active: !check(),
             onTab: () {},
             title: "Save",
           ),
         ],
       ),
     );
+  }
+
+  _listenControllers() {
+    controllerName.addListener(() => setState(() {}));
+  }
+
+  bool check() {
+    return controllerName.text.isNotEmpty;
   }
 
   @override

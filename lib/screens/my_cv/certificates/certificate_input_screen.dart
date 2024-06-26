@@ -19,7 +19,11 @@ class _CertificateInputScreenState extends State<CertificateInputScreen> {
   final TextEditingController controllerTitle = TextEditingController();
   final TextEditingController controllerIssuer = TextEditingController();
 
-
+  @override
+  void initState() {
+    _listenControllers();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +71,7 @@ class _CertificateInputScreenState extends State<CertificateInputScreen> {
             ),
           ),
           GlobalMyButton(
+            active: !check(),
             onTab: () {},
             title: "Save",
           ),
@@ -74,6 +79,16 @@ class _CertificateInputScreenState extends State<CertificateInputScreen> {
       ),
     );
   }
+
+  _listenControllers() {
+    controllerIssuer.addListener(() => setState(() {}));
+    controllerTitle.addListener(() => setState(() {}));
+  }
+
+  bool check() {
+    return controllerTitle.text.isNotEmpty || controllerIssuer.text.isNotEmpty;
+  }
+
   @override
   void dispose() {
     controllerTitle.dispose();

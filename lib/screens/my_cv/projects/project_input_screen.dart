@@ -21,6 +21,12 @@ class _ProjectInputScreenState extends State<ProjectInputScreen> {
   final TextEditingController controllerUrl = TextEditingController();
 
   @override
+  void initState() {
+    _listenControllers();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -71,12 +77,25 @@ class _ProjectInputScreenState extends State<ProjectInputScreen> {
             ),
           ),
           GlobalMyButton(
+            active: !check(),
             onTab: () {},
             title: "Save",
           ),
         ],
       ),
     );
+  }
+
+  _listenControllers() {
+    controllerProject.addListener(() => setState(() {}));
+    controllerDescription.addListener(() => setState(() {}));
+    controllerUrl.addListener(() => setState(() {}));
+  }
+
+  bool check() {
+    return controllerProject.text.isNotEmpty ||
+        controllerDescription.text.isNotEmpty ||
+        controllerUrl.text.isNotEmpty;
   }
 
   @override

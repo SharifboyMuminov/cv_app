@@ -20,10 +20,9 @@ class _InterestInputScreenState extends State<InterestInputScreen> {
   final TextEditingController controllerKeywords = TextEditingController();
 
   @override
-  void dispose() {
-    controllerName.dispose();
-    controllerKeywords.dispose();
-    super.dispose();
+  void initState() {
+    _listenControllers();
+    super.initState();
   }
 
   @override
@@ -70,7 +69,6 @@ class _InterestInputScreenState extends State<InterestInputScreen> {
                     ),
                   ),
                   CvMyInput(
-
                     isMaxLines: true,
                     textInputAction: TextInputAction.done,
                     margin: EdgeInsets.symmetric(vertical: 8.he),
@@ -82,11 +80,28 @@ class _InterestInputScreenState extends State<InterestInputScreen> {
             ),
           ),
           GlobalMyButton(
+            active: !check(),
             onTab: () {},
             title: "Save",
           ),
         ],
       ),
     );
+  }
+
+  _listenControllers() {
+    controllerKeywords.addListener(() => setState(() {}));
+    controllerName.addListener(() => setState(() {}));
+  }
+
+  bool check() {
+    return controllerName.text.isNotEmpty && controllerKeywords.text.isNotEmpty;
+  }
+
+  @override
+  void dispose() {
+    controllerName.dispose();
+    controllerKeywords.dispose();
+    super.dispose();
   }
 }

@@ -20,6 +20,12 @@ class _LanguageInputScreenState extends State<LanguageInputScreen> {
   final TextEditingController controllerFluency = TextEditingController();
 
   @override
+  void initState() {
+    _listenControllers();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -65,12 +71,23 @@ class _LanguageInputScreenState extends State<LanguageInputScreen> {
             ),
           ),
           GlobalMyButton(
+            active: !check(),
             onTab: () {},
             title: "Save",
           ),
         ],
       ),
     );
+  }
+
+  _listenControllers() {
+    controllerLanguage.addListener(() => setState(() {}));
+    controllerFluency.addListener(() => setState(() {}));
+  }
+
+  bool check() {
+    return controllerLanguage.text.isNotEmpty ||
+        controllerFluency.text.isNotEmpty;
   }
 
   @override

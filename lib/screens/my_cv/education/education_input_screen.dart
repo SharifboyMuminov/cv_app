@@ -27,6 +27,12 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
   String endDate = "end date";
 
   @override
+  void initState() {
+    _listenControllers();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -175,6 +181,7 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
             ),
           ),
           GlobalMyButton(
+            active: !check(),
             onTab: () {},
             title: "Save",
           ),
@@ -232,6 +239,24 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
         ),
       ),
     );
+  }
+
+  _listenControllers() {
+    controllerInstitution.addListener(() => setState(() {}));
+    controllerArea.addListener(() => setState(() {}));
+    controllerStudyType.addListener(() => setState(() {}));
+    controllerLocation.addListener(() => setState(() {}));
+    controllerScore.addListener(() => setState(() {}));
+    controllerCourses.addListener(() => setState(() {}));
+  }
+
+  bool check() {
+    return controllerInstitution.text.isNotEmpty ||
+        controllerArea.text.isNotEmpty ||
+        controllerStudyType.text.isNotEmpty ||
+        controllerLocation.text.isNotEmpty ||
+        controllerScore.text.isNotEmpty ||
+        controllerCourses.text.isNotEmpty;
   }
 
   @override

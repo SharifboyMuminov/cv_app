@@ -18,12 +18,12 @@ class SkillInoutScreen extends StatefulWidget {
 class _SkillInoutScreenState extends State<SkillInoutScreen> {
   final TextEditingController controllerName = TextEditingController();
   final TextEditingController controllerKeywords = TextEditingController();
+  final TextEditingController controllerLevel = TextEditingController();
 
   @override
-  void dispose() {
-    controllerName.dispose();
-    controllerKeywords.dispose();
-    super.dispose();
+  void initState() {
+    _listenControllers();
+    super.initState();
   }
 
   @override
@@ -61,6 +61,11 @@ class _SkillInoutScreenState extends State<SkillInoutScreen> {
                     textEditingController: controllerName,
                     hintText: "Enter skill name",
                   ),
+                  CvMyInput(
+                    margin: EdgeInsets.symmetric(vertical: 6.he),
+                    textEditingController: controllerLevel,
+                    hintText: "Enter  level",
+                  ),
                   10.getH(),
                   Text(
                     "Please separate the directions you read with commas!",
@@ -81,11 +86,32 @@ class _SkillInoutScreenState extends State<SkillInoutScreen> {
             ),
           ),
           GlobalMyButton(
+            active: !check(),
             onTab: () {},
             title: "Save",
           ),
         ],
       ),
     );
+  }
+
+  _listenControllers() {
+    controllerKeywords.addListener(() => setState(() {}));
+    controllerName.addListener(() => setState(() {}));
+    controllerLevel.addListener(() => setState(() {}));
+  }
+
+  bool check() {
+    return controllerName.text.isNotEmpty ||
+        controllerKeywords.text.isNotEmpty ||
+        controllerLevel.text.isNotEmpty;
+  }
+
+  @override
+  void dispose() {
+    controllerName.dispose();
+    controllerKeywords.dispose();
+    controllerLevel.dispose();
+    super.dispose();
   }
 }

@@ -23,6 +23,12 @@ class _WorkScreenState extends State<WorkScreen> {
   final TextEditingController controllerStartDate = TextEditingController();
 
   @override
+  void initState() {
+    _listenControllers();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -79,18 +85,34 @@ class _WorkScreenState extends State<WorkScreen> {
                     textEditingController: controllerSummary,
                     hintText: 'summary',
                   ),
-
                 ],
               ),
             ),
           ),
           GlobalMyButton(
-            onTab: () {},
+            active: !check(),
+            onTab: () {
+              if (check()) {}
+            },
             title: "Save",
           ),
         ],
       ),
     );
+  }
+
+  _listenControllers() {
+    controllerPosition.addListener(() => setState(() {}));
+    controllerCompany.addListener(() => setState(() {}));
+    controllerSummary.addListener(() => setState(() {}));
+    controllerLocation.addListener(() => setState(() {}));
+  }
+
+  bool check() {
+    return controllerPosition.text.isNotEmpty ||
+        controllerCompany.text.isNotEmpty ||
+        controllerSummary.text.isNotEmpty ||
+        controllerLocation.text.isNotEmpty;
   }
 
   @override
