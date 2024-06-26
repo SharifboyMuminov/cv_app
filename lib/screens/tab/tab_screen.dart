@@ -20,6 +20,7 @@ class _TabScreenState extends State<TabScreen> {
     const AllCvsScreen(),
     const ProfileScreen(),
   ];
+  String _selectedOption = 'Online';
 
   @override
   Widget build(BuildContext context) {
@@ -40,41 +41,153 @@ class _TabScreenState extends State<TabScreen> {
         floatingActionButton: ScaleOnPress(
           onTap: () {
             showModalBottomSheet(
-                isScrollControlled: true,
-                useSafeArea: true,
-                enableDrag: true,
-                backgroundColor: CupertinoColors.systemGrey5,
-                showDragHandle: true,
-                context: context,
-                builder: (ctx) {
-                  return Container(
-                    decoration: const BoxDecoration(
+              isScrollControlled: true,
+              useSafeArea: true,
+              enableDrag: true,
+              backgroundColor: CupertinoColors.systemGrey5,
+              showDragHandle: true,
+              context: context,
+              builder: (ctx) {
+                return StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setModalState) {
+                    return Container(
+                      decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20.0),
-                            topRight: Radius.circular(20.0)),
-                        color: CupertinoColors.systemGrey5),
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      children: [
-                        AuthMyInput(
-                          textEditingController: TextEditingController(),
-                          hintText: "Full name",
-                          maxLength: 30,
+                          topLeft: Radius.circular(20.0),
+                          topRight: Radius.circular(20.0),
                         ),
-                        AuthMyInput(
-                          textEditingController: TextEditingController(),
-                          hintText: "Age",
+                        color: CupertinoColors.systemGrey5,
+                      ),
+                      width: MediaQuery.of(context).size.width,
+                      child: Padding(
+                        padding: EdgeInsets.all(10.r),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            AuthMyInput(
+                              textEditingController: TextEditingController(),
+                              hintText: "Full name",
+                              maxLength: 30,
+                            ),
+                            AuthMyInput(
+                              textEditingController: TextEditingController(),
+                              hintText: "Age",
+                            ),
+                            AuthMyInput(
+                              textEditingController: TextEditingController(),
+                              hintText: "Number",
+                            ),
+                            AuthMyInput(
+                              textEditingController: TextEditingController(),
+                              hintText: "User name",
+                            ),
+                            AuthMyInput(
+                              textEditingController: TextEditingController(),
+                              hintText: "Job",
+                            ),
+                            AuthMyInput(
+                              textInputAction: TextInputAction.done,
+                              textEditingController: TextEditingController(),
+                              hintText: "Ish tajribasi",
+                            ),
+                            AuthMyInput(
+                              textInputAction: TextInputAction.done,
+                              textInputType: TextInputType.number,
+                              digitsOnly: true,
+                              textEditingController: TextEditingController(),
+                              hintText: "Maosh",
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16.r),
+                                  border: Border.all(
+                                      color: CupertinoColors.activeOrange)),
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    title: Text('Online'),
+                                    onTap: () {
+                                      setModalState(() {
+                                        _selectedOption = "Online";
+                                      });
+                                    },
+                                    leading: Radio<String>(
+                                      value: 'Online',
+                                      groupValue: _selectedOption,
+                                      onChanged: (String? value) {
+                                        setModalState(() {
+                                          _selectedOption = value!;
+                                        });
+                                        setState(() {});
+                                      },
+                                    ),
+                                  ),
+                                  Container(
+                                    width: double.infinity,
+                                    height: 0.55,
+                                    color: CupertinoColors.systemOrange.withOpacity(.5),
+                                  ),
+                                  ListTile(
+                                    title: Text('Offline'),
+                                    onTap: () {
+                                      setModalState(() {
+                                        _selectedOption = "Offline";
+                                      });
+                                    },
+                                    leading: Radio<String>(
+                                      value: 'Offline',
+                                      groupValue: _selectedOption,
+                                      onChanged: (String? value) {
+                                        setModalState(() {
+                                          _selectedOption = value!;
+                                        });
+                                        setState(() {});
+                                      },
+                                    ),
+                                  ),
+                                  Container(
+                                    width: double.infinity,
+                                    height: 0.55,
+                                    color: CupertinoColors.systemOrange.withOpacity(.5),
+
+                                  ),
+                                  ListTile(
+                                    title: const Text('Ok'),
+                                    onTap: () {
+                                      setModalState(() {
+                                        _selectedOption = "Ok";
+                                      });
+                                    },
+                                    leading: Radio<String>(
+                                      value: 'Ok',
+                                      groupValue: _selectedOption,
+                                      onChanged: (String? value) {
+                                        setModalState(() {
+                                          _selectedOption = value!;
+                                        });
+                                        setState(() {});
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  );
-                });
+                      ),
+                    );
+                  },
+                );
+              },
+            );
           },
           scaleValue: 0.9,
           child: Container(
             margin: EdgeInsets.all(4.sp),
             decoration: const BoxDecoration(
-                shape: BoxShape.circle, color: CupertinoColors.systemOrange),
+              shape: BoxShape.circle,
+              color: CupertinoColors.systemOrange,
+            ),
             height: 65.0,
             width: 65.0,
             child: const Icon(
@@ -94,61 +207,65 @@ class _TabScreenState extends State<TabScreen> {
             children: [
               Expanded(
                 child: CupertinoButton(
-                    child: Column(
-                      children: [
-                        Icon(
-                          CupertinoIcons.house,
+                  child: Column(
+                    children: [
+                      Icon(
+                        CupertinoIcons.house,
+                        color: currentIndex == 0
+                            ? CupertinoColors.activeBlue
+                            : CupertinoColors.systemGrey,
+                        size: 22.sp,
+                      ),
+                      const Spacer(),
+                      Text(
+                        "Home",
+                        style: TextStyle(
                           color: currentIndex == 0
                               ? CupertinoColors.activeBlue
                               : CupertinoColors.systemGrey,
-                          size: 22.sp,
+                          fontSize: 15.sp,
                         ),
-                        const Spacer(),
-                        Text(
-                          "Home",
-                          style: TextStyle(
-                              color: currentIndex == 0
-                                  ? CupertinoColors.activeBlue
-                                  : CupertinoColors.systemGrey,
-                              fontSize: 15.sp),
-                        )
-                      ],
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        currentIndex = 0;
-                      });
-                    }),
+                      ),
+                    ],
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      currentIndex = 0;
+                    });
+                  },
+                ),
               ),
               Expanded(
                 child: CupertinoButton(
-                    child: Column(
-                      children: [
-                        Icon(
-                          CupertinoIcons.profile_circled,
+                  child: Column(
+                    children: [
+                      Icon(
+                        CupertinoIcons.profile_circled,
+                        color: currentIndex == 1
+                            ? CupertinoColors.activeBlue
+                            : CupertinoColors.systemGrey,
+                        size: 22.sp,
+                      ),
+                      const Spacer(),
+                      Text(
+                        "Profile",
+                        style: TextStyle(
                           color: currentIndex == 1
                               ? CupertinoColors.activeBlue
                               : CupertinoColors.systemGrey,
-                          size: 22.sp,
+                          fontSize: 15.sp,
                         ),
-                        const Spacer(),
-                        Text(
-                          "Profile",
-                          style: TextStyle(
-                              color: currentIndex == 1
-                                  ? CupertinoColors.activeBlue
-                                  : CupertinoColors.systemGrey,
-                              fontSize: 15.sp),
-                        )
-                      ],
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        currentIndex = 1;
-                        print(currentIndex);
-                      });
-                    }),
-              )
+                      ),
+                    ],
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      currentIndex = 1;
+                      print(currentIndex);
+                    });
+                  },
+                ),
+              ),
             ],
           ),
         ),
