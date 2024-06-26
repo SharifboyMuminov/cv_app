@@ -93,7 +93,7 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
                   CvMyInput(
                     isMaxLines: true,
                     textInputAction: TextInputAction.done,
-                    margin: EdgeInsets.symmetric(vertical: 6.he),
+                    margin: EdgeInsets.symmetric(vertical: 8.he),
                     textEditingController: controllerCourses,
                     hintText: "Enter courses",
                   ),

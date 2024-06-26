@@ -8,18 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CertificateInputScreen extends StatefulWidget {
-  const CertificateInputScreen({super.key});
+class LanguageInputScreen extends StatefulWidget {
+  const LanguageInputScreen({super.key});
 
   @override
-  State<CertificateInputScreen> createState() => _CertificateInputScreenState();
+  State<LanguageInputScreen> createState() => _LanguageInputScreenState();
 }
 
-class _CertificateInputScreenState extends State<CertificateInputScreen> {
-  final TextEditingController controllerTitle = TextEditingController();
-  final TextEditingController controllerIssuer = TextEditingController();
-
-
+class _LanguageInputScreenState extends State<LanguageInputScreen> {
+  final TextEditingController controllerLanguage = TextEditingController();
+  final TextEditingController controllerFluency = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +25,7 @@ class _CertificateInputScreenState extends State<CertificateInputScreen> {
       appBar: AppBar(
         centerTitle: false,
         title: Text(
-          "Certificate",
+          "Language",
           style: AppTextStyle.seoulRobotoMedium.copyWith(
             color: AppColors.c010A27,
             fontSize: 20.sp,
@@ -53,14 +51,14 @@ class _CertificateInputScreenState extends State<CertificateInputScreen> {
                 children: [
                   CvMyInput(
                     margin: EdgeInsets.symmetric(vertical: 6.he),
-                    textEditingController: controllerTitle,
-                    hintText: "Enter title",
+                    textEditingController: controllerLanguage,
+                    hintText: "Enter language",
                   ),
                   CvMyInput(
                     textInputAction: TextInputAction.done,
                     margin: EdgeInsets.symmetric(vertical: 6.he),
-                    textEditingController: controllerIssuer,
-                    hintText: "Enter issuer",
+                    textEditingController: controllerFluency,
+                    hintText: "Enter fluency",
                   ),
                 ],
               ),
@@ -74,10 +72,11 @@ class _CertificateInputScreenState extends State<CertificateInputScreen> {
       ),
     );
   }
+
   @override
   void dispose() {
-    controllerTitle.dispose();
-    controllerIssuer.dispose();
+    controllerLanguage.dispose();
+    controllerFluency.dispose();
     super.dispose();
   }
 }

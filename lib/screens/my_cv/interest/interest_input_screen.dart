@@ -8,18 +8,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CertificateInputScreen extends StatefulWidget {
-  const CertificateInputScreen({super.key});
+class InterestInputScreen extends StatefulWidget {
+  const InterestInputScreen({super.key});
 
   @override
-  State<CertificateInputScreen> createState() => _CertificateInputScreenState();
+  State<InterestInputScreen> createState() => _InterestInputScreenState();
 }
 
-class _CertificateInputScreenState extends State<CertificateInputScreen> {
-  final TextEditingController controllerTitle = TextEditingController();
-  final TextEditingController controllerIssuer = TextEditingController();
+class _InterestInputScreenState extends State<InterestInputScreen> {
+  final TextEditingController controllerName = TextEditingController();
+  final TextEditingController controllerKeywords = TextEditingController();
 
-
+  @override
+  void dispose() {
+    controllerName.dispose();
+    controllerKeywords.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +32,7 @@ class _CertificateInputScreenState extends State<CertificateInputScreen> {
       appBar: AppBar(
         centerTitle: false,
         title: Text(
-          "Certificate",
+          "Interest",
           style: AppTextStyle.seoulRobotoMedium.copyWith(
             color: AppColors.c010A27,
             fontSize: 20.sp,
@@ -53,14 +58,24 @@ class _CertificateInputScreenState extends State<CertificateInputScreen> {
                 children: [
                   CvMyInput(
                     margin: EdgeInsets.symmetric(vertical: 6.he),
-                    textEditingController: controllerTitle,
-                    hintText: "Enter title",
+                    textEditingController: controllerName,
+                    hintText: "Enter interest name",
+                  ),
+                  10.getH(),
+                  Text(
+                    "Please separate the directions you read with commas!",
+                    style: AppTextStyle.seoulRobotoMedium.copyWith(
+                      color: AppColors.c010A27,
+                      fontSize: 13.sp,
+                    ),
                   ),
                   CvMyInput(
+
+                    isMaxLines: true,
                     textInputAction: TextInputAction.done,
-                    margin: EdgeInsets.symmetric(vertical: 6.he),
-                    textEditingController: controllerIssuer,
-                    hintText: "Enter issuer",
+                    margin: EdgeInsets.symmetric(vertical: 8.he),
+                    textEditingController: controllerKeywords,
+                    hintText: "Enter keywords",
                   ),
                 ],
               ),
@@ -73,11 +88,5 @@ class _CertificateInputScreenState extends State<CertificateInputScreen> {
         ],
       ),
     );
-  }
-  @override
-  void dispose() {
-    controllerTitle.dispose();
-    controllerIssuer.dispose();
-    super.dispose();
   }
 }
