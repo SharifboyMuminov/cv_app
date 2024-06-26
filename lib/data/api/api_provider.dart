@@ -60,6 +60,10 @@ class ApiProvider extends ApiClient {
           key: "user_id",
           value: response.data["id"] as String? ?? "",
         );
+        StorageRepository.setString(
+          key: "access_token",
+          value: response.data["id"] as String? ?? "",
+        );
         networkResponse.data = UserModel.fromJson(response.data);
       } else {
         networkResponse.errorText =
@@ -95,6 +99,10 @@ class ApiProvider extends ApiClient {
         StorageRepository.setString(
           key: "user_id",
           value: response.data["id"] as String? ?? "",
+        );
+        StorageRepository.setString(
+          key: "user_id",
+          value: response.data["access_token"] as String? ?? "",
         );
 
         // networkResponse.data = UserModel.fromJson(response.data);
@@ -176,6 +184,10 @@ class ApiProvider extends ApiClient {
           key: "user_id",
           value: response.data["id"] as String? ?? "",
         );
+        StorageRepository.setString(
+          key: "access_token",
+          value: response.data["id"] as String? ?? "",
+        );
         networkResponse.data = UserModel.fromJson(response.data);
       } else {
         networkResponse.errorText =
@@ -191,4 +203,39 @@ class ApiProvider extends ApiClient {
   }
 
 //TODO End Auth ------------------------------------------------------------
+
+// TODO uploadImage -----------------------
+
+  Future<NetworkResponse> uploadImage(File file) async {
+    final fileName = file.path.split('/').last;
+    NetworkResponse networkResponse = NetworkResponse();
+    try {
+      // debugPrint("MyId:  $myId ----------------- ");
+      final formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(
+          file.path,
+          filename: fileName,
+        )
+      });
+      Response response = await secureDio.post(
+        "https://api.cvmaker.uz/v1/media/user-photo",
+        data: formData,
+      );
+
+      int statusCode = (response.statusCode ?? 400);
+
+      if (statusCode >= 200 && statusCode <= 300) {
+        debugPrint("Good: ${response.data} -----------");
+        networkResponse.data = response.data;
+      } else {
+        debugPrint("Error: ${response.statusCode}   -------------");
+        networkResponse.errorText = "Error :(";
+      }
+    } catch (e) {
+      // debugPrint(e.toString());
+      networkResponse.errorText = "Boshqa xatolik: $e";
+    }
+
+    return networkResponse;
+  }
 }

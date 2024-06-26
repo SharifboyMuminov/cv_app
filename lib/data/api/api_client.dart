@@ -38,7 +38,7 @@ class ApiClient {
     secureDio.options = BaseOptions(
       headers: {
         'Content-Type': 'application/json',
-        "Authorization": StorageRepository.getString(key: "token")
+        "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjAwOTg1NjAsImlhdCI6MTcxOTM3ODU2MCwiaXNzIjoiIiwicm9sZSI6InVzZXIiLCJzdWIiOiJhNzRjMDhmNS1jNTY2LTRhOWEtYTg0Ni02YjdiN2QxODY0MTIifQ.OoD03-Oiq-noT-gogbvTFYWbwvZKVgU4YEfVfso9708"
       },
       receiveTimeout: const Duration(seconds: 5),
     );

@@ -2,6 +2,7 @@ import 'package:cv_app/bloc/auth/auth_bloc.dart';
 import 'package:cv_app/data/api/api_provider.dart';
 import 'package:cv_app/data/repositories/auth_repository.dart';
 import 'package:cv_app/screens/auth/sign_up/sing_up_screen.dart';
+import 'package:cv_app/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
             home: child,
           );
         },
-        child: const SignUpScreen(),
+        child: const HomeScreen(),
       ),
     );
   }
