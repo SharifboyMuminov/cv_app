@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
 class AuthMyInput extends StatelessWidget {
   const AuthMyInput({
     super.key,
@@ -52,16 +51,16 @@ class AuthMyInput extends StatelessWidget {
       ),
       decoration: InputDecoration(
         contentPadding:
-            EdgeInsets.symmetric(horizontal: 16.we, vertical: 18.he),
+            EdgeInsets.symmetric(horizontal: 16.we, vertical: 15.he),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
+          borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
             color: AppColors.cF07448,
             width: 3.we,
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
+          borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
             color: AppColors.c010A27.withOpacity(0.40),
             width: 1.we,
@@ -75,14 +74,14 @@ class AuthMyInput extends StatelessWidget {
           fontSize: 16.sp,
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
+          borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
             color: Colors.red,
             width: 2.we,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
+          borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
             color: Colors.red,
             width: 1.we,

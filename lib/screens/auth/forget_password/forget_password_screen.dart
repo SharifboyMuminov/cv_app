@@ -2,10 +2,11 @@ import 'package:cv_app/bloc/auth/auth_bloc.dart';
 import 'package:cv_app/bloc/auth/auth_event.dart';
 import 'package:cv_app/bloc/auth/auth_state.dart';
 import 'package:cv_app/data/models/from_status/from_status.dart';
-import 'package:cv_app/screens/auth/verification/widget/password_input.dart';
+import 'package:cv_app/screens/auth/widget/auth_input.dart';
 import 'package:cv_app/screens/widget/global_button.dart';
 import 'package:cv_app/utils/app_colors.dart';
 import 'package:cv_app/utils/app_images.dart';
+import 'package:cv_app/utils/app_reg_exp.dart';
 import 'package:cv_app/utils/app_size.dart';
 import 'package:cv_app/utils/app_text_style.dart';
 import 'package:flutter/material.dart';
@@ -13,27 +14,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class VerificationScreen extends StatefulWidget {
-  const VerificationScreen({super.key});
+class ForgetPasswordScreen extends StatefulWidget {
+  const ForgetPasswordScreen({super.key});
 
   @override
-  State<VerificationScreen> createState() => _VerificationScreenState();
+  State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();
 }
 
-class _VerificationScreenState extends State<VerificationScreen> {
-  final _pinController = TextEditingController();
-  final _focusNode = FocusNode();
+class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+  final TextEditingController controllerEmail = TextEditingController();
+
+  String? errorTextForEmail;
 
   @override
   void initState() {
-    _listenPinController();
+    _listenControllerEmail();
     super.initState();
-  }
-
-  _listenPinController() {
-    _pinController.addListener(() {
-      setState(() {});
-    });
   }
 
   @override
@@ -46,7 +42,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
             appBar: AppBar(
               centerTitle: true,
               title: Text(
-                "Kodni kiriting",
+                "Parolni tiklash",
                 style: AppTextStyle.seoulRobotoRegular.copyWith(
                   color: AppColors.c010A27,
                   fontSize: 20.sp,
@@ -54,9 +50,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               ),
               leading: IconButton(
                 onPressed: () {
-                  if (state.fromStatus != FromStatus.loading) {
-                    Navigator.pop(context);
-                  }
+                  Navigator.pop(context);
                 },
                 icon: SvgPicture.asset(
                   AppImages.arrowBackSvg,
@@ -74,7 +68,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       children: [
                         4.getH(),
                         Text(
-                          "Elektron pochtangizni tasdiqlash uchun biz unga kod yubordik",
+                          "Elektron pochtangizni kiriting va biz unga parolni tiklash uchun kod yuboramiz",
                           textAlign: TextAlign.center,
                           style: AppTextStyle.seoulRobotoRegular.copyWith(
                             color: AppColors.c010A27.withOpacity(0.40),
@@ -82,25 +76,24 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           ),
                         ),
                         20.getH(),
-                        PasswordMyInput(
-                          pinController: _pinController,
-                          focusNode: _focusNode,
+                        AuthMyInput(
+                          textInputAction: TextInputAction.done,
+                          textEditingController: controllerEmail,
+                          hintText: "Elektron pochta",
+                          errorText: errorTextForEmail,
                         ),
                       ],
                     ),
                   ),
                 ),
                 GlobalMyButton(
-                  backgroundColor:
-                      _pinController.text.length == 6 ? null : Colors.grey,
                   loading: state.fromStatus == FromStatus.loading,
-                  onTab: _pinController.text.length == 6
+                  backgroundColor: _checkEmail ? null : Colors.grey,
+                  onTab: _checkEmail
                       ? () {
-                          // debugPrint("Email: ${widget.email}");
-                          // debugPrint("PinCode: ${_pinController.text}");
                           context.read<AuthBloc>().add(
-                                AuthVerifyEvent(
-                                  activateCode: _pinController.text,
+                                AuthResetPasswordEvent(
+                                  email: controllerEmail.text,
                                 ),
                               );
                         }
@@ -115,10 +108,31 @@ class _VerificationScreenState extends State<VerificationScreen> {
     );
   }
 
+  bool get _checkEmail {
+    return AppRegExp.emailRegExp.hasMatch(controllerEmail.text);
+  }
+
+  _listenControllerEmail() {
+    controllerEmail.addListener(() {
+      if (controllerEmail.text.isEmpty) {
+        setState(() {
+          errorTextForEmail = 'Email is required';
+        });
+      } else if (!_checkEmail) {
+        setState(() {
+          errorTextForEmail = 'Enter a valid email address';
+        });
+      } else {
+        setState(() {
+          errorTextForEmail = null;
+        });
+      }
+    });
+  }
+
   @override
   void dispose() {
-    _pinController.dispose();
-    _focusNode.dispose();
+    controllerEmail.dispose();
     super.dispose();
   }
 }
