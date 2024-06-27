@@ -45,11 +45,19 @@ class CvBloc extends Bloc<CvEvent, CvState> {
       softSkillModels: state.softSkills,
       educationModels: state.educations,
       certificateModels: state.certificates,
+      salary: 0,
+      jobLocation: '',
     );
   }
 
   void _basicsSave(CvBasicsSaveEvent event, emit) {
-    emit(state.copyWith(basicsModel: event.basicsModel));
+    emit(
+      state.copyWith(
+        basicsModel: event.basicsModel,
+        jobLocation: event.jobLocation,
+        salary: event.salary,
+      ),
+    );
   }
 
   void _locationSave(CvLocationSaveEvent event, emit) {

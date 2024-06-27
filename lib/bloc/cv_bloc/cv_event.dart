@@ -20,11 +20,17 @@ class CvGenerateEvent extends CvEvent {
 
 class CvBasicsSaveEvent extends CvEvent {
   final BasicsModel basicsModel;
+  final String jobLocation;
+  final int salary;
 
-  CvBasicsSaveEvent({required this.basicsModel});
+  CvBasicsSaveEvent({
+    required this.basicsModel,
+    required this.salary,
+    required this.jobLocation,
+  });
 
   @override
-  List<Object?> get props => [basicsModel];
+  List<Object?> get props => [basicsModel, salary, jobLocation];
 }
 
 class CvMetaSaveEvent extends CvEvent {

@@ -10,6 +10,8 @@ import 'package:cv_app/data/my_models/soft_skill/soft_skill_model.dart';
 import 'package:cv_app/data/my_models/work/work_model.dart';
 
 class CvModel {
+  final String jobLocation;
+  final int salary;
   final BasicsModel basicsModel;
   final MetaModel metaModel;
   final List<WorkModel> workModels;
@@ -22,6 +24,8 @@ class CvModel {
   final List<CertificatesModel> certificateModels;
 
   CvModel({
+    required this.salary,
+    required this.jobLocation,
     required this.metaModel,
     required this.basicsModel,
     required this.workModels,
@@ -39,10 +43,12 @@ class CvModel {
       "basics": basicsModel.toJson(),
       "work": workModels.map((toElement) => toElement.toJson()).toList(),
       "projects": projectModels.map((toElement) => toElement.toJson()).toList(),
+      "job_location": jobLocation,
       "education":
           educationModels.map((toElement) => toElement.toJson()).toList(),
       "certificates":
           certificateModels.map((toElement) => toElement.toJson()).toList(),
+      "salary": salary,
       "skills": skillModels.map((toElement) => toElement.toJson()).toList(),
       "softSkills":
           softSkillModels.map((toElement) => toElement.toJson()).toList(),
