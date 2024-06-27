@@ -21,8 +21,10 @@ class _MainInputScreenState extends State<MainInputScreen> {
   final TextEditingController controllerLabel = TextEditingController();
   final TextEditingController controllerEmail = TextEditingController();
   final TextEditingController controllerPhone = TextEditingController();
+  final TextEditingController controllerSalary = TextEditingController();
 
   String? errorTextEmail;
+  String _selectedItem = "offline";
 
   @override
   void initState() {
@@ -64,12 +66,12 @@ class _MainInputScreenState extends State<MainInputScreen> {
                   CvMyInput(
                     margin: EdgeInsets.symmetric(vertical: 6.he),
                     textEditingController: controllerName,
-                    hintText: "Enter name",
+                    hintText: "Enter full name",
                   ),
                   CvMyInput(
                     margin: EdgeInsets.symmetric(vertical: 6.he),
                     textEditingController: controllerLabel,
-                    hintText: "Enter label",
+                    hintText: "Enter job title",
                   ),
                   CvMyInput(
                     errorText: errorTextEmail,
@@ -78,10 +80,73 @@ class _MainInputScreenState extends State<MainInputScreen> {
                     hintText: "Enter email",
                   ),
                   CvMyInput(
+                    digitsOnly: true,
+                    errorText: errorTextEmail,
+                    margin: EdgeInsets.symmetric(vertical: 6.he),
+                    textEditingController: controllerSalary,
+                    hintText: "Enter salary",
+                  ),
+                  CvMyInput(
                     textInputAction: TextInputAction.done,
                     margin: EdgeInsets.symmetric(vertical: 6.he),
                     textEditingController: controllerPhone,
                     hintText: "Enter location",
+                  ),
+                  8.getH(),
+                  Row(
+                    children: [
+                      Text(
+                        "Job location",
+                        style: AppTextStyle.seoulRobotoMedium.copyWith(
+                          color: AppColors.c010A27,
+                          fontSize: 17.sp,
+                        ),
+                      ),
+                      10.getW(),
+                      Expanded(
+                        child: DropdownButton<String>(
+                          value: _selectedItem,
+                          items: [
+                            DropdownMenuItem<String>(
+                              value: 'offline',
+                              child: Text(
+                                'offline',
+                                style: AppTextStyle.seoulRobotoRegular.copyWith(
+                                  color: AppColors.c010A27,
+                                  fontSize: 14.sp,
+                                ),
+                              ),
+                            ),
+                            DropdownMenuItem<String>(
+                              value: 'online',
+                              child: Text(
+                                'online',
+                                style: AppTextStyle.seoulRobotoRegular.copyWith(
+                                  color: AppColors.c010A27,
+                                  fontSize: 14.sp,
+                                ),
+                              ),
+                            ),
+                          ],
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedItem = newValue!;
+                            });
+                          },
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            size: 20.we,
+                            color: AppColors.c010A27,
+                          ),
+                          iconSize: 24,
+                          elevation: 16,
+                          style: AppTextStyle.seoulRobotoRegular.copyWith(
+                            color: AppColors.c010A27,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -121,6 +186,7 @@ class _MainInputScreenState extends State<MainInputScreen> {
   bool check() {
     return (controllerName.text.isNotEmpty ||
             controllerLabel.text.isNotEmpty ||
+            controllerSalary.text.isNotEmpty ||
             controllerPhone.text.isNotEmpty) &&
         AppRegExp.emailRegExp.hasMatch(controllerEmail.text);
   }
@@ -131,6 +197,7 @@ class _MainInputScreenState extends State<MainInputScreen> {
     controllerLabel.dispose();
     controllerEmail.dispose();
     controllerPhone.dispose();
+    controllerSalary.dispose();
 
     super.dispose();
   }

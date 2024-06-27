@@ -28,7 +28,7 @@ void main(List<String> args) async {
                   Platform.localeName.split("-").last.toLowerCase() == "uz")
               ? const Locale("uz", "UZ")
               : const Locale("en", "EN"),
-      child:  App(),
+      child: App(),
     ),
   );
 }

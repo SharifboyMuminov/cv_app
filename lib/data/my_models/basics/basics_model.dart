@@ -9,10 +9,12 @@ class BasicsModel {
   final String phone;
   final String url;
   final String summary;
+  final int salary;
   final LocationModel location;
   final List<ProfileModel> profiles;
 
   BasicsModel({
+    required this.salary,
     required this.name,
     required this.location,
     required this.url,
@@ -30,12 +32,14 @@ class BasicsModel {
     String? image,
     String? email,
     String? phone,
+    int? salary,
     String? url,
     String? summary,
     LocationModel? location,
     List<ProfileModel>? profiles,
   }) {
     return BasicsModel(
+      salary: salary ?? this.salary,
       name: name ?? this.name,
       location: location ?? this.location,
       url: url ?? this.url,
@@ -59,12 +63,14 @@ class BasicsModel {
       image: "",
       label: "",
       profiles: [],
+      salary: 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       "name": name,
+      "salary": salary,
       "label": label,
       "image": image,
       "email": email,
