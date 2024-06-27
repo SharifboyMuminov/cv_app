@@ -20,7 +20,6 @@ class EducationInputScreen extends StatefulWidget {
   State<EducationInputScreen> createState() => _EducationInputScreenState();
 }
 
-
 class _EducationInputScreenState extends State<EducationInputScreen> {
   final TextEditingController controllerInstitution = TextEditingController();
   final TextEditingController controllerArea = TextEditingController();
@@ -264,18 +263,17 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
     FocusScope.of(context).unfocus();
 
     EducationModel educationModel = EducationModel(
-      startDate: startDate,
+      startDate: startDate.length == 4 ? startDate : "",
       location: controllerLocation.text,
       score: controllerScore.text,
       area: controllerArea.text,
       courses: controllerCourses.text.split(","),
-      endDate: endDate,
+      endDate: endDate.length == 4 ? endDate : "",
       institution: controllerInstitution.text,
       studyType: controllerStudyType.text,
     );
     educations.add(educationModel);
 
-    educations.add(educationModel);
     controllerLocation.clear();
     controllerScore.clear();
     controllerArea.clear();

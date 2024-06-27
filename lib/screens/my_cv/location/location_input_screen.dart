@@ -1,3 +1,6 @@
+import 'package:cv_app/bloc/cv_bloc/cv_bloc.dart';
+import 'package:cv_app/bloc/cv_bloc/cv_event.dart';
+import 'package:cv_app/data/my_models/location/location_model.dart';
 import 'package:cv_app/screens/my_cv/widget/cv_input.dart';
 import 'package:cv_app/screens/widget/global_button.dart';
 import 'package:cv_app/utils/app_colors.dart';
@@ -5,6 +8,7 @@ import 'package:cv_app/utils/app_images.dart';
 import 'package:cv_app/utils/app_size.dart';
 import 'package:cv_app/utils/app_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -23,6 +27,13 @@ class _LocationInputScreenState extends State<LocationInputScreen> {
   @override
   void initState() {
     _listenControllers();
+    Future.microtask(() {
+      controllerCity.text = context.read<CvBloc>().state.locationModel.city;
+      controllerCountryCode.text =
+          context.read<CvBloc>().state.locationModel.countryCode;
+      controllerRegion.text = context.read<CvBloc>().state.locationModel.region;
+      setState(() {});
+    });
     super.initState();
   }
 
@@ -78,7 +89,20 @@ class _LocationInputScreenState extends State<LocationInputScreen> {
           ),
           GlobalMyButton(
             active: !check(),
-            onTab: () {},
+            onTab: () {
+              if (check()) {
+                context.read<CvBloc>().add(
+                      CvLocationSaveEvent(
+                        locationModel: LocationModel(
+                          city: controllerCity.text,
+                          countryCode: controllerCountryCode.text,
+                          region: controllerRegion.text,
+                        ),
+                      ),
+                    );
+                Navigator.pop(context);
+              }
+            },
             title: "Save",
           ),
         ],
@@ -93,8 +117,8 @@ class _LocationInputScreenState extends State<LocationInputScreen> {
   }
 
   bool check() {
-    return controllerCity.text.isNotEmpty ||
-        controllerCountryCode.text.isNotEmpty ||
+    return controllerCity.text.isNotEmpty &&
+        controllerCountryCode.text.isNotEmpty &&
         controllerRegion.text.isNotEmpty;
   }
 
