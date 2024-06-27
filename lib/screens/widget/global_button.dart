@@ -16,6 +16,7 @@ class GlobalMyButton extends StatelessWidget {
     this.iconPath,
     this.padding,
     this.loading = false,
+    this.active = false,
   });
 
   final VoidCallback? onTab;
@@ -26,6 +27,7 @@ class GlobalMyButton extends StatelessWidget {
   final Color? backgroundColor;
   final Color? titleColor;
   final bool loading;
+  final bool active;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,8 @@ class GlobalMyButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.r),
           ),
-          backgroundColor: backgroundColor ?? AppColors.cF07448,
+          backgroundColor:
+              active ? Colors.grey : backgroundColor ?? AppColors.cF07448,
         ),
         onPressed: loading ? null : onTab,
         child: loading
