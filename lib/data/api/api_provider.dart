@@ -187,7 +187,7 @@ class ApiProvider extends ApiClient {
         );
         StorageRepository.setString(
           key: "access_token",
-          value: response.data["id"] as String? ?? "",
+          value: response.data["access_token"] as String? ?? "",
         );
         networkResponse.data = UserModel.fromJson(response.data);
       } else {
