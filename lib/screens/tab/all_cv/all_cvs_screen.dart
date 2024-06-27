@@ -68,11 +68,6 @@ class _AllCvsScreenState extends State<AllCvsScreen> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.read<DownloadCvBloc>().add(DownloadCvNewEvent(downloadUrl: ""));
-        },
-      ),
     );
   }
 }
