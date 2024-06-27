@@ -211,7 +211,7 @@ class ApiProvider extends ApiClient {
 
     try {
       FileStatusModel fileStatusModel =
-          await FileManagerService().checkFile(urlPdfFile);
+          await FileManagerService().checkFile("https://media.cvmaker.uz/resumes/JohnDoeRust4a738CVMaker.pdf");
 
       if (fileStatusModel.isExist) {
         networkResponse.data = fileStatusModel;
