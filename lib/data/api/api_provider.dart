@@ -282,14 +282,12 @@ class ApiProvider extends ApiClient {
     NetworkResponse networkResponse = NetworkResponse();
     debugPrint(cvModel.metaModel.template);
 
-
     try {
       Response response = await secureDio.post(
         "https://api.cvmaker.uz/v1/resume/generate-resume",
         data: jsonEncode(cvModel.toJson()),
       );
       debugPrint("Natija: --- ${response.data}");
-
     } on SocketException {
       // debugPrint("No Internet connection");
 
