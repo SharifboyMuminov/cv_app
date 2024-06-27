@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:cv_app/bloc/user/user_bloc.dart';
 import 'package:cv_app/bloc/user/user_state.dart';
+import 'package:cv_app/screens/my_cv/my_cv_screen.dart';
 import 'package:cv_app/screens/tab/profile/edit_profile.dart';
 import 'package:cv_app/screens/tab/profile/generate_cv/cv_generate_screen.dart';
 import 'package:cv_app/screens/tab/profile/widgets/list_tile_item.dart';
@@ -15,8 +16,10 @@ import 'package:page_transition/page_transition.dart' as page;
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({
     super.key,
+    required this.context1
   });
 
+  final BuildContext context1;
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -294,12 +297,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ListTileItem(
                             voidCallback: () {
                               Navigator.push(
-                                context,
+                                widget.context1,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const CvGenerateScreen(),
+                                  builder: (cont) =>
+
+                                      const MyCvScreen(),
                                 ),
                               );
+
                             },
                             title: "cv_generate".tr(),
                             icon: const Icon(

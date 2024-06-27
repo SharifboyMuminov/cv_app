@@ -14,10 +14,18 @@ class TabScreen extends StatefulWidget {
 
 class _TabScreenState extends State<TabScreen> {
   int currentIndex = 0;
-  List<Widget> screens = [
-    const AllCvsScreen(),
-    const ProfileScreen(),
-  ];
+  List<Widget> screens = [];
+
+  @override
+  void initState() {
+    screens = [
+      const AllCvsScreen(),
+       ProfileScreen(
+        context1: context,
+      ),
+    ];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

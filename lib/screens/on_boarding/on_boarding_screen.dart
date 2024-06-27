@@ -1,8 +1,8 @@
 import 'package:cv_app/data/local/storage_repository.dart';
-import 'package:cv_app/screens/auth/sign_up/sing_up_screen.dart';
 import 'package:cv_app/screens/on_boarding/firs_page.dart';
 import 'package:cv_app/screens/on_boarding/second_page.dart';
 import 'package:cv_app/screens/on_boarding/third_page.dart';
+import 'package:cv_app/screens/tab/tab_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,10 +36,15 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         activeIndex++;
       } else {
         await StorageRepository.setBool(key: "isLogin", value: true).then((v) {
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+            builder: (context) {
+              return const TabScreen();
+            },
+          ), (v) => false);
           Navigator.push(
             context,
             PageTransition(
-              child: const SignUpScreen(),
+              child: const TabScreen(),
               type: PageTransitionType.fade,
               alignment: Alignment.center,
               duration: const Duration(milliseconds: 700),
