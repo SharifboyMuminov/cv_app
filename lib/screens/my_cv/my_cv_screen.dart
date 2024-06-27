@@ -62,7 +62,7 @@ class _MyCvScreenState extends State<MyCvScreen> {
                   ),
                 );
               },
-              child: Text("Work"),
+              child: const Text("Work"),
             ),
             TextButton(
               onPressed: () {
@@ -75,7 +75,7 @@ class _MyCvScreenState extends State<MyCvScreen> {
                   ),
                 );
               },
-              child: Text("projects"),
+              child: const Text("projects"),
             ),
             TextButton(
               onPressed: () {
@@ -88,7 +88,7 @@ class _MyCvScreenState extends State<MyCvScreen> {
                   ),
                 );
               },
-              child: Text("education"),
+              child: const Text("education"),
             ),
             TextButton(
               onPressed: () {
@@ -101,7 +101,7 @@ class _MyCvScreenState extends State<MyCvScreen> {
                   ),
                 );
               },
-              child: Text("certificates"),
+              child: const Text("certificates"),
             ),
             TextButton(
               onPressed: () {
@@ -114,7 +114,7 @@ class _MyCvScreenState extends State<MyCvScreen> {
                   ),
                 );
               },
-              child: Text("skill"),
+              child: const Text("skill"),
             ),
             TextButton(
               onPressed: () {
@@ -127,7 +127,7 @@ class _MyCvScreenState extends State<MyCvScreen> {
                   ),
                 );
               },
-              child: Text("soft skill"),
+              child: const Text("soft skill"),
             ),
             TextButton(
               onPressed: () {
@@ -140,7 +140,7 @@ class _MyCvScreenState extends State<MyCvScreen> {
                   ),
                 );
               },
-              child: Text("Language"),
+              child: const Text("Language"),
             ),
             TextButton(
               onPressed: () {
@@ -153,7 +153,7 @@ class _MyCvScreenState extends State<MyCvScreen> {
                   ),
                 );
               },
-              child: Text("interests"),
+              child: const Text("interests"),
             ),
             TextButton(
               onPressed: () {
@@ -166,7 +166,7 @@ class _MyCvScreenState extends State<MyCvScreen> {
                   ),
                 );
               },
-              child: Text("ProfileInputScreen"),
+              child: const Text("ProfileInputScreen"),
             ),
             TextButton(
               onPressed: () {
@@ -179,7 +179,7 @@ class _MyCvScreenState extends State<MyCvScreen> {
                   ),
                 );
               },
-              child: Text("LocationInputScreen"),
+              child: const Text("LocationInputScreen"),
             ),
             TextButton(
               onPressed: () {
@@ -192,7 +192,7 @@ class _MyCvScreenState extends State<MyCvScreen> {
                   ),
                 );
               },
-              child: Text("MainInputScreen"),
+              child: const Text("MainInputScreen"),
             ),
           ],
         ),

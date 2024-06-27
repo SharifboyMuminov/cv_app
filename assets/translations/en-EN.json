@@ -4,10 +4,10 @@
   "hidden_acc": "Hidden Cv",
   "my_announcements": "Hidden Cv",
   "cancel": "Cancel",
-  "uz": "Uzbek",
-  "en": "English",
+  "uz": "Uzbek 🇺🇿",
+  "en": "English 🇺🇸",
   "language": "Language",
-  "log_out":"Log Out",
+  "log_out": "Log Out",
   "cv_generate": "Cv generate",
   "home": "Home",
   "profile": "Profile",
@@ -18,5 +18,7 @@
   "takeGallery": "Choose from gallery",
   "takeCamera": "Take from camera",
   "work_type": "Type of work:",
-  "add": "Add"
+  "add": "Add",
+  "edit_profile": "Edit profile",
+  "edit": "Edit"
 }

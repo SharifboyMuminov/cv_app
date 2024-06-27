@@ -13,7 +13,7 @@ class TabScreen extends StatefulWidget {
 }
 
 class _TabScreenState extends State<TabScreen> {
-  int currentIndex = 1;
+  int currentIndex = 0;
   List<Widget> screens = [
     const AllCvsScreen(),
     const ProfileScreen(),

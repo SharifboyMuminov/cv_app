@@ -22,6 +22,7 @@ class AuthMyInput extends StatelessWidget {
     this.maxLength,
     this.digitsOnly = false,
     this.isCounterShow,
+     this.changed,
   });
 
   final TextEditingController textEditingController;
@@ -35,6 +36,7 @@ class AuthMyInput extends StatelessWidget {
   final String? errorText;
   final int? maxLength;
   final bool? isCounterShow;
+  final ValueChanged<String>? changed;
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +57,7 @@ class AuthMyInput extends StatelessWidget {
         fontWeight: FontWeight.w500
 
       ),
+      onChanged: changed,
       decoration: InputDecoration(
         counterText: isCounterShow!=null?null:"",
         contentPadding:

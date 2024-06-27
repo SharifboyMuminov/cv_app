@@ -7,7 +7,7 @@ class AppRegExp {
   );
 
   static MaskTextInputFormatter phoneFormatter = MaskTextInputFormatter(
-      mask: '+998 (##) ###-##-##',
+      mask: '+998 (##) ### ## ##',
       filter: {'#': RegExp(r'[\+0-9]')},
       type: MaskAutoCompletionType.lazy);
   static final moneyFormatter = MaskTextInputFormatter(

@@ -186,7 +186,7 @@ class ApiProvider extends ApiClient {
         );
         StorageRepository.setString(
           key: "access_token",
-          value: response.data["id"] as String? ?? "",
+          value: response.data["access_token"] as String? ?? "",
         );
         networkResponse.data = UserModel.fromJson(response.data);
       } else {
@@ -238,6 +238,29 @@ class ApiProvider extends ApiClient {
   }
 
   //TODO User ------------------------
+  Future<NetworkResponse> editProfile(
+      {required String name, required String phone}) async {
+    NetworkResponse networkResponse = NetworkResponse();
+    try {
+      Response response = await secureDio.put(
+        "https://api.cvmaker.uz/v1/users",
+        data: {
+          "full_name": name,
+          "phone_number": phone
+              .replaceAll("-", "")
+              .replaceAll("", "")
+              .substring(4, phone.length)
+        },
+      );
+      if (response.statusCode != null) {
+        if (response.statusCode! > 200 && response.statusCode! < 300) {}
+        networkResponse.data = UserModel.fromJson(response.data);
+      }
+    } catch (e) {
+      networkResponse.errorText = "Boshqa xatolik: $e";
+    }
+    return networkResponse;
+  }
 
   Future<NetworkResponse> getUser() async {
     NetworkResponse networkResponse = NetworkResponse();

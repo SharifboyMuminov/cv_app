@@ -150,6 +150,9 @@ class _CvGenerateScreenState extends State<CvGenerateScreen> {
               children: [
                 Expanded(
                   child: AuthMyInput(
+                    changed: (v) {
+                      setState(() {});
+                    },
                     textInputAction: TextInputAction.done,
                     textEditingController: skillCtrl,
                     hintText: "Ish tajribasi",
@@ -161,7 +164,9 @@ class _CvGenerateScreenState extends State<CvGenerateScreen> {
                       foregroundColor: CupertinoColors.systemOrange,
                       padding: EdgeInsets.symmetric(
                           vertical: 15.he, horizontal: 15.he),
-                      backgroundColor: CupertinoColors.systemOrange,
+                      backgroundColor: skillCtrl.text.isEmpty
+                          ? CupertinoColors.systemOrange.withOpacity(.5)
+                          : CupertinoColors.systemOrange,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.r))),
                   onPressed: () {
@@ -306,6 +311,9 @@ class _CvGenerateScreenState extends State<CvGenerateScreen> {
               children: [
                 Expanded(
                   child: AuthMyInput(
+                    changed: (v) {
+                      setState(() {});
+                    },
                     textInputAction: TextInputAction.next,
                     textEditingController: langCtrl,
                     hintText: "Til",
@@ -318,7 +326,9 @@ class _CvGenerateScreenState extends State<CvGenerateScreen> {
                       foregroundColor: CupertinoColors.systemOrange,
                       padding: EdgeInsets.symmetric(
                           vertical: 15.he, horizontal: 15.he),
-                      backgroundColor: CupertinoColors.systemOrange,
+                      backgroundColor: langCtrl.text.isEmpty
+                          ? CupertinoColors.systemOrange.withOpacity(.5)
+                          : CupertinoColors.systemOrange,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.r))),
                   onPressed: () {

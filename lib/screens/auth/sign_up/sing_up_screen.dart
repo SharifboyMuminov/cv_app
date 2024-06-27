@@ -9,7 +9,7 @@ import 'package:cv_app/screens/auth/log_in/log_in_screen.dart';
 import 'package:cv_app/screens/auth/verification/verification_screen.dart';
 import 'package:cv_app/screens/auth/widget/auth_button.dart';
 import 'package:cv_app/screens/auth/widget/auth_input.dart';
-import 'package:cv_app/screens/home/home_screen.dart';
+import 'package:cv_app/screens/tab/tab_screen.dart';
 import 'package:cv_app/screens/widget/global_button.dart';
 import 'package:cv_app/utils/app_colors.dart';
 import 'package:cv_app/utils/app_images.dart';
@@ -212,7 +212,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (state.fromStatus == FromStatus.authenticated) {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
-          return const HomeScreen();
+          return const TabScreen();
         },
       ), (route) => false);
     } else if (state.fromStatus == FromStatus.success) {
