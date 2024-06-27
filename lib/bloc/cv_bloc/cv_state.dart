@@ -27,7 +27,7 @@ class CvState extends Equatable {
   final List<WorkModel> workModels;
   final List<ProjectModel> projects;
   final List<EducationModel> educations;
-  final List<CertificatesModel> certificates;
+  final List<CertificateModel> certificates;
   final List<SkillModel> skills;
   final List<SoftSkillModel> softSkills;
   final List<LanguageModel> languages;
@@ -68,7 +68,7 @@ class CvState extends Equatable {
     List<WorkModel>? workModels,
     List<ProjectModel>? projects,
     List<EducationModel>? educations,
-    List<CertificatesModel>? certificates,
+    List<CertificateModel>? certificates,
     List<SkillModel>? skills,
     List<SoftSkillModel>? softSkills,
     List<LanguageModel>? languages,

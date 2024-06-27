@@ -82,7 +82,7 @@ class CvChangeProjectsEvent extends CvEvent {
 }
 
 class CvChangeCertificateEvent extends CvEvent {
-  final List<CertificatesModel> certificatesModels;
+  final List<CertificateModel> certificatesModels;
 
   CvChangeCertificateEvent({required this.certificatesModels});
 

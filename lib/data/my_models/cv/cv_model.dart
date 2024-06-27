@@ -21,7 +21,7 @@ class CvModel {
   final List<SkillModel> skillModels;
   final List<SoftSkillModel> softSkillModels;
   final List<EducationModel> educationModels;
-  final List<CertificatesModel> certificateModels;
+  final List<CertificateModel> certificateModels;
 
   CvModel({
     required this.salary,

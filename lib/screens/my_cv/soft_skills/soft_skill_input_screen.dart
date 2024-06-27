@@ -30,7 +30,7 @@ class _SoftSkillInputScreenState extends State<SoftSkillInputScreen> {
   void initState() {
     _listenControllers();
     Future.microtask(() {
-      softSkillsCount = context.read<CvBloc>().state.workModels.length;
+      softSkillsCount = context.read<CvBloc>().state.softSkills.length;
       softSkillModels = [...context.read<CvBloc>().state.softSkills];
       setState(() {});
     });

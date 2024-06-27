@@ -32,7 +32,7 @@ class _SkillInoutScreenState extends State<SkillInoutScreen> {
   void initState() {
     _listenControllers();
     Future.microtask(() {
-      skillsCount = context.read<CvBloc>().state.workModels.length;
+      skillsCount = context.read<CvBloc>().state.skills.length;
       skillModels = [...context.read<CvBloc>().state.skills];
       setState(() {});
     });

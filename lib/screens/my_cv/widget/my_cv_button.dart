@@ -10,11 +10,13 @@ class MyCvButton extends StatelessWidget {
     required this.title,
     required this.onTab,
     this.margin,
+    required this.subTitles,
   });
 
   final String title;
   final VoidCallback onTab;
   final EdgeInsets? margin;
+  final List<String> subTitles;
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +36,46 @@ class MyCvButton extends StatelessWidget {
             ),
           ),
           onPressed: onTab,
-          child: Text(
-            title,
-            style: AppTextStyle.seoulRobotoMedium.copyWith(
-              color: AppColors.c2A3256,
-              fontSize: 17.sp,
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: subTitles.isNotEmpty
+                ? CrossAxisAlignment.start
+                : CrossAxisAlignment.center,
+            children: [
+              Text(
+                title,
+                style: AppTextStyle.seoulRobotoMedium.copyWith(
+                  color: AppColors.c2A3256,
+                  fontSize: 17.sp,
+                ),
+              ),
+              6.getH(),
+              Wrap(
+                spacing: 10.we,
+                children: List.generate(
+                  subTitles.length,
+                  (index) {
+                    return Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          subTitles[index],
+                          style: AppTextStyle.seoulRobotoRegular.copyWith(
+                            color: AppColors.c010A27,
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                        Icon(
+                          Icons.close,
+                          weight: 20.we,
+                          color: AppColors.c010A27,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),

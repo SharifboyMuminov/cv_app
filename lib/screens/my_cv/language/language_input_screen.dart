@@ -1,4 +1,5 @@
 import 'package:cv_app/bloc/cv_bloc/cv_bloc.dart';
+import 'package:cv_app/bloc/cv_bloc/cv_event.dart';
 import 'package:cv_app/data/my_models/language/language_model.dart';
 import 'package:cv_app/screens/my_cv/widget/add_button.dart';
 import 'package:cv_app/screens/my_cv/widget/cv_input.dart';
@@ -30,7 +31,7 @@ class _LanguageInputScreenState extends State<LanguageInputScreen> {
   void initState() {
     _listenControllers();
     Future.microtask(() {
-      languagesCount = context.read<CvBloc>().state.workModels.length;
+      languagesCount = context.read<CvBloc>().state.languages.length;
       languageModels = [...context.read<CvBloc>().state.languages];
       setState(() {});
     });
@@ -66,7 +67,47 @@ class _LanguageInputScreenState extends State<LanguageInputScreen> {
             child: SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 16.we, vertical: 16.he),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Wrap(
+                    spacing: 10.we,
+                    children: List.generate(
+                      languageModels.length,
+                      (index) {
+                        return TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              side: BorderSide(
+                                  color: AppColors.c010A27, width: 1.we),
+                            ),
+                          ),
+                          onPressed: () {
+                            languageModels.remove(languageModels[index]);
+                            setState(() {});
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                languageModels[index].fluency,
+                                style: AppTextStyle.seoulRobotoRegular.copyWith(
+                                  color: AppColors.c010A27,
+                                  fontSize: 14.sp,
+                                ),
+                              ),
+                              Icon(
+                                Icons.close,
+                                weight: 20.we,
+                                color: AppColors.c010A27,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  10.getH(),
                   CvMyInput(
                     margin: EdgeInsets.symmetric(vertical: 6.he),
                     textEditingController: controllerLanguage,
@@ -82,7 +123,18 @@ class _LanguageInputScreenState extends State<LanguageInputScreen> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: MyAddButton(
-                      onTab: () {},
+                      onTab: () {
+                        FocusScope.of(context).unfocus();
+
+                        LanguageModel languageModel = LanguageModel(
+                          fluency: controllerFluency.text,
+                          language: controllerLanguage.text,
+                        );
+                        languageModels.add(languageModel);
+                        controllerFluency.clear();
+                        controllerLanguage.clear();
+                        setState(() {});
+                      },
                       active: check(),
                     ),
                   ),
@@ -91,8 +143,17 @@ class _LanguageInputScreenState extends State<LanguageInputScreen> {
             ),
           ),
           GlobalMyButton(
-            active: !check(),
-            onTab: () {},
+            active: languagesCount == languageModels.length,
+            onTab: () {
+              if (languageModels.length != languagesCount) {
+                context.read<CvBloc>().add(
+                      CvChangeLanguageEvent(
+                        languageModels: languageModels,
+                      ),
+                    );
+                Navigator.pop(context);
+              }
+            },
             title: "Save",
           ),
         ],

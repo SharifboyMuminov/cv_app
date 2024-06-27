@@ -1,21 +1,21 @@
-class CertificatesModel {
+class CertificateModel {
   final String title;
   final String issuer;
 
-  CertificatesModel({required this.title, required this.issuer});
+  CertificateModel({required this.title, required this.issuer});
 
-  CertificatesModel copyWith({
+  CertificateModel copyWith({
     String? title,
     String? issuer,
   }) {
-    return CertificatesModel(
+    return CertificateModel(
       title: title ?? this.title,
       issuer: issuer ?? this.issuer,
     );
   }
 
-  factory CertificatesModel.initial() {
-    return CertificatesModel(
+  factory CertificateModel.initial() {
+    return CertificateModel(
       title: "",
       issuer: "",
     );
