@@ -2,6 +2,7 @@ import 'package:cv_app/utils/app_colors.dart';
 import 'package:cv_app/utils/app_images.dart';
 import 'package:cv_app/utils/app_size.dart';
 import 'package:cv_app/utils/app_text_style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,6 +21,8 @@ class AuthMyInput extends StatelessWidget {
     this.errorText,
     this.maxLength,
     this.digitsOnly = false,
+    this.isCounterShow,
+     this.changed,
   });
 
   final TextEditingController textEditingController;
@@ -32,11 +35,14 @@ class AuthMyInput extends StatelessWidget {
   final TextInputAction? textInputAction;
   final String? errorText;
   final int? maxLength;
+  final bool? isCounterShow;
+  final ValueChanged<String>? changed;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       maxLength: maxLength,
+      cursorColor: CupertinoColors.activeOrange,
       inputFormatters: digitsOnly
           ? [
               FilteringTextInputFormatter.digitsOnly,
@@ -48,8 +54,12 @@ class AuthMyInput extends StatelessWidget {
       keyboardType: textInputType ?? TextInputType.text,
       style: AppTextStyle.seoulRobotoSemiBold.copyWith(
         fontSize: 16.sp,
+        fontWeight: FontWeight.w500
+
       ),
+      onChanged: changed,
       decoration: InputDecoration(
+        counterText: isCounterShow!=null?null:"",
         contentPadding:
             EdgeInsets.symmetric(horizontal: 16.we, vertical: 15.he),
         focusedBorder: OutlineInputBorder(

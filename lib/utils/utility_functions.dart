@@ -5,14 +5,14 @@ import 'package:image_picker/image_picker.dart';
 import '../data/models/image_model.dart';
 
 void takeAnImage(
-    BuildContext context, {
-      required int limit,
-      required List<ImageModel> images,
-      bool? isProfile,
-      ImageModel? imageModel,
-    }) {
+  BuildContext context, {
+  required int limit,
+  required List<ImageModel> images,
+  bool? isProfile,
+  ImageModel? imageModel,
+}) {
   showCupertinoModalPopup(
-    barrierDismissible: false,
+    barrierDismissible: true,
     context: context,
     builder: (context) {
       return CupertinoActionSheet(
@@ -29,26 +29,25 @@ void takeAnImage(
         actions: [
           CupertinoActionSheetAction(
             onPressed: () async {
-              await _getImageFromCamera(context,
-                  images: images, isProfile: isProfile);
+              await _getImageFromCamera(context);
             },
             child: Text(
               "takeCamera".tr(),
               style: const TextStyle(
                   color: CupertinoColors.activeBlue,
-                  fontWeight: FontWeight.w500),
+                  fontWeight: FontWeight.w400),
             ),
           ),
           CupertinoActionSheetAction(
             onPressed: () async {
               await _getImageFromGallery(context,
-                  images: images, limit: limit, isProfile: isProfile);
+                  limit: limit, isProfile: isProfile);
             },
             child: Text(
               "takeGallery".tr(),
               style: const TextStyle(
                   color: CupertinoColors.activeBlue,
-                  fontWeight: FontWeight.w500),
+                  fontWeight: FontWeight.w400),
             ),
           ),
         ],
@@ -57,52 +56,25 @@ void takeAnImage(
   );
 }
 
-
-
-
-
-
-
-
-
-
-
-
 Future<void> _getImageFromGallery(
-    BuildContext context, {
-      required int limit,
-      required List<ImageModel> images,
-      bool? isProfile,
-    }) async {
+  BuildContext context, {
+  required int limit,
+  bool? isProfile,
+}) async {
   final ImagePicker picker = ImagePicker();
 
-  if (limit != 1) {
-    List<XFile>? image = await picker.pickMultiImage(
-      limit: limit,
-      maxHeight: 1024,
-      maxWidth: 1024,
-    );
-    if (!context.mounted) return;
-    Navigator.pop(context);
-
-
-  } else {
-    XFile? image = await picker.pickImage(
-      maxHeight: 1024,
-      maxWidth: 1024,
-      source: ImageSource.gallery,
-    );
-    if (!context.mounted) return;
-
-    Navigator.pop(context);
-
-
-
-  }
+  XFile? image = await picker.pickImage(
+    maxHeight: 1024,
+    maxWidth: 1024,
+    source: ImageSource.gallery,
+  );
+  if (!context.mounted) return;
+  Navigator.pop(context);
 }
 
-Future<void> _getImageFromCamera(BuildContext context,
-    {required List<ImageModel> images, bool? isProfile}) async {
+Future<void> _getImageFromCamera(
+  BuildContext context,
+) async {
   final ImagePicker picker = ImagePicker();
 
   XFile? image = await picker.pickImage(
@@ -112,5 +84,4 @@ Future<void> _getImageFromCamera(BuildContext context,
   );
   if (!context.mounted) return;
   Navigator.pop(context);
-
 }

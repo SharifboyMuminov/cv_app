@@ -4,6 +4,7 @@ import 'package:cv_app/data/api/api_client.dart';
 import 'package:cv_app/data/local/storage_repository.dart';
 import 'package:cv_app/data/models/network_response.dart';
 import 'package:cv_app/data/models/user/user_model.dart';
+import 'package:cv_app/data/my_models/cv/cv_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -186,7 +187,7 @@ class ApiProvider extends ApiClient {
         );
         StorageRepository.setString(
           key: "access_token",
-          value: response.data["id"] as String? ?? "",
+          value: response.data["access_token"] as String? ?? "",
         );
         networkResponse.data = UserModel.fromJson(response.data);
       } else {
@@ -238,6 +239,29 @@ class ApiProvider extends ApiClient {
   }
 
   //TODO User ------------------------
+  Future<NetworkResponse> editProfile(
+      {required String name, required String phone}) async {
+    NetworkResponse networkResponse = NetworkResponse();
+    try {
+      Response response = await secureDio.put(
+        "https://api.cvmaker.uz/v1/users",
+        data: {
+          "full_name": name,
+          "phone_number": phone
+              .replaceAll("-", "")
+              .replaceAll("", "")
+              .substring(4, phone.length)
+        },
+      );
+      if (response.statusCode != null) {
+        if (response.statusCode! > 200 && response.statusCode! < 300) {}
+        networkResponse.data = UserModel.fromJson(response.data);
+      }
+    } catch (e) {
+      networkResponse.errorText = "Boshqa xatolik: $e";
+    }
+    return networkResponse;
+  }
 
   Future<NetworkResponse> getUser() async {
     NetworkResponse networkResponse = NetworkResponse();
@@ -272,6 +296,31 @@ class ApiProvider extends ApiClient {
 
       networkResponse.errorText = "Invalid code :(";
     }
+    return networkResponse;
+  }
+
+// TODO Generate cv
+
+  Future<NetworkResponse> generateCv({required CvModel cvModel}) async {
+    NetworkResponse networkResponse = NetworkResponse();
+    debugPrint(cvModel.metaModel.template);
+
+    try {
+      Response response = await secureDio.post(
+        "https://api.cvmaker.uz/v1/resume/generate-resume",
+        data: jsonEncode(cvModel.toJson()),
+      );
+      debugPrint("Natija: --- ${response.data}");
+    } on SocketException {
+      // debugPrint("No Internet connection");
+
+      networkResponse.errorText = "No Internet connection";
+    } catch (error) {
+      debugPrint("Invalid code :(");
+
+      networkResponse.errorText = "Invalid input :(";
+    }
+
     return networkResponse;
   }
 }

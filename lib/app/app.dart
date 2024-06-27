@@ -1,10 +1,18 @@
 import 'package:cv_app/bloc/auth/auth_bloc.dart';
+import 'package:cv_app/bloc/cv_bloc/cv_bloc.dart';
 import 'package:cv_app/bloc/user/user_bloc.dart';
+import 'package:cv_app/bloc/user/user_event.dart';
 import 'package:cv_app/data/api/api_provider.dart';
 import 'package:cv_app/data/repositories/auth_repository.dart';
+import 'package:cv_app/data/repositories/cv_repository.dart';
 import 'package:cv_app/data/repositories/user_repository.dart';
+import 'package:cv_app/screens/auth/sign_up/sing_up_screen.dart';
+import 'package:cv_app/screens/my_cv/my_cv_screen.dart';
 import 'package:cv_app/screens/tab/tab_screen.dart';
+import 'package:cv_app/screens/splash/splash_screen.dart';
+import 'package:cv_app/utils/app_size.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as mat;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,12 +24,14 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ApiProvider apiProvider = ApiProvider();
-
+    width = MediaQuery.sizeOf(context).width;
+    height = MediaQuery.sizeOf(context).height;
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(create: (_) => ApiProvider()),
         RepositoryProvider(create: (_) => UserRepository(apiProvider)),
         RepositoryProvider(create: (_) => AuthRepository(apiProvider)),
+        RepositoryProvider(create: (_) => CvRepository(apiProvider)),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -33,11 +43,16 @@ class App extends StatelessWidget {
           BlocProvider(
             create: (context) => UserBloc(
               context.read<UserRepository>(),
+            )..add(UserGetEvent()),
+          ),
+          BlocProvider(
+            create: (context) => CvBloc(
+              context.read<CvRepository>(),
             ),
           ),
         ],
         child: ScreenUtilInit(
-          designSize: const Size(414, 896),
+          designSize: const mat.Size(414, 896),
           minTextAdapt: true,
           splitScreenMode: true,
           builder: (context, child) {
@@ -49,7 +64,7 @@ class App extends StatelessWidget {
               home: child,
             );
           },
-          child: const TabScreen(),
+          child: const SplashScreen(),
         ),
       ),
     );

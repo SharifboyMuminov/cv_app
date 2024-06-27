@@ -7,4 +7,5 @@ class UserRepository {
   UserRepository(this._apiProvider);
 
   Future<NetworkResponse> getUser() => _apiProvider.getUser();
+  Future<NetworkResponse> putUser({required String name, required String phone}) => _apiProvider.editProfile(name: name, phone: phone);
 }
