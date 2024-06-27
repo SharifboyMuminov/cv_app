@@ -1,14 +1,7 @@
 import 'package:cv_app/bloc/cv_bloc/cv_event.dart';
 import 'package:cv_app/bloc/cv_bloc/cv_state.dart';
-import 'package:cv_app/data/my_models/certificate/certificate_model.dart';
 import 'package:cv_app/data/my_models/cv/cv_model.dart';
-import 'package:cv_app/data/my_models/interest/interest_model.dart';
-import 'package:cv_app/data/my_models/language/language_model.dart';
-import 'package:cv_app/data/my_models/profile/profiles_model.dart';
-import 'package:cv_app/data/my_models/project/project_model.dart';
-import 'package:cv_app/data/my_models/skill/skill_model.dart';
-import 'package:cv_app/data/my_models/soft_skill/soft_skill_model.dart';
-import 'package:cv_app/data/my_models/work/work_model.dart';
+import 'package:cv_app/data/my_models/meta/meta_model.dart';
 import 'package:cv_app/data/repositories/cv_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,21 +9,23 @@ class CvBloc extends Bloc<CvEvent, CvState> {
   CvBloc(this._cvRepository) : super(CvState.initial()) {
     on<CvGenerateEvent>(_cvGenerate);
     on<CvBasicsSaveEvent>(_basicsSave);
+    on<CvChangPdfStyleEvent>(_changePdfStyle);
     on<CvLocationSaveEvent>(_locationSave);
     on<CvMetaSaveEvent>(_metaSave);
-    on<CvAddOrRemoveProfileEvent>(_addOrRemoveProfile);
-    on<CvAddOrRemoveWorkEvent>(_addOrRemoveWork);
-    on<CvAddOrRemoveProjectsEvent>(_addOrRemoveProject);
-    on<CvAddOrRemoveCertificateEvent>(_addOrRemoveCertificate);
-    on<CvAddOrRemoveSkillEvent>(_addOrRemoveSkill);
-    on<CvAddOrRemoveSoftSkillEvent>(_addOrRemoveSoftSkill);
-    on<CvAddOrRemoveLanguageEvent>(_addOrRemoveLanguage);
-    on<CvAddOrRemoveInterestEvent>(_addOrRemoveInterest);
+    on<CvChangeProfileEvent>(_changeProfile);
+    on<CvChangeEducationEvent>(_changeEducation);
+    on<CvChangeWorkEvent>(_changeWork);
+    on<CvChangeProjectsEvent>(_changeProject);
+    on<CvChangeCertificateEvent>(_changeCertificate);
+    on<CvChangeSkillEvent>(_changeSkill);
+    on<CvChangeSoftSkillEvent>(_changeSoftSkill);
+    on<CvChangeLanguageEvent>(_changeLanguage);
+    on<CvChangeInterestEvent>(_changeInterest);
   }
 
   final CvRepository _cvRepository;
 
-  _cvGenerate(CvGenerateEvent event, emit) async {
+  Future<void> _cvGenerate(CvGenerateEvent event, emit) async {
     CvModel cvModel = CvModel(
       metaModel: state.metaModel,
       basicsModel: state.basicsModel.copyWith(
@@ -45,112 +40,74 @@ class CvBloc extends Bloc<CvEvent, CvState> {
       softSkillModels: state.softSkills,
       educationModels: state.educations,
       certificateModels: state.certificates,
+      salary: state.salary,
+      jobLocation: state.jobLocation,
     );
+
+    await _cvRepository.generateCv(cvModel: cvModel);
   }
 
   void _basicsSave(CvBasicsSaveEvent event, emit) {
-    emit(state.copyWith(basicsModel: event.basicsModel));
+    emit(
+      state.copyWith(
+        basicsModel: event.basicsModel,
+        jobLocation: event.jobLocation,
+        salary: event.salary,
+      ),
+    );
   }
 
   void _locationSave(CvLocationSaveEvent event, emit) {
     emit(state.copyWith(locationModel: event.locationModel));
   }
 
+  void _changePdfStyle(CvChangPdfStyleEvent event, emit) {
+    emit(
+      state.copyWith(
+        metaModel: MetaModel(
+          template: event.pdfStyleName,
+        ),
+      ),
+    );
+  }
+
   void _metaSave(CvMetaSaveEvent event, emit) {
     emit(state.copyWith(metaModel: event.metaModel));
   }
 
-  void _addOrRemoveProfile(CvAddOrRemoveProfileEvent event, emit) {
-    List<ProfileModel> p = state.profiles;
-
-    if (event.isRemove) {
-      p.remove(event.profileModel);
-    } else {
-      p.add(event.profileModel);
-    }
-
-    emit(state.copyWith(profiles: p));
+  void _changeProfile(CvChangeProfileEvent event, emit) {
+    emit(state.copyWith(profiles: event.profileModel));
   }
 
-  void _addOrRemoveWork(CvAddOrRemoveWorkEvent event, emit) {
-    List<WorkModel> p = state.workModels;
-    if (event.isRemove) {
-      p.remove(event.workModel);
-    } else {
-      p.add(event.workModel);
-    }
-
-    emit(state.copyWith(workModels: p));
+  void _changeWork(CvChangeWorkEvent event, emit) {
+    emit(state.copyWith(workModels: event.workModel));
   }
 
-  void _addOrRemoveProject(CvAddOrRemoveProjectsEvent event, emit) {
-    List<ProjectModel> p = state.projects;
-
-    if (event.isRemove) {
-      p.remove(event.projectModel);
-    } else {
-      p.add(event.projectModel);
-    }
-    emit(state.copyWith(projects: p));
+  void _changeProject(CvChangeProjectsEvent event, emit) {
+    emit(state.copyWith(projects: event.projectModels));
   }
 
-  void _addOrRemoveCertificate(CvAddOrRemoveCertificateEvent event, emit) {
-    List<CertificatesModel> p = state.certificates;
-
-    if (event.isRemove) {
-      p.remove(event.certificatesModel);
-    } else {
-      p.add(event.certificatesModel);
-    }
-
-    emit(state.copyWith(certificates: p));
+  void _changeCertificate(CvChangeCertificateEvent event, emit) {
+    emit(state.copyWith(certificates: event.certificatesModels));
   }
 
-  void _addOrRemoveSkill(CvAddOrRemoveSkillEvent event, emit) {
-    List<SkillModel> p = state.skills;
-
-    if (event.isRemove) {
-      p.remove(event.skillModel);
-    } else {
-      p.add(event.skillModel);
-    }
-
-    emit(state.copyWith(skills: p));
+  void _changeSkill(CvChangeSkillEvent event, emit) {
+    emit(state.copyWith(skills: event.skillModels));
   }
 
-  void _addOrRemoveSoftSkill(CvAddOrRemoveSoftSkillEvent event, emit) {
-    List<SoftSkillModel> p = state.softSkills;
-
-    if (event.isRemove) {
-      p.remove(event.softSkillModel);
-    } else {
-      p.add(event.softSkillModel);
-    }
-
-    emit(state.copyWith(softSkills: p));
+  void _changeSoftSkill(CvChangeSoftSkillEvent event, emit) {
+    emit(state.copyWith(softSkills: event.softSkillModels));
   }
 
-  void _addOrRemoveLanguage(CvAddOrRemoveLanguageEvent event, emit) {
-    List<LanguageModel> p = state.languages;
-
-    if (event.isRemove) {
-      p.remove(event.languageModel);
-    } else {
-      p.add(event.languageModel);
-    }
-
-    emit(state.copyWith(languages: p));
+  void _changeLanguage(CvChangeLanguageEvent event, emit) {
+    emit(state.copyWith(languages: event.languageModels));
   }
 
-  void _addOrRemoveInterest(CvAddOrRemoveInterestEvent event, emit) {
-    List<InterestModel> p = state.interests;
+  void _changeInterest(CvChangeInterestEvent event, emit) {
+    emit(state.copyWith(interests: event.interestModels));
+  }
 
-    if (event.isRemove) {
-      p.remove(event.interestModel);
-    } else {
-      p.add(event.interestModel);
-    }
-
-    emit(state.copyWith(interests: p));
+  void _changeEducation(CvChangeEducationEvent event, emit) {
+    emit(state.copyWith(educations: event.educationModels));
   }
 }

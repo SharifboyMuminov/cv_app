@@ -4,6 +4,7 @@ import 'package:cv_app/data/api/api_client.dart';
 import 'package:cv_app/data/local/storage_repository.dart';
 import 'package:cv_app/data/models/network_response.dart';
 import 'package:cv_app/data/models/user/user_model.dart';
+import 'package:cv_app/data/my_models/cv/cv_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -295,6 +296,31 @@ class ApiProvider extends ApiClient {
 
       networkResponse.errorText = "Invalid code :(";
     }
+    return networkResponse;
+  }
+
+// TODO Generate cv
+
+  Future<NetworkResponse> generateCv({required CvModel cvModel}) async {
+    NetworkResponse networkResponse = NetworkResponse();
+    debugPrint(cvModel.metaModel.template);
+
+    try {
+      Response response = await secureDio.post(
+        "https://api.cvmaker.uz/v1/resume/generate-resume",
+        data: jsonEncode(cvModel.toJson()),
+      );
+      debugPrint("Natija: --- ${response.data}");
+    } on SocketException {
+      // debugPrint("No Internet connection");
+
+      networkResponse.errorText = "No Internet connection";
+    } catch (error) {
+      debugPrint("Invalid code :(");
+
+      networkResponse.errorText = "Invalid input :(";
+    }
+
     return networkResponse;
   }
 }

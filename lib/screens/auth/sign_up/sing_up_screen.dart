@@ -212,6 +212,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (state.fromStatus == FromStatus.authenticated) {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
+
           return const TabScreen();
         },
       ), (route) => false);

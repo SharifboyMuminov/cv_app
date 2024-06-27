@@ -17,6 +17,8 @@ class CvState extends Equatable {
   final String errorText;
   final String statusMessage;
   final String message;
+  final String jobLocation;
+  final int salary;
   final FromStatus fromStatus;
   final BasicsModel basicsModel;
   final LocationModel locationModel;
@@ -25,13 +27,15 @@ class CvState extends Equatable {
   final List<WorkModel> workModels;
   final List<ProjectModel> projects;
   final List<EducationModel> educations;
-  final List<CertificatesModel> certificates;
+  final List<CertificateModel> certificates;
   final List<SkillModel> skills;
   final List<SoftSkillModel> softSkills;
   final List<LanguageModel> languages;
   final List<InterestModel> interests;
 
   const CvState({
+    required this.salary,
+    required this.jobLocation,
     required this.metaModel,
     required this.interests,
     required this.languages,
@@ -54,6 +58,8 @@ class CvState extends Equatable {
     String? errorText,
     String? statusMessage,
     String? message,
+    String? jobLocation,
+    int? salary,
     FromStatus? fromStatus,
     BasicsModel? basicsModel,
     MetaModel? metaModel,
@@ -62,7 +68,7 @@ class CvState extends Equatable {
     List<WorkModel>? workModels,
     List<ProjectModel>? projects,
     List<EducationModel>? educations,
-    List<CertificatesModel>? certificates,
+    List<CertificateModel>? certificates,
     List<SkillModel>? skills,
     List<SoftSkillModel>? softSkills,
     List<LanguageModel>? languages,
@@ -85,6 +91,8 @@ class CvState extends Equatable {
       fromStatus: fromStatus ?? this.fromStatus,
       statusMessage: statusMessage ?? this.statusMessage,
       message: message ?? this.message,
+      salary: salary ?? this.salary,
+      jobLocation: jobLocation ?? this.jobLocation,
     );
   }
 
@@ -106,18 +114,21 @@ class CvState extends Equatable {
       statusMessage: "",
       message: "",
       metaModel: MetaModel.initial(),
+      salary: 0,
+      jobLocation: "",
     );
   }
 
   @override
   List<Object?> get props => [
         fromStatus,
+        jobLocation,
+        salary,
         softSkills,
         interests,
         languages,
         skills,
         certificates,
-        educations,
         projects,
         errorText,
         statusMessage,
@@ -127,5 +138,6 @@ class CvState extends Equatable {
         profiles,
         workModels,
         metaModel,
+        educations,
       ];
 }

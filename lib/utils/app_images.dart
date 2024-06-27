@@ -36,5 +36,8 @@ class AppImages {
   static String emptyPng = "assets/images/empty.png";
   static String bookPng = "assets/images/book.png";
   static String dateIconPng = "assets/images/date_icon.png";
+  static String basicPng = "assets/images/basic.png";
+  static String classicPng = "assets/images/classic.png";
+  static String simplePng = "assets/images/simple.png";
 
 }

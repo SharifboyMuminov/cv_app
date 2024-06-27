@@ -1,3 +1,7 @@
+import 'package:cv_app/bloc/cv_bloc/cv_bloc.dart';
+import 'package:cv_app/bloc/cv_bloc/cv_event.dart';
+import 'package:cv_app/data/my_models/education/education_model.dart';
+import 'package:cv_app/screens/my_cv/widget/add_button.dart';
 import 'package:cv_app/screens/my_cv/widget/cv_input.dart';
 import 'package:cv_app/screens/widget/global_button.dart';
 import 'package:cv_app/utils/app_colors.dart';
@@ -5,6 +9,7 @@ import 'package:cv_app/utils/app_images.dart';
 import 'package:cv_app/utils/app_size.dart';
 import 'package:cv_app/utils/app_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -26,8 +31,16 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
   String startDate = "start date";
   String endDate = "end date";
 
+  List<EducationModel> educations = [];
+  int educationsCount = 0;
+
   @override
   void initState() {
+    Future.microtask(() {
+      educations = [...context.read<CvBloc>().state.educations];
+      educationsCount = context.read<CvBloc>().state.educations.length;
+      setState(() {});
+    });
     _listenControllers();
     super.initState();
   }
@@ -63,6 +76,45 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Wrap(
+                    spacing: 10.we,
+                    children: List.generate(
+                      educations.length,
+                      (index) {
+                        return TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              side: BorderSide(
+                                  color: AppColors.c010A27, width: 1.we),
+                            ),
+                          ),
+                          onPressed: () {
+                            educations.remove(educations[index]);
+                            setState(() {});
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                educations[index].institution,
+                                style: AppTextStyle.seoulRobotoRegular.copyWith(
+                                  color: AppColors.c010A27,
+                                  fontSize: 14.sp,
+                                ),
+                              ),
+                              Icon(
+                                Icons.close,
+                                weight: 20.we,
+                                color: AppColors.c010A27,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  15.getH(),
                   CvMyInput(
                     margin: EdgeInsets.symmetric(vertical: 6.he),
                     textEditingController: controllerInstitution,
@@ -176,18 +228,59 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
                       ),
                     ],
                   ),
+                  10.getH(),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: MyAddButton(
+                      onTab: _onTabAdd,
+                      active: check(),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
           GlobalMyButton(
-            active: !check(),
-            onTab: () {},
+            active: educationsCount == educations.length,
+            onTab: () {
+              if (educationsCount != educations.length) {
+                context.read<CvBloc>().add(
+                      CvChangeEducationEvent(
+                        educationModels: educations,
+                      ),
+                    );
+                Navigator.pop(context);
+              }
+            },
             title: "Save",
           ),
         ],
       ),
     );
+  }
+
+  _onTabAdd() {
+    FocusScope.of(context).unfocus();
+
+    EducationModel educationModel = EducationModel(
+      startDate: startDate.length == 4 ? startDate : "",
+      location: controllerLocation.text,
+      score: controllerScore.text,
+      area: controllerArea.text,
+      courses: controllerCourses.text.split(","),
+      endDate: endDate.length == 4 ? endDate : "",
+      institution: controllerInstitution.text,
+      studyType: controllerStudyType.text,
+    );
+    educations.add(educationModel);
+
+    controllerLocation.clear();
+    controllerScore.clear();
+    controllerArea.clear();
+    controllerCourses.clear();
+    controllerInstitution.clear();
+    controllerStudyType.clear();
+    setState(() {});
   }
 
   _onTabDate([bool isStartDate = false]) async {
@@ -213,7 +306,7 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
         }
       } else {
         if (startDate.length == 4) {
-          if (dateTime.year >= int.parse(startDate)) {
+          if (dateTime.year <= int.parse(startDate)) {
             _showMySnackBar();
           } else {
             endDate = dateTime.year.toString();
@@ -251,11 +344,11 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
   }
 
   bool check() {
-    return controllerInstitution.text.isNotEmpty ||
-        controllerArea.text.isNotEmpty ||
-        controllerStudyType.text.isNotEmpty ||
-        controllerLocation.text.isNotEmpty ||
-        controllerScore.text.isNotEmpty ||
+    return controllerInstitution.text.isNotEmpty &&
+        controllerArea.text.isNotEmpty &&
+        controllerStudyType.text.isNotEmpty &&
+        controllerLocation.text.isNotEmpty &&
+        controllerScore.text.isNotEmpty &&
         controllerCourses.text.isNotEmpty;
   }
 
