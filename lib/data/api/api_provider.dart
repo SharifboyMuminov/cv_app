@@ -280,6 +280,8 @@ class ApiProvider extends ApiClient {
 
   Future<NetworkResponse> generateCv({required CvModel cvModel}) async {
     NetworkResponse networkResponse = NetworkResponse();
+    debugPrint(cvModel.metaModel.template);
+
 
     try {
       Response response = await secureDio.post(
@@ -293,7 +295,7 @@ class ApiProvider extends ApiClient {
 
       networkResponse.errorText = "No Internet connection";
     } catch (error) {
-      // debugPrint("Invalid code :(");
+      debugPrint("Invalid code :(");
 
       networkResponse.errorText = "Invalid input :(";
     }

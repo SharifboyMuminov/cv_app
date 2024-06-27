@@ -5,6 +5,7 @@ import 'package:cv_app/data/api/api_provider.dart';
 import 'package:cv_app/data/repositories/auth_repository.dart';
 import 'package:cv_app/data/repositories/cv_repository.dart';
 import 'package:cv_app/data/repositories/user_repository.dart';
+import 'package:cv_app/screens/auth/sign_up/sing_up_screen.dart';
 import 'package:cv_app/screens/my_cv/my_cv_screen.dart';
 import 'package:cv_app/screens/tab/tab_screen.dart';
 import 'package:flutter/material.dart';

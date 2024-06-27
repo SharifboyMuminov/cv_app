@@ -11,6 +11,7 @@ import 'package:cv_app/screens/my_cv/profile/profile_input_screen.dart';
 import 'package:cv_app/screens/my_cv/projects/project_input_screen.dart';
 import 'package:cv_app/screens/my_cv/skill/skill_inout_screen.dart';
 import 'package:cv_app/screens/my_cv/soft_skills/soft_skill_input_screen.dart';
+import 'package:cv_app/screens/my_cv/ui_pdf/ui_pdf_screen.dart';
 import 'package:cv_app/screens/my_cv/widget/my_cv_button.dart';
 import 'package:cv_app/screens/my_cv/works/work_screen.dart';
 import 'package:cv_app/screens/widget/global_button.dart';
@@ -242,7 +243,19 @@ class _MyCvScreenState extends State<MyCvScreen> {
               ),
               GlobalMyButton(
                 onTab: () {
-                  context.read<CvBloc>().add(CvGenerateEvent());
+                  if (state.metaModel.template.isEmpty) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+
+                          return const UiPdfScreen();
+                        },
+                      ),
+                    );
+                  } else {
+                    context.read<CvBloc>().add(CvGenerateEvent());
+                  }
                 },
                 title: "Generate",
               ),

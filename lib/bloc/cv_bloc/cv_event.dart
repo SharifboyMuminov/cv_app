@@ -134,3 +134,12 @@ class CvChangeEducationEvent extends CvEvent {
   @override
   List<Object?> get props => [educationModels];
 }
+
+class CvChangPdfStyleEvent extends CvEvent {
+  final String pdfStyleName;
+
+  CvChangPdfStyleEvent({required this.pdfStyleName});
+
+  @override
+  List<Object?> get props => [pdfStyleName];
+}

@@ -100,7 +100,6 @@ class _MainInputScreenState extends State<MainInputScreen> {
                   ),
                   CvMyInput(
                     digitsOnly: true,
-                    errorText: errorTextEmail,
                     margin: EdgeInsets.symmetric(vertical: 6.he),
                     textEditingController: controllerSalary,
                     hintText: "Enter salary",

@@ -1,6 +1,7 @@
 import 'package:cv_app/bloc/cv_bloc/cv_event.dart';
 import 'package:cv_app/bloc/cv_bloc/cv_state.dart';
 import 'package:cv_app/data/my_models/cv/cv_model.dart';
+import 'package:cv_app/data/my_models/meta/meta_model.dart';
 import 'package:cv_app/data/repositories/cv_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,6 +9,7 @@ class CvBloc extends Bloc<CvEvent, CvState> {
   CvBloc(this._cvRepository) : super(CvState.initial()) {
     on<CvGenerateEvent>(_cvGenerate);
     on<CvBasicsSaveEvent>(_basicsSave);
+    on<CvChangPdfStyleEvent>(_changePdfStyle);
     on<CvLocationSaveEvent>(_locationSave);
     on<CvMetaSaveEvent>(_metaSave);
     on<CvChangeProfileEvent>(_changeProfile);
@@ -57,6 +59,16 @@ class CvBloc extends Bloc<CvEvent, CvState> {
 
   void _locationSave(CvLocationSaveEvent event, emit) {
     emit(state.copyWith(locationModel: event.locationModel));
+  }
+
+  void _changePdfStyle(CvChangPdfStyleEvent event, emit) {
+    emit(
+      state.copyWith(
+        metaModel: MetaModel(
+          template: event.pdfStyleName,
+        ),
+      ),
+    );
   }
 
   void _metaSave(CvMetaSaveEvent event, emit) {
