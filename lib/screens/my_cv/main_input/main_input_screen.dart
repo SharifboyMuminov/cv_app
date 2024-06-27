@@ -1,3 +1,7 @@
+import 'package:cv_app/bloc/cv_bloc/cv_bloc.dart';
+import 'package:cv_app/bloc/cv_bloc/cv_event.dart';
+import 'package:cv_app/data/my_models/basics/basics_model.dart';
+import 'package:cv_app/data/my_models/location/location_model.dart';
 import 'package:cv_app/screens/my_cv/widget/cv_input.dart';
 import 'package:cv_app/screens/widget/global_button.dart';
 import 'package:cv_app/utils/app_colors.dart';
@@ -6,6 +10,7 @@ import 'package:cv_app/utils/app_reg_exp.dart';
 import 'package:cv_app/utils/app_size.dart';
 import 'package:cv_app/utils/app_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -28,6 +33,20 @@ class _MainInputScreenState extends State<MainInputScreen> {
 
   @override
   void initState() {
+    Future.microtask(() {
+      _selectedItem = context.read<CvBloc>().state.jobLocation;
+      if (_selectedItem.isEmpty) {
+        _selectedItem = "offline";
+      }
+      controllerSalary.text =
+          context.read<CvBloc>().state.basicsModel.salary.toString();
+      controllerName.text = context.read<CvBloc>().state.basicsModel.name;
+      controllerEmail.text = context.read<CvBloc>().state.basicsModel.email;
+      controllerPhone.text = context.read<CvBloc>().state.basicsModel.phone;
+      controllerLabel.text = context.read<CvBloc>().state.basicsModel.label;
+
+      setState(() {});
+    });
     _listenControllers();
     super.initState();
   }
@@ -154,7 +173,29 @@ class _MainInputScreenState extends State<MainInputScreen> {
           ),
           GlobalMyButton(
             active: !check(),
-            onTab: () {},
+            onTab: () {
+              if (check()) {
+                context.read<CvBloc>().add(
+                      CvBasicsSaveEvent(
+                        basicsModel: BasicsModel(
+                          salary: int.parse(controllerSalary.text),
+                          name: controllerName.text,
+                          location: LocationModel.initial(),
+                          url: "",
+                          summary: "",
+                          email: controllerEmail.text,
+                          phone: controllerPhone.text,
+                          image: '',
+                          label: controllerLabel.text,
+                          profiles: [],
+                        ),
+                        salary: int.parse(controllerSalary.text),
+                        jobLocation: _selectedItem,
+                      ),
+                    );
+                Navigator.pop(context);
+              }
+            },
             title: "Save",
           ),
         ],

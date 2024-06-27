@@ -23,7 +23,7 @@ class CvBloc extends Bloc<CvEvent, CvState> {
 
   final CvRepository _cvRepository;
 
-  _cvGenerate(CvGenerateEvent event, emit) async {
+  Future<void> _cvGenerate(CvGenerateEvent event, emit) async {
     CvModel cvModel = CvModel(
       metaModel: state.metaModel,
       basicsModel: state.basicsModel.copyWith(
@@ -41,6 +41,8 @@ class CvBloc extends Bloc<CvEvent, CvState> {
       salary: state.salary,
       jobLocation: state.jobLocation,
     );
+
+    await _cvRepository.generateCv(cvModel: cvModel);
   }
 
   void _basicsSave(CvBasicsSaveEvent event, emit) {
