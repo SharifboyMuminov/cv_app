@@ -1,5 +1,6 @@
 import 'package:cv_app/data/my_models/basics/basics_model.dart';
 import 'package:cv_app/data/my_models/certificate/certificate_model.dart';
+import 'package:cv_app/data/my_models/education/education_model.dart';
 import 'package:cv_app/data/my_models/interest/interest_model.dart';
 import 'package:cv_app/data/my_models/language/language_model.dart';
 import 'package:cv_app/data/my_models/location/location_model.dart';
@@ -51,99 +52,85 @@ class CvLocationSaveEvent extends CvEvent {
   List<Object?> get props => [locationModel];
 }
 
-class CvAddOrRemoveProfileEvent extends CvEvent {
-  final ProfileModel profileModel;
-  final bool isRemove;
+class CvChangeProfileEvent extends CvEvent {
+  final List<ProfileModel> profileModel;
 
-  CvAddOrRemoveProfileEvent({
+  CvChangeProfileEvent({
     required this.profileModel,
-    required this.isRemove,
   });
 
   @override
-  List<Object?> get props => [profileModel, isRemove];
+  List<Object?> get props => [profileModel];
 }
 
-class CvAddOrRemoveWorkEvent extends CvEvent {
-  final WorkModel workModel;
-  final bool isRemove;
+class CvChangeWorkEvent extends CvEvent {
+  final List<WorkModel> workModel;
 
-  CvAddOrRemoveWorkEvent({required this.workModel, required this.isRemove});
+  CvChangeWorkEvent({required this.workModel});
 
   @override
-  List<Object?> get props => [workModel, isRemove];
+  List<Object?> get props => [workModel];
 }
 
-class CvAddOrRemoveProjectsEvent extends CvEvent {
-  final ProjectModel projectModel;
-  final bool isRemove;
+class CvChangeProjectsEvent extends CvEvent {
+  final List<ProjectModel> projectModels;
 
-  CvAddOrRemoveProjectsEvent(
-      {required this.projectModel, required this.isRemove});
+  CvChangeProjectsEvent({required this.projectModels});
 
   @override
-  List<Object?> get props => [projectModel, isRemove];
+  List<Object?> get props => [projectModels];
 }
 
-class CvAddOrRemoveCertificateEvent extends CvEvent {
-  final CertificatesModel certificatesModel;
-  final bool isRemove;
+class CvChangeCertificateEvent extends CvEvent {
+  final List<CertificatesModel> certificatesModels;
 
-  CvAddOrRemoveCertificateEvent(
-      {required this.certificatesModel, required this.isRemove});
+  CvChangeCertificateEvent({required this.certificatesModels});
 
   @override
-  List<Object?> get props => [certificatesModel, isRemove];
+  List<Object?> get props => [certificatesModels];
 }
 
-class CvAddOrRemoveSkillEvent extends CvEvent {
-  final SkillModel skillModel;
-  final bool isRemove;
+class CvChangeSkillEvent extends CvEvent {
+  final List<SkillModel> skillModels;
 
-  CvAddOrRemoveSkillEvent({
-    required this.skillModel,
-    required this.isRemove,
-  });
+  CvChangeSkillEvent({required this.skillModels});
 
   @override
-  List<Object?> get props => [skillModel, isRemove];
+  List<Object?> get props => [skillModels];
 }
 
-class CvAddOrRemoveSoftSkillEvent extends CvEvent {
-  final SoftSkillModel softSkillModel;
-  final bool isRemove;
+class CvChangeSoftSkillEvent extends CvEvent {
+  final List<SoftSkillModel> softSkillModels;
 
-  CvAddOrRemoveSoftSkillEvent({
-    required this.softSkillModel,
-    required this.isRemove,
-  });
+  CvChangeSoftSkillEvent({required this.softSkillModels});
 
   @override
-  List<Object?> get props => [softSkillModel, isRemove];
+  List<Object?> get props => [softSkillModels];
 }
 
-class CvAddOrRemoveLanguageEvent extends CvEvent {
-  final LanguageModel languageModel;
-  final bool isRemove;
+class CvChangeLanguageEvent extends CvEvent {
+  final List<LanguageModel> languageModels;
 
-  CvAddOrRemoveLanguageEvent({
-    required this.languageModel,
-    required this.isRemove,
-  });
+  CvChangeLanguageEvent({required this.languageModels});
 
   @override
-  List<Object?> get props => [languageModel, isRemove];
+  List<Object?> get props => [languageModels];
 }
 
-class CvAddOrRemoveInterestEvent extends CvEvent {
-  final InterestModel interestModel;
-  final bool isRemove;
+class CvChangeInterestEvent extends CvEvent {
+  final List<InterestModel> interestModels;
 
-  CvAddOrRemoveInterestEvent({
-    required this.interestModel,
-    required this.isRemove,
-  });
+  CvChangeInterestEvent({required this.interestModels});
 
   @override
-  List<Object?> get props => [interestModel, isRemove];
+  List<Object?> get props => [interestModels];
+}
+
+class CvChangeEducationEvent extends CvEvent {
+  final List<EducationModel> educationModels;
+
+  CvChangeEducationEvent({required this.educationModels});
+
+  @override
+  List<Object?> get props => [educationModels];
 }

@@ -7,7 +7,7 @@ import 'package:cv_app/screens/my_cv/profile/profile_input_screen.dart';
 import 'package:cv_app/screens/my_cv/projects/project_input_screen.dart';
 import 'package:cv_app/screens/my_cv/skill/skill_inout_screen.dart';
 import 'package:cv_app/screens/my_cv/soft_skills/soft_skill_input_screen.dart';
-import 'package:cv_app/screens/my_cv/works/my_cv_button.dart';
+import 'package:cv_app/screens/my_cv/widget/my_cv_button.dart';
 import 'package:cv_app/screens/my_cv/works/work_screen.dart';
 import 'package:cv_app/utils/app_colors.dart';
 import 'package:cv_app/utils/app_images.dart';

@@ -1,7 +1,8 @@
 import 'package:cv_app/bloc/cv_bloc/cv_bloc.dart';
+import 'package:cv_app/bloc/cv_bloc/cv_event.dart';
 import 'package:cv_app/data/my_models/profile/profiles_model.dart';
 import 'package:cv_app/screens/my_cv/widget/cv_input.dart';
-import 'package:cv_app/screens/my_cv/works/add_button.dart';
+import 'package:cv_app/screens/my_cv/widget/add_button.dart';
 import 'package:cv_app/screens/widget/global_button.dart';
 import 'package:cv_app/utils/app_colors.dart';
 import 'package:cv_app/utils/app_images.dart';
@@ -138,7 +139,14 @@ class _ProfileInputScreenState extends State<ProfileInputScreen> {
           ),
           GlobalMyButton(
             active: countLinks == profileLink.length,
-            onTab: () {},
+            onTab: () {
+              if (countLinks != profileLink.length) {
+                context.read<CvBloc>().add(
+                      CvChangeProfileEvent(profileModel: profileLink),
+                    );
+                Navigator.pop(context);
+              }
+            },
             title: "Save",
           ),
         ],
@@ -147,6 +155,8 @@ class _ProfileInputScreenState extends State<ProfileInputScreen> {
   }
 
   _onTabAdd() {
+    FocusScope.of(context).unfocus();
+
     ProfileModel profileModel = ProfileModel(
       network: controllerNetwork.text,
       url: controllerUrl.text,

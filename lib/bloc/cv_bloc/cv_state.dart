@@ -129,7 +129,6 @@ class CvState extends Equatable {
         languages,
         skills,
         certificates,
-        educations,
         projects,
         errorText,
         statusMessage,
@@ -139,5 +138,6 @@ class CvState extends Equatable {
         profiles,
         workModels,
         metaModel,
+        educations,
       ];
 }
