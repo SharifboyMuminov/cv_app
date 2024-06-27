@@ -1,6 +1,7 @@
 import 'package:cv_app/bloc/cv_bloc/cv_event.dart';
 import 'package:cv_app/bloc/cv_bloc/cv_state.dart';
 import 'package:cv_app/data/my_models/certificate/certificate_model.dart';
+import 'package:cv_app/data/my_models/cv/cv_model.dart';
 import 'package:cv_app/data/my_models/interest/interest_model.dart';
 import 'package:cv_app/data/my_models/language/language_model.dart';
 import 'package:cv_app/data/my_models/profile/profiles_model.dart';
@@ -8,10 +9,11 @@ import 'package:cv_app/data/my_models/project/project_model.dart';
 import 'package:cv_app/data/my_models/skill/skill_model.dart';
 import 'package:cv_app/data/my_models/soft_skill/soft_skill_model.dart';
 import 'package:cv_app/data/my_models/work/work_model.dart';
+import 'package:cv_app/data/repositories/cv_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CvBloc extends Bloc<CvEvent, CvState> {
-  CvBloc() : super(CvState.initial()) {
+  CvBloc(this._cvRepository) : super(CvState.initial()) {
     on<CvGenerateEvent>(_cvGenerate);
     on<CvBasicsSaveEvent>(_basicsSave);
     on<CvLocationSaveEvent>(_locationSave);
@@ -26,7 +28,25 @@ class CvBloc extends Bloc<CvEvent, CvState> {
     on<CvAddOrRemoveInterestEvent>(_addOrRemoveInterest);
   }
 
-  _cvGenerate(CvGenerateEvent event, emit) async {}
+  final CvRepository _cvRepository;
+
+  _cvGenerate(CvGenerateEvent event, emit) async {
+    CvModel cvModel = CvModel(
+      metaModel: state.metaModel,
+      basicsModel: state.basicsModel.copyWith(
+        location: state.locationModel,
+        profiles: state.profiles,
+      ),
+      workModels: state.workModels,
+      languageModels: state.languages,
+      interestModels: state.interests,
+      projectModels: state.projects,
+      skillModels: state.skills,
+      softSkillModels: state.softSkills,
+      educationModels: state.educations,
+      certificateModels: state.certificates,
+    );
+  }
 
   void _basicsSave(CvBasicsSaveEvent event, emit) {
     emit(state.copyWith(basicsModel: event.basicsModel));

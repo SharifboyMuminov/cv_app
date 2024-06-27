@@ -1,7 +1,9 @@
 import 'package:cv_app/bloc/auth/auth_bloc.dart';
+import 'package:cv_app/bloc/cv_bloc/cv_bloc.dart';
 import 'package:cv_app/bloc/user/user_bloc.dart';
 import 'package:cv_app/data/api/api_provider.dart';
 import 'package:cv_app/data/repositories/auth_repository.dart';
+import 'package:cv_app/data/repositories/cv_repository.dart';
 import 'package:cv_app/data/repositories/user_repository.dart';
 import 'package:cv_app/screens/my_cv/my_cv_screen.dart';
 import 'package:cv_app/screens/tab/tab_screen.dart';
@@ -23,6 +25,7 @@ class App extends StatelessWidget {
         RepositoryProvider(create: (_) => ApiProvider()),
         RepositoryProvider(create: (_) => UserRepository(apiProvider)),
         RepositoryProvider(create: (_) => AuthRepository(apiProvider)),
+        RepositoryProvider(create: (_) => CvRepository(apiProvider)),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -34,6 +37,11 @@ class App extends StatelessWidget {
           BlocProvider(
             create: (context) => UserBloc(
               context.read<UserRepository>(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => CvBloc(
+              context.read<CvRepository>(),
             ),
           ),
         ],
