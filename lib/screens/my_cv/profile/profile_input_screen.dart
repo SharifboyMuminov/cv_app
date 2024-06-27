@@ -30,7 +30,7 @@ class _ProfileInputScreenState extends State<ProfileInputScreen> {
   @override
   void initState() {
     Future.microtask(() {
-      profileLink = context.read<CvBloc>().state.profiles;
+      profileLink = [...context.read<CvBloc>().state.profiles];
       countLinks = context.read<CvBloc>().state.profiles.length;
       setState(() {});
     });
@@ -67,28 +67,47 @@ class _ProfileInputScreenState extends State<ProfileInputScreen> {
             child: SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 16.we, vertical: 16.he),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ...List.generate(
-                    profileLink.length,
-                    (index) {
-                      return TextButton(
-                        onPressed: () {},
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              profileLink[index].network,
-                              style: AppTextStyle.seoulRobotoRegular.copyWith(
-                                color: AppColors.c010A27,
-                                fontSize: 12.sp,
-                              ),
+                  Wrap(
+                    spacing: 10.we,
+                    children: List.generate(
+                      profileLink.length,
+                      (index) {
+                        return TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              side: BorderSide(
+                                  color: AppColors.c010A27, width: 1.we),
                             ),
-                          ],
-                        ),
-                      );
-                    },
+                          ),
+                          onPressed: () {
+                            profileLink.remove(profileLink[index]);
+                            setState(() {});
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                profileLink[index].network,
+                                style: AppTextStyle.seoulRobotoRegular.copyWith(
+                                  color: AppColors.c010A27,
+                                  fontSize: 14.sp,
+                                ),
+                              ),
+                              Icon(
+                                Icons.close,
+                                weight: 20.we,
+                                color: AppColors.c010A27,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
+                  15.getH(),
                   CvMyInput(
                     margin: EdgeInsets.symmetric(vertical: 6.he),
                     textEditingController: controllerNetwork,
@@ -106,9 +125,12 @@ class _ProfileInputScreenState extends State<ProfileInputScreen> {
                     hintText: "url",
                   ),
                   10.getH(),
-                  MyAddButton(
-                    onTab: _onTabAdd,
-                    active: check(),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: MyAddButton(
+                      onTab: _onTabAdd,
+                      active: check(),
+                    ),
                   ),
                 ],
               ),
