@@ -67,5 +67,12 @@
     <string>Post and share photos</string>
     <key>NSCameraUsageDescription</key>
     <string>Post and share photos</string>
+
+
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your photo library to save files.</string>
+    <key>NSDocumentsFolderUsageDescription</key>
+    <string>We need access to your documents folder to save files.</string>
+
 </dict>
 </plist>

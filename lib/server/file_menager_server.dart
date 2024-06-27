@@ -25,11 +25,10 @@ class FileManagerService {
   Future<bool> _requestWritePermission() async {
     final info = await DeviceInfoPlugin().androidInfo;
     if (Platform.isAndroid && info.version.sdkInt > 29) {
-      await Permission.manageExternalStorage.request();
+      return await Permission.manageExternalStorage.request().isGranted;
     } else {
-      await Permission.storage.request();
+      return await Permission.storage.request().isGranted;
     }
-    return await Permission.storage.request().isGranted;
   }
 
   Future<Directory?> getDownloadPath() async {
@@ -50,18 +49,19 @@ class FileManagerService {
   }
 
   Future<FileStatusModel> checkFile(String urlPdf) async {
-    await _init();
+    // await _init();
     FileStatusModel fileStatusModel = FileStatusModel(
       isExist: false,
       newFileLocation: "",
     );
+    final myDirectory = await getExternalStorageDirectory();
     //Check for url validation
 
     String savedLocation = '';
 
     List<String> pattern = urlPdf.split(".");
     savedLocation =
-        "${directory?.path}/${(urlPdf.split("/").last).replaceAll(".pdf", "")}.${pattern.last}";
+        "${myDirectory?.path}/${(urlPdf.split("/").last).replaceAll(".pdf", "")}.${pattern.last}";
     fileStatusModel = fileStatusModel.copyWith(newFileLocation: savedLocation);
 
     var allFiles = directory?.list();

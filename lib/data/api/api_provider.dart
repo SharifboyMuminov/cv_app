@@ -210,29 +210,39 @@ class ApiProvider extends ApiClient {
     NetworkResponse networkResponse = NetworkResponse();
 
     try {
-      FileStatusModel fileStatusModel =
-          await FileManagerService().checkFile("https://media.cvmaker.uz/resumes/JohnDoeRust4a738CVMaker.pdf");
+      FileStatusModel fileStatusModel = await FileManagerService().checkFile(
+          "https://media.cvmaker.uz/resumes/JohnDoeRust4a738CVMaker.pdf");
+      debugPrint("Error: ${fileStatusModel.newFileLocation}");
+
 
       if (fileStatusModel.isExist) {
         networkResponse.data = fileStatusModel;
         return networkResponse;
         // OpenFilex.open(fileStatusModel.newFileLocation);
       }
-      Response response = await secureDio.download(
-          urlPdfFile, fileStatusModel.newFileLocation,
+      // debugPrint("Error: ${StorageRepository.getString(key: "access_token")}");
+
+
+      Response response = await dio.download(
+          "https://media.cvmaker.uz/resumes/JohnDoeRust4a738CVMaker.pdf", fileStatusModel.newFileLocation,
           onReceiveProgress: (count, total) async {});
 
       int statusCode = (response.statusCode ?? 400);
       if (statusCode >= 200 && statusCode <= 300) {
         networkResponse.data = fileStatusModel;
       } else {
+        debugPrint("Error else -------");
         networkResponse.errorText = "Error Invalid Url :(";
       }
 
       // OpenFilex.open(fileStatusModel.newFileLocation);
     } on SocketException {
+      debugPrint("Error SocketException -------");
+
       networkResponse.errorText = "No Internet connection";
     } catch (error) {
+      debugPrint("Error catch (error) -------");
+
       networkResponse.errorText = "Invalid :(";
     }
 
