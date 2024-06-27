@@ -34,7 +34,7 @@ class _WorkScreenState extends State<WorkScreen> {
       appBar: AppBar(
         centerTitle: false,
         title: Text(
-          "Work experience",
+          "Professional Experience",
           style: AppTextStyle.seoulRobotoMedium.copyWith(
             color: AppColors.c010A27,
             fontSize: 20.sp,

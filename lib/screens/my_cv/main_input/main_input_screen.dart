@@ -38,7 +38,7 @@ class _MainInputScreenState extends State<MainInputScreen> {
       appBar: AppBar(
         centerTitle: false,
         title: Text(
-          "Main",
+          "Personal details",
           style: AppTextStyle.seoulRobotoMedium.copyWith(
             color: AppColors.c010A27,
             fontSize: 20.sp,

@@ -52,6 +52,7 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
             AppImages.arrowBackSvg,
             width: 24.we,
             height: 24.we,
+
           ),
         ),
       ),
