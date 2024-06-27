@@ -4,7 +4,9 @@ import 'package:cv_app/data/api/api_provider.dart';
 import 'package:cv_app/data/repositories/auth_repository.dart';
 import 'package:cv_app/data/repositories/user_repository.dart';
 import 'package:cv_app/screens/tab/tab_screen.dart';
+import 'package:cv_app/utils/app_size.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as mat;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,7 +18,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ApiProvider apiProvider = ApiProvider();
-
+    width = MediaQuery.sizeOf(context).width;
+    height = MediaQuery.sizeOf(context).height;
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(create: (_) => ApiProvider()),
@@ -37,7 +40,7 @@ class App extends StatelessWidget {
           ),
         ],
         child: ScreenUtilInit(
-          designSize: const Size(414, 896),
+          designSize: const mat.Size(414, 896),
           minTextAdapt: true,
           splitScreenMode: true,
           builder: (context, child) {

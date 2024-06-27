@@ -6,5 +6,18 @@
   "uz": "Uzbek",
   "en": "English",
   "language": "Til",
-  "log_out":"CHiqish"
+  "log_out": "CHiqish",
+  "cv_generate": "Rezyume yaratish",
+  "home": "Asosiy",
+  "profile": "Profil",
+  "online": "Onlayn",
+  "offline": "Offlayn",
+  "both": "Ikkisi ham",
+  "add_photo": "Rasm Qo'shish",
+  "takeGallery": "Galereyadan tanlash",
+  "takeCamera": "Kamerdan olish",
+  "work_type": "Ish turi:",
+  "add": "Qo'shish"
+
+
 }
