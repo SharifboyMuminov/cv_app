@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cv_app/data/api/api_client.dart';
 import 'package:cv_app/data/local/storage_repository.dart';
+import 'package:cv_app/data/models/file_status/file_status_model.dart';
 import 'package:cv_app/data/models/network_response.dart';
 import 'package:cv_app/data/models/user/user_model.dart';
 import 'package:cv_app/data/my_models/cv/cv_model.dart';
+import 'package:cv_app/server/file_menager_server.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -198,6 +200,40 @@ class ApiProvider extends ApiClient {
       networkResponse.errorText = "No Internet connection";
     } catch (error) {
       networkResponse.errorText = "Invalid code :(";
+    }
+
+    return networkResponse;
+  }
+
+// TODO downloadFile -----------------------
+  Future<NetworkResponse> downloadFile({required String urlPdfFile}) async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    try {
+      FileStatusModel fileStatusModel =
+          await FileManagerService().checkFile(urlPdfFile);
+
+      if (fileStatusModel.isExist) {
+        networkResponse.data = fileStatusModel;
+        return networkResponse;
+        // OpenFilex.open(fileStatusModel.newFileLocation);
+      }
+      Response response = await secureDio.download(
+          urlPdfFile, fileStatusModel.newFileLocation,
+          onReceiveProgress: (count, total) async {});
+
+      int statusCode = (response.statusCode ?? 400);
+      if (statusCode >= 200 && statusCode <= 300) {
+        networkResponse.data = fileStatusModel;
+      } else {
+        networkResponse.errorText = "Error Invalid Url :(";
+      }
+
+      // OpenFilex.open(fileStatusModel.newFileLocation);
+    } on SocketException {
+      networkResponse.errorText = "No Internet connection";
+    } catch (error) {
+      networkResponse.errorText = "Invalid :(";
     }
 
     return networkResponse;
