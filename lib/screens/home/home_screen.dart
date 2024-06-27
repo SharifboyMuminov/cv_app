@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ? Center(
               child: Image.network(imageUrl),
             )
-          : SizedBox(),
+          : const SizedBox(),
 
     );
   }

@@ -17,12 +17,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             statusMessage: "",
           ),
         ) {
-    on<UserCallEvent>(_userCall);
+    on<UserGetEvent>(_userCall);
+    on<UserUpdateEvent>(_userUpdate);
   }
 
   final UserRepository _userRepository;
 
-  Future<void> _userCall(UserCallEvent event, emit) async {
+  Future<void> _userCall(UserGetEvent event, emit) async {
     emit(state.copyWith(fromStatus: FromStatus.loading));
 
     NetworkResponse networkResponse = await _userRepository.getUser();
@@ -50,6 +51,20 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           ),
         );
       }
+    }
+  }
+
+  _userUpdate(UserUpdateEvent event, emit) async {
+    emit(state.copyWith(fromStatus: FromStatus.loading));
+    NetworkResponse networkResponse =
+        await _userRepository.putUser(name: event.name, phone: event.phone);
+    if(networkResponse.errorText.isEmpty){
+      emit(
+        state.copyWith(
+          fromStatus: FromStatus.success,
+          userModel: networkResponse.data,
+        ),
+      );
     }
   }
 }

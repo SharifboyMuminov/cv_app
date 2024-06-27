@@ -23,7 +23,7 @@ class UserModel {
       fullName: json['full_name'] as String? ?? "",
       email: json['email'] as String? ?? "",
       imageUrl: json['image_url'] as String? ?? "",
-      phoneNum: json['phone_num'] as String? ?? "",
+      phoneNum: json['phone_number'] as String? ?? "",
       role: json['role'] as String? ?? "",
       refreshToken: json['refresh_token'] as String? ?? "",
     );

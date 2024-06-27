@@ -1,10 +1,26 @@
 {
   "all_cvs": "Barcha Cvlar",
   "my_profile": "Akkountim",
-  "hidden_acc": "Yashirin Cv",
+  "hidden_acc": "Yashirin rezyume",
   "cancel": "Orqaga",
-  "uz": "Uzbek",
-  "en": "English",
+  "uz": "Uzbek 🇺🇿",
+  "en": "English 🇺🇸",
   "language": "Til",
-  "log_out":"CHiqish"
+  "log_out": "Chiqish",
+  "cv_generate": "Rezyume yaratish",
+  "home": "Asosiy",
+  "profile": "Profil",
+  "online": "Onlayn",
+  "offline": "Offlayn",
+  "both": "Ikkisi ham",
+  "add_photo": "Rasm Qo'shish",
+  "takeGallery": "Galereyadan tanlash",
+  "takeCamera": "Kamerdan olish",
+  "work_type": "Ish turi:",
+  "add": "Qo'shish",
+  "edit_profile": "Profilni tahrirlash",
+  "edit": "Tahrirlash"
+
+
+
 }
