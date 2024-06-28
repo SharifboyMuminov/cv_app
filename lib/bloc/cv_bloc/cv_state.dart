@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cv_app/data/models/from_status/from_status.dart';
 import 'package:cv_app/data/my_models/basics/basics_model.dart';
 import 'package:cv_app/data/my_models/certificate/certificate_model.dart';
@@ -32,8 +34,12 @@ class CvState extends Equatable {
   final List<SoftSkillModel> softSkills;
   final List<LanguageModel> languages;
   final List<InterestModel> interests;
+  final File? imageFile;
+  final String pdfUrl;
 
   const CvState({
+    required this.pdfUrl,
+    this.imageFile,
     required this.salary,
     required this.jobLocation,
     required this.metaModel,
@@ -58,6 +64,7 @@ class CvState extends Equatable {
     String? errorText,
     String? statusMessage,
     String? message,
+    String? pdfUrl,
     String? jobLocation,
     int? salary,
     FromStatus? fromStatus,
@@ -73,8 +80,11 @@ class CvState extends Equatable {
     List<SoftSkillModel>? softSkills,
     List<LanguageModel>? languages,
     List<InterestModel>? interests,
+    File? imageFile,
   }) {
     return CvState(
+      pdfUrl: pdfUrl ?? this.pdfUrl,
+      imageFile: imageFile ?? this.imageFile,
       metaModel: metaModel ?? this.metaModel,
       interests: interests ?? this.interests,
       languages: languages ?? this.languages,
@@ -116,12 +126,15 @@ class CvState extends Equatable {
       metaModel: MetaModel.initial(),
       salary: 0,
       jobLocation: "",
+      pdfUrl: '',
     );
   }
 
   @override
   List<Object?> get props => [
+        imageFile,
         fromStatus,
+        pdfUrl,
         jobLocation,
         salary,
         softSkills,

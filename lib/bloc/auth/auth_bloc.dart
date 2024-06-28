@@ -3,6 +3,7 @@ import 'package:cv_app/bloc/auth/auth_state.dart';
 import 'package:cv_app/data/models/from_status/from_status.dart';
 import 'package:cv_app/data/models/network_response.dart';
 import 'package:cv_app/data/repositories/auth_repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {

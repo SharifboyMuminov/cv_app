@@ -27,7 +27,6 @@ class ApiProvider extends ApiClient {
         data: jsonEncode(
             {"email": email, "full_name": fullName, "password": password}),
       );
-
       int statusCode = (response.statusCode ?? 400);
 
       if (statusCode < 200 || statusCode > 300) {

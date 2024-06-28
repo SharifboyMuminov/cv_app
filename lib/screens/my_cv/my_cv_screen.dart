@@ -1,6 +1,9 @@
 import 'package:cv_app/bloc/cv_bloc/cv_bloc.dart';
 import 'package:cv_app/bloc/cv_bloc/cv_event.dart';
 import 'package:cv_app/bloc/cv_bloc/cv_state.dart';
+import 'package:cv_app/bloc/download_cv/download_cv_bloc.dart';
+import 'package:cv_app/bloc/download_cv/download_cv_event.dart';
+import 'package:cv_app/data/models/from_status/from_status.dart';
 import 'package:cv_app/screens/my_cv/certificates/certificate_input_screen.dart';
 import 'package:cv_app/screens/my_cv/education/education_input_screen.dart';
 import 'package:cv_app/screens/my_cv/interest/interest_input_screen.dart';
@@ -272,7 +275,18 @@ class _MyCvScreenState extends State<MyCvScreen> {
             ],
           );
         },
-        listener: (BuildContext context, CvState state) {},
+        listener: (BuildContext context, CvState state) {
+          if (state.fromStatus == FromStatus.success) {
+            if (state.pdfUrl.isNotEmpty) {
+              context.read<DownloadCvBloc>().add(
+                    DownloadCvNewEvent(
+                      downloadUrl: state.pdfUrl,
+                    ),
+                  );
+              context.read<CvBloc>().add(CvInitialEvent());
+            }
+          }
+        },
       ),
     );
   }

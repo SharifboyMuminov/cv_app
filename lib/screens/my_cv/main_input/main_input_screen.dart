@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cv_app/bloc/cv_bloc/cv_bloc.dart';
 import 'package:cv_app/bloc/cv_bloc/cv_event.dart';
 import 'package:cv_app/data/my_models/basics/basics_model.dart';
 import 'package:cv_app/data/my_models/location/location_model.dart';
+import 'package:cv_app/screens/dialog/image_dialog.dart';
 import 'package:cv_app/screens/widget/cv_input.dart';
 import 'package:cv_app/screens/widget/global_button.dart';
 import 'package:cv_app/utils/app_colors.dart';
@@ -14,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MainInputScreen extends StatefulWidget {
   const MainInputScreen({super.key});
@@ -31,6 +35,7 @@ class _MainInputScreenState extends State<MainInputScreen> {
 
   String? errorTextEmail;
   String _selectedItem = "offline";
+  File? imageFile;
 
   @override
   void initState() {
@@ -45,6 +50,7 @@ class _MainInputScreenState extends State<MainInputScreen> {
       controllerEmail.text = context.read<CvBloc>().state.basicsModel.email;
       controllerPhone.text = context.read<CvBloc>().state.basicsModel.phone;
       controllerLabel.text = context.read<CvBloc>().state.basicsModel.label;
+      imageFile = context.read<CvBloc>().state.imageFile;
 
       setState(() {});
     });
@@ -81,8 +87,58 @@ class _MainInputScreenState extends State<MainInputScreen> {
             child: SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 16.we, vertical: 16.he),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  // showImageDialog
+
+                  SizedBox(
+                    child: GestureDetector(
+                      child: Container(
+                        width: 90.w,
+                        height: 90.w,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: imageFile != null
+                                ? FileImage(imageFile!)
+                                : const NetworkImage(
+                                    "https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png",
+                                  ),
+                            colorFilter: const ColorFilter.mode(
+                                Colors.white, BlendMode.srcIn),
+                          ),
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color(
+                                CupertinoColors.activeBlue.value,
+                              ).withOpacity(.6),
+                              Color(
+                                CupertinoColors.activeBlue.value,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      onTap: () async {
+                        showImageDialog(context, onChaneXFile: (XFile? value) {
+                          if (value != null) {
+                            imageFile = File(value.path);
+                            context.read<CvBloc>().add(
+                                  CvChangeImageFileEvent(
+                                    imageFile: imageFile!,
+                                  ),
+                                );
+                            setState(() {});
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                  20.getH(),
+
                   CvMyInput(
                     margin: EdgeInsets.symmetric(vertical: 6.he),
                     textEditingController: controllerName,

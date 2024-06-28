@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cv_app/data/api/api_provider.dart';
 import 'package:cv_app/data/models/network_response.dart';
 import 'package:cv_app/data/my_models/cv/cv_model.dart';
@@ -9,4 +11,7 @@ class CvRepository {
 
   Future<NetworkResponse> generateCv({required CvModel cvModel}) =>
       _apiProvider.generateCv(cvModel: cvModel);
+
+  Future<NetworkResponse> uploadImage({required File file}) =>
+      _apiProvider.uploadImageForCv(file);
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cv_app/data/my_models/basics/basics_model.dart';
 import 'package:cv_app/data/my_models/certificate/certificate_model.dart';
 import 'package:cv_app/data/my_models/education/education_model.dart';
@@ -17,6 +19,20 @@ abstract class CvEvent extends Equatable {}
 class CvGenerateEvent extends CvEvent {
   @override
   List<Object?> get props => [];
+}
+
+class CvInitialEvent extends CvEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class CvChangeImageFileEvent extends CvEvent {
+
+  final File imageFile;
+
+  CvChangeImageFileEvent({required this.imageFile});
+  @override
+  List<Object?> get props => [imageFile];
 }
 
 class CvBasicsSaveEvent extends CvEvent {

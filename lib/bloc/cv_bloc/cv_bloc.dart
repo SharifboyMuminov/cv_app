@@ -1,5 +1,7 @@
 import 'package:cv_app/bloc/cv_bloc/cv_event.dart';
 import 'package:cv_app/bloc/cv_bloc/cv_state.dart';
+import 'package:cv_app/data/models/from_status/from_status.dart';
+import 'package:cv_app/data/models/network_response.dart';
 import 'package:cv_app/data/my_models/cv/cv_model.dart';
 import 'package:cv_app/data/my_models/meta/meta_model.dart';
 import 'package:cv_app/data/repositories/cv_repository.dart';
@@ -9,6 +11,8 @@ class CvBloc extends Bloc<CvEvent, CvState> {
   CvBloc(this._cvRepository) : super(CvState.initial()) {
     on<CvGenerateEvent>(_cvGenerate);
     on<CvBasicsSaveEvent>(_basicsSave);
+    on<CvChangeImageFileEvent>(_cvChangeImageFile);
+    on<CvInitialEvent>(_cvInitial);
     on<CvChangPdfStyleEvent>(_changePdfStyle);
     on<CvLocationSaveEvent>(_locationSave);
     on<CvMetaSaveEvent>(_metaSave);
@@ -25,12 +29,33 @@ class CvBloc extends Bloc<CvEvent, CvState> {
 
   final CvRepository _cvRepository;
 
+  _cvInitial(CvInitialEvent event, emit) {
+    emit(CvState.initial());
+  }
+
+  _cvChangeImageFile(CvChangeImageFileEvent event, emit) {
+    emit(
+      state.copyWith(
+        imageFile: event.imageFile,
+      ),
+    );
+  }
+
   Future<void> _cvGenerate(CvGenerateEvent event, emit) async {
+    emit(state.copyWith(fromStatus: FromStatus.loading));
+    NetworkResponse networkResponseOne = NetworkResponse();
+    if (state.imageFile != null) {
+      networkResponseOne = await _cvRepository.uploadImage(
+        file: state.imageFile!,
+      );
+    }
+
     CvModel cvModel = CvModel(
       metaModel: state.metaModel,
       basicsModel: state.basicsModel.copyWith(
         location: state.locationModel,
         profiles: state.profiles,
+        image: networkResponseOne.data as String? ?? "",
       ),
       workModels: state.workModels,
       languageModels: state.languages,
@@ -44,7 +69,24 @@ class CvBloc extends Bloc<CvEvent, CvState> {
       jobLocation: state.jobLocation,
     );
 
-    await _cvRepository.generateCv(cvModel: cvModel);
+    NetworkResponse networkResponse =
+        await _cvRepository.generateCv(cvModel: cvModel);
+
+    if (networkResponse.errorText.isEmpty) {
+      emit(
+        state.copyWith(
+          fromStatus: FromStatus.success,
+          pdfUrl: networkResponse.data,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          fromStatus: FromStatus.error,
+          errorText: networkResponse.errorText,
+        ),
+      );
+    }
   }
 
   void _basicsSave(CvBasicsSaveEvent event, emit) {

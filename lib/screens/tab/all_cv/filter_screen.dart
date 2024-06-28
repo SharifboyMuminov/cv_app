@@ -9,7 +9,6 @@ import 'package:cv_app/screens/widget/global_button.dart';
 import 'package:cv_app/utils/app_colors.dart';
 import 'package:cv_app/utils/app_size.dart';
 import 'package:cv_app/utils/app_text_style.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as met;
@@ -56,7 +55,7 @@ class _FilterScreenState extends State<FilterScreen> {
           ),
         ),
         backgroundColor: Colors.white.withOpacity(.7),
-        title: Text("all_cvs".tr()),
+        title: Text("All Cv"),
       ),
       body: Column(
         children: [
