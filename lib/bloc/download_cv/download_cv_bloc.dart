@@ -27,27 +27,30 @@ class DownloadCvBloc extends Bloc<DownloadCvEvent, DownloadCvState> {
   final DownloadCvRepository _downloadCvRepository;
 
   Future<void> _downloadCvNew(DownloadCvNewEvent event, emit) async {
-    emit(state.copyWith(fromStatus: FromStatus.loading));
+    if(state.fromStatus != FromStatus.loading){
+      emit(state.copyWith(fromStatus: FromStatus.loading));
 
-    NetworkResponse networkResponse = await _downloadCvRepository.downloadFile(
-      urlFile: event.downloadUrl,
-    );
+      NetworkResponse networkResponse =
+          await _downloadCvRepository.downloadFile(
+        urlFile: event.downloadUrl,
+      );
 
-    if (networkResponse.errorText.isEmpty) {
-      emit(
-        state.copyWith(
-          fromStatus: FromStatus.success,
-          fileStatusModel: networkResponse.data,
-        ),
-      );
-      OpenFilex.open(state.fileStatusModel.newFileLocation);
-    } else {
-      emit(
-        state.copyWith(
-          fromStatus: FromStatus.error,
-          errorText: networkResponse.errorText,
-        ),
-      );
+      if (networkResponse.errorText.isEmpty) {
+        emit(
+          state.copyWith(
+            fromStatus: FromStatus.success,
+            fileStatusModel: networkResponse.data,
+          ),
+        );
+        OpenFilex.open(state.fileStatusModel.newFileLocation);
+      } else {
+        emit(
+          state.copyWith(
+            fromStatus: FromStatus.error,
+            errorText: networkResponse.errorText,
+          ),
+        );
+      }
     }
   }
 }

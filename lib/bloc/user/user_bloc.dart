@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cv_app/bloc/user/user_event.dart';
 import 'package:cv_app/bloc/user/user_state.dart';
 import 'package:cv_app/data/models/from_status/from_status.dart';
@@ -17,9 +18,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             statusMessage: "",
           ),
         ) {
-    on<UserGetEvent>(_userCall);
-    on<UserProfilePhotoEvent>(_userUploadProfile);
-    on<UserUpdateEvent>(_userUpdate);
+    on<UserGetEvent>(_userCall, transformer: droppable());
+    on<UserProfilePhotoEvent>(_userUploadProfile, transformer: droppable());
+    on<UserUpdateEvent>(_userUpdate, transformer: droppable());
   }
 
   final UserRepository _userRepository;

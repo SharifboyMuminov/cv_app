@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cv_app/bloc/auth/auth_event.dart';
 import 'package:cv_app/bloc/auth/auth_state.dart';
 import 'package:cv_app/data/models/from_status/from_status.dart';
@@ -18,12 +19,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             userPassword: '',
           ),
         ) {
-    on<AuthRegisterEvent>(_register);
-    on<AuthVerifyEvent>(_verify);
-    on<AuthLoginEvent>(_login);
-    on<AuthResetPasswordEvent>(_forgetPassword);
-    on<AuthForgetPasswordCodeEvent>(_forgetPasswordCode);
-    on<AuthForgetSetPasswordEvent>(_setPassword);
+    on<AuthRegisterEvent>(_register,transformer: droppable());
+    on<AuthVerifyEvent>(_verify,transformer: droppable());
+    on<AuthLoginEvent>(_login,transformer: droppable());
+    on<AuthResetPasswordEvent>(_forgetPassword,transformer: droppable());
+    on<AuthForgetPasswordCodeEvent>(_forgetPasswordCode,transformer: droppable());
+    on<AuthForgetSetPasswordEvent>(_setPassword,transformer: droppable());
   }
 
   final AuthRepository _authRepository;

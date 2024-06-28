@@ -1,10 +1,10 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cv_app/bloc/all_cv/all_cv_event.dart';
 import 'package:cv_app/bloc/all_cv/all_cv_state.dart';
 import 'package:cv_app/data/models/from_status/from_status.dart';
 import 'package:cv_app/data/models/network_response.dart';
 import 'package:cv_app/data/repositories/all_cv_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:open_filex/open_filex.dart';
 
 class AllCvBloc extends Bloc<AllCvEvent, AllCvState> {
   AllCvBloc(this._allCvRepository)
@@ -18,9 +18,9 @@ class AllCvBloc extends Bloc<AllCvEvent, AllCvState> {
             allResumes: [],
           ),
         ) {
-    on<AllCvCallEvent>(_allCvCall);
-    on<AllCvFilterEvent>(_filter);
-    on<AllCvReturnEvent>(_returnCv);
+    on<AllCvCallEvent>(_allCvCall,transformer: droppable());
+    on<AllCvFilterEvent>(_filter,transformer: droppable());
+    on<AllCvReturnEvent>(_returnCv,transformer: droppable());
   }
 
   final AllCvRepository _allCvRepository;
