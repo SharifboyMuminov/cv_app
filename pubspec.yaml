@@ -68,9 +68,6 @@ flutter:
         - asset: assets/fonts/roboto/Roboto-Regular.ttf
         - asset: assets/fonts/roboto/Roboto-Thin.ttf
         - asset: assets/fonts/roboto/Roboto-ThinItalic.ttf
-    - family: PollerOne
-      fonts:
-        - asset: assets/fonts/poller_one/PollerOne-Regular.ttf
 
 
 
