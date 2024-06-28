@@ -6,7 +6,7 @@ class SecondPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Image.asset("assets/images/image2.png")),
+      body: Center(child: Image.asset("assets/images/page_second.png")),
     );
   }
 }
