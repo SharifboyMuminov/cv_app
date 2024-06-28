@@ -1,17 +1,24 @@
 import 'dart:ui';
 import 'package:cv_app/bloc/all_cv/all_cv_bloc.dart';
+import 'package:cv_app/bloc/all_cv/all_cv_event.dart';
 import 'package:cv_app/bloc/all_cv/all_cv_state.dart';
 import 'package:cv_app/bloc/download_cv/download_cv_bloc.dart';
 import 'package:cv_app/bloc/download_cv/download_cv_event.dart';
 import 'package:cv_app/bloc/download_cv/download_cv_state.dart';
 import 'package:cv_app/data/models/from_status/from_status.dart';
+import 'package:cv_app/screens/tab/all_cv/filter_screen.dart';
+import 'package:cv_app/screens/widget/global_button.dart';
 import 'package:cv_app/utils/app_colors.dart';
+import 'package:cv_app/utils/app_images.dart';
+import 'package:cv_app/utils/app_size.dart';
 import 'package:cv_app/utils/app_text_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as mat;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:open_filex/open_filex.dart';
 
 class AllCvsScreen extends StatefulWidget {
@@ -34,7 +41,7 @@ class _AllCvsScreenState extends State<AllCvsScreen> {
             elevation: 0,
             scrolledUnderElevation: 0,
             bottom: PreferredSize(
-              preferredSize: Size(
+              preferredSize: mat.Size(
                 MediaQuery.sizeOf(context).width,
                 0.4.h,
               ),
@@ -44,6 +51,20 @@ class _AllCvsScreenState extends State<AllCvsScreen> {
                 color: CupertinoColors.systemGrey,
               ),
             ),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const FilterScreen();
+                  }));
+                },
+                icon: SvgPicture.asset(
+                  AppImages.filterSvg,
+                  width: 24.we,
+                  height: 24.he,
+                ),
+              ),
+            ],
             flexibleSpace: ClipRect(
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
@@ -61,49 +82,75 @@ class _AllCvsScreenState extends State<AllCvsScreen> {
                   children: [
                     BlocBuilder<AllCvBloc, AllCvState>(
                       builder: (BuildContext context, AllCvState state) {
-                        return Expanded(
-                          child: ListView.builder(
-                            itemCount: state.currentResumes.length,
-                            itemBuilder: (ctx, index) {
-                              return Column(
-                                children: [
-                                  ListTile(
-                                    title: Text(
-                                      "Job title: ${state.currentResumes[index].jobTitle}",
-                                      style: AppTextStyle.seoulRobotoMedium
-                                          .copyWith(
-                                        color: AppColors.c010A27,
-                                        fontSize: 16.sp,
-                                      ),
-                                    ),
-                                    subtitle: Text(
-                                      "Salary : ${state.currentResumes[index].salary}",
-                                      style: AppTextStyle.seoulRobotoRegular
-                                          .copyWith(
-                                        color:
-                                            AppColors.c010A27.withOpacity(0.5),
-                                        fontSize: 14.sp,
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      context.read<DownloadCvBloc>().add(
-                                            DownloadCvNewEvent(
-                                                downloadUrl: state
-                                                    .currentResumes[index]
-                                                    .filename),
-                                          );
-                                    },
+                        if (state.fromStatus == FromStatus.success) {
+                          if (state.currentResumes.isEmpty) {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                400.getH(),
+                                Text(
+                                  "Empty :)",
+                                  style:
+                                      AppTextStyle.seoulRobotoMedium.copyWith(
+                                    color: AppColors.c010A27,
+                                    fontSize: 18.sp,
                                   ),
-                                  Container(
-                                    width: double.infinity,
-                                    height: 0.55,
-                                    color: Colors.black.withOpacity(.6),
-                                  )
-                                ],
-                              );
-                            },
-                          ),
-                        );
+                                ),
+                                GlobalMyButton(
+                                    onTab: () {
+                                      context.read<AllCvBloc>().add(AllCvReturnEvent());
+                                    }, title: "Call All Cv"),
+                              ],
+                            );
+                          }
+
+                          return Expanded(
+                            child: ListView.builder(
+                              itemCount: state.currentResumes.length,
+                              itemBuilder: (ctx, index) {
+                                return Column(
+                                  children: [
+                                    ListTile(
+                                      title: Text(
+                                        "Job title: ${state.currentResumes[index].jobTitle}",
+                                        style: AppTextStyle.seoulRobotoMedium
+                                            .copyWith(
+                                          color: AppColors.c010A27,
+                                          fontSize: 16.sp,
+                                        ),
+                                      ),
+                                      subtitle: Text(
+                                        "Salary : ${state.currentResumes[index].salary}",
+                                        style: AppTextStyle.seoulRobotoRegular
+                                            .copyWith(
+                                          color: AppColors.c010A27
+                                              .withOpacity(0.5),
+                                          fontSize: 14.sp,
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        context.read<DownloadCvBloc>().add(
+                                              DownloadCvNewEvent(
+                                                  downloadUrl: state
+                                                      .currentResumes[index]
+                                                      .filename),
+                                            );
+                                      },
+                                    ),
+                                    Container(
+                                      width: double.infinity,
+                                      height: 0.55,
+                                      color: Colors.black.withOpacity(.6),
+                                    )
+                                  ],
+                                );
+                              },
+                            ),
+                          );
+                        }
+
+                        return const Center(
+                            child: CircularProgressIndicator.adaptive());
                       },
                     ),
                   ],

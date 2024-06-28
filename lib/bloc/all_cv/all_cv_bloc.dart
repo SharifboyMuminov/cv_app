@@ -18,9 +18,29 @@ class AllCvBloc extends Bloc<AllCvEvent, AllCvState> {
           ),
         ) {
     on<AllCvCallEvent>(_allCvCall);
+    on<AllCvFilterEvent>(_filter);
+    on<AllCvReturnEvent>(_returnCv);
   }
 
   final AllCvRepository _allCvRepository;
+
+  _returnCv(AllCvReturnEvent event, emit) {
+    emit(state.copyWith(currentResumes: state.allResumes));
+  }
+
+  _filter(AllCvFilterEvent event, emit) {
+    emit(state.copyWith(
+        currentResumes: state.currentResumes.where((value) {
+      return value.jobTitle
+              .toLowerCase()
+              .contains(event.filterModel.jobTitle.toLowerCase()) &&
+          (value.salary >= event.filterModel.salaryStart &&
+              value.salary <= event.filterModel.salaryEnd) &&
+          value.jobLocation
+              .toLowerCase()
+              .contains(event.filterModel.jobLocation.toLowerCase());
+    }).toList()));
+  }
 
   Future<void> _allCvCall(AllCvCallEvent event, emit) async {
     emit(state.copyWith(fromStatus: FromStatus.loading));
