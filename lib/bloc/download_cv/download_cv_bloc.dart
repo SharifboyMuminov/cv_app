@@ -4,6 +4,7 @@ import 'package:cv_app/data/models/file_status/file_status_model.dart';
 import 'package:cv_app/data/models/from_status/from_status.dart';
 import 'package:cv_app/data/models/network_response.dart';
 import 'package:cv_app/data/repositories/download_cv_repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_filex/open_filex.dart';
 
@@ -40,11 +41,14 @@ class DownloadCvBloc extends Bloc<DownloadCvEvent, DownloadCvState> {
           fileStatusModel: networkResponse.data,
         ),
       );
-      OpenFilex.open(networkResponse.data.newFileLocation);
+
+
+
     } else {
       emit(
         state.copyWith(
           fromStatus: FromStatus.error,
+
           errorText: networkResponse.errorText,
         ),
       );

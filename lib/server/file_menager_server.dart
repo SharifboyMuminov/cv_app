@@ -58,7 +58,6 @@ class FileManagerService {
     final myDirectory = Platform.isAndroid
         ? await getExternalStorageDirectory()
         : await getApplicationDocumentsDirectory();
-    ;
     //Check for url validation
 
     String savedLocation = '';

@@ -1,9 +1,12 @@
+import 'package:cv_app/bloc/all_cv/all_cv_bloc.dart';
+import 'package:cv_app/bloc/all_cv/all_cv_event.dart';
 import 'package:cv_app/bloc/auth/auth_bloc.dart';
 import 'package:cv_app/bloc/cv_bloc/cv_bloc.dart';
 import 'package:cv_app/bloc/download_cv/download_cv_bloc.dart';
 import 'package:cv_app/bloc/user/user_bloc.dart';
 import 'package:cv_app/bloc/user/user_event.dart';
 import 'package:cv_app/data/api/api_provider.dart';
+import 'package:cv_app/data/repositories/all_cv_repository.dart';
 import 'package:cv_app/data/repositories/auth_repository.dart';
 import 'package:cv_app/data/repositories/cv_repository.dart';
 import 'package:cv_app/data/repositories/download_cv_repository.dart';
@@ -32,6 +35,7 @@ class App extends StatelessWidget {
         RepositoryProvider(create: (_) => AuthRepository(apiProvider)),
         RepositoryProvider(create: (_) => CvRepository(apiProvider)),
         RepositoryProvider(create: (_) => DownloadCvRepository(apiProvider)),
+        RepositoryProvider(create: (_) => AllCvRepository(apiProvider)),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -54,6 +58,11 @@ class App extends StatelessWidget {
             create: (context) => DownloadCvBloc(
               context.read<DownloadCvRepository>(),
             ),
+          ),
+          BlocProvider(
+            create: (context) => AllCvBloc(
+              context.read<AllCvRepository>(),
+            )..add(AllCvCallEvent()),
           ),
         ],
         child: ScreenUtilInit(

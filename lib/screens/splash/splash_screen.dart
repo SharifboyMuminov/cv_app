@@ -1,5 +1,6 @@
 import 'package:cv_app/bloc/user/user_event.dart';
 import 'package:cv_app/data/local/storage_repository.dart';
+import 'package:cv_app/screens/auth/sign_up/sing_up_screen.dart';
 import 'package:cv_app/screens/on_boarding/on_boarding_screen.dart';
 import 'package:cv_app/screens/tab/tab_screen.dart';
 import 'package:flutter/material.dart';
