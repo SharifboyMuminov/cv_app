@@ -269,6 +269,37 @@ class ApiProvider extends ApiClient {
       int statusCode = (response.statusCode ?? 400);
 
       if (statusCode >= 200 && statusCode <= 300) {
+        networkResponse.data = response.data;
+      } else {
+        networkResponse.errorText = "Error :(";
+      }
+    } catch (e) {
+      // debugPrint(e.toString());
+      networkResponse.errorText = "Boshqa xatolik: $e";
+    }
+
+    return networkResponse;
+  }
+
+  Future<NetworkResponse> uploadImageForCv(File file) async {
+    final fileName = file.path.split('/').last;
+    NetworkResponse networkResponse = NetworkResponse();
+    try {
+      // debugPrint("MyId:  $myId ----------------- ");
+      final formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(
+          file.path,
+          filename: fileName,
+        )
+      });
+      Response response = await dio.post(
+        "https://api.cvmaker.uz/v1/media/user-photo",
+        data: formData,
+      );
+
+      int statusCode = (response.statusCode ?? 400);
+
+      if (statusCode >= 200 && statusCode <= 300) {
         debugPrint("Good: ${response.data} -----------");
         networkResponse.data = response.data;
       } else {
@@ -383,9 +414,12 @@ class ApiProvider extends ApiClient {
       int statusCode = (response.statusCode ?? 400);
 
       if (statusCode >= 200 && statusCode <= 300) {
-        networkResponse.data = (response.data["resumes"] as List?)?.map(
-          (value) => ResumeModel.fromJson(value),
-        ).toList() ?? [];
+        networkResponse.data = (response.data["resumes"] as List?)
+                ?.map(
+                  (value) => ResumeModel.fromJson(value),
+                )
+                .toList() ??
+            [];
       } else {
         // debugPrint("Error: ${response.statusCode}   -------------");
         networkResponse.errorText = "Error :(";

@@ -7,7 +7,7 @@ class ThirdPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
       body: Column(
-        children: [Center(child: Image.asset("assets/images/book.png"))],
+        children: [Center(child: Image.asset("assets/images/image3.png"))],
       ),
     );
   }
