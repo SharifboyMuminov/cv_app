@@ -28,6 +28,7 @@ class AppImages {
   static String visaSvg = "assets/icons/visa.svg";
   static String masterCardSvg = "assets/icons/master_card.svg";
   static String arrowRightSvg = "assets/icons/arrow_right.svg";
+  static String filterSvg = "assets/icons/filter.svg";
   static String settingBottomIconSvg = "assets/icons/setting_bottom_icon.svg";
 
 //Image
