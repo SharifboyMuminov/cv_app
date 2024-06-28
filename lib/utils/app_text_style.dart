@@ -43,5 +43,4 @@ class AppTextStyle {
     fontWeight: FontWeight.w800,
     color: AppColors.black,
   );
-
 }
