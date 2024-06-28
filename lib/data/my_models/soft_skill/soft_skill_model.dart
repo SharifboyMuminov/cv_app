@@ -9,7 +9,7 @@ class SoftSkillModel {
     );
   }
 
-  factory SoftSkillModel.initial(){
+  factory SoftSkillModel.initial() {
     return SoftSkillModel(name: '');
   }
 

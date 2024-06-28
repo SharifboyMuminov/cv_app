@@ -9,6 +9,7 @@ import 'package:cv_app/utils/app_images.dart';
 import 'package:cv_app/utils/app_reg_exp.dart';
 import 'package:cv_app/utils/app_size.dart';
 import 'package:cv_app/utils/app_text_style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -111,60 +112,89 @@ class _MainInputScreenState extends State<MainInputScreen> {
                     hintText: "Enter location",
                   ),
                   8.getH(),
-                  Row(
-                    children: [
-                      Text(
-                        "Job location",
-                        style: AppTextStyle.seoulRobotoMedium.copyWith(
-                          color: AppColors.c010A27,
-                          fontSize: 17.sp,
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16.r),
+                        border:
+                            Border.all(color: CupertinoColors.activeOrange)),
+                    child: Column(
+                      children: [
+                        5.getH(),
+                        Text(
+                          "Work type",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w400),
                         ),
-                      ),
-                      10.getW(),
-                      Expanded(
-                        child: DropdownButton<String>(
-                          value: _selectedItem,
-                          items: [
-                            DropdownMenuItem<String>(
-                              value: 'offline',
-                              child: Text(
-                                'offline',
-                                style: AppTextStyle.seoulRobotoRegular.copyWith(
-                                  color: AppColors.c010A27,
-                                  fontSize: 14.sp,
-                                ),
-                              ),
-                            ),
-                            DropdownMenuItem<String>(
-                              value: 'online',
-                              child: Text(
-                                'online',
-                                style: AppTextStyle.seoulRobotoRegular.copyWith(
-                                  color: AppColors.c010A27,
-                                  fontSize: 14.sp,
-                                ),
-                              ),
-                            ),
-                          ],
-                          onChanged: (String? newValue) {
+                        ListTile(
+                          title: const Text('online'),
+                          onTap: () {
                             setState(() {
-                              _selectedItem = newValue!;
+                              _selectedItem = "online";
                             });
                           },
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            size: 20.we,
-                            color: AppColors.c010A27,
-                          ),
-                          iconSize: 24,
-                          elevation: 16,
-                          style: AppTextStyle.seoulRobotoRegular.copyWith(
-                            color: AppColors.c010A27,
-                            fontSize: 16.sp,
+                          leading: Radio<String>(
+                            activeColor: CupertinoColors.activeBlue,
+                            value: 'online',
+                            groupValue: _selectedItem,
+                            onChanged: (String? value) {
+                              setState(() {
+                                _selectedItem = value!;
+                              });
+                              setState(() {});
+                            },
                           ),
                         ),
-                      ),
-                    ],
+                        Container(
+                          width: double.infinity,
+                          height: 0.55,
+                          color: CupertinoColors.systemOrange.withOpacity(.5),
+                        ),
+                        ListTile(
+                          title: const Text('Offline'),
+                          onTap: () {
+                            setState(() {});
+                            _selectedItem = "offline";
+                          },
+                          leading: Radio<String>(
+                            value: 'offline',
+                            activeColor: CupertinoColors.activeBlue,
+                            groupValue: _selectedItem,
+                            onChanged: (String? value) {
+                              setState(() {
+                                _selectedItem = value!;
+                              });
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 0.55,
+                          color: CupertinoColors.systemOrange.withOpacity(.5),
+                        ),
+                        ListTile(
+                          title: const Text('Both'),
+                          onTap: () {
+                            setState(() {
+                              _selectedItem = "both";
+                            });
+                          },
+                          leading: Radio<String>(
+                            activeColor: CupertinoColors.activeBlue,
+                            value: 'both',
+                            groupValue: _selectedItem,
+                            onChanged: (String? value) {
+                              setState(() {
+                                _selectedItem = value!;
+                              });
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

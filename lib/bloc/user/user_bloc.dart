@@ -18,6 +18,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           ),
         ) {
     on<UserGetEvent>(_userCall);
+    on<UserProfilePhotoEvent>(_userUploadProfile);
     on<UserUpdateEvent>(_userUpdate);
   }
 
@@ -58,7 +59,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     emit(state.copyWith(fromStatus: FromStatus.loading));
     NetworkResponse networkResponse =
         await _userRepository.putUser(name: event.name, phone: event.phone);
-    if(networkResponse.errorText.isEmpty){
+    if (networkResponse.errorText.isEmpty) {
       emit(
         state.copyWith(
           fromStatus: FromStatus.success,
@@ -66,5 +67,21 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         ),
       );
     }
+  }
+
+  _userUploadProfile(UserProfilePhotoEvent event, Emitter emit) async {
+    emit(state.copyWith(fromStatus: FromStatus.loading));
+    NetworkResponse networkResponse =
+        await _userRepository.uploadPhotoUser(file: event.file);
+    if (networkResponse.errorText.isEmpty) {
+      emit(
+        state.copyWith(
+          fromStatus: FromStatus.success,
+          userModel: networkResponse.data,
+        ),
+      );
+
+      add(UserGetEvent());
+    } else {}
   }
 }

@@ -1,4 +1,3 @@
-
 class ProjectModel {
   final String name;
   final String description;

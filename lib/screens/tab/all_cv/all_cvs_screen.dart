@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:cv_app/bloc/all_cv/all_cv_bloc.dart';
 import 'package:cv_app/bloc/all_cv/all_cv_event.dart';
 import 'package:cv_app/bloc/all_cv/all_cv_state.dart';
@@ -76,6 +77,11 @@ class _AllCvsScreenState extends State<AllCvsScreen> {
             backgroundColor: Colors.white.withOpacity(.7),
             title: Text("all_cvs".tr()),
           ),
+        ),
+        backgroundColor: Colors.white.withOpacity(.6),
+        title: const Text("All cvs"),
+      ),
+      
           body: downloadCvState.fromStatus == FromStatus.loading
               ? const Center(child: CircularProgressIndicator.adaptive())
               : Column(

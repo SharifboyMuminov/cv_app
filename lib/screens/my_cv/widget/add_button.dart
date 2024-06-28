@@ -30,7 +30,8 @@ class MyAddButton extends StatelessWidget {
       child: Text(
         "Add",
         style: AppTextStyle.seoulRobotoSemiBold.copyWith(
-          fontSize: 13.sp,
+          fontSize: 16.sp,
+          letterSpacing: 1,
           color: AppColors.white,
         ),
       ),

@@ -1,5 +1,4 @@
 class AppImages {
-
   static String splashIconSvg = "assets/icons/splash_icon.svg";
   static String americaFlagSvg = "assets/icons/america_flag.svg";
   static String franceFlagSvg = "assets/icons/france_flag.svg";
@@ -40,5 +39,4 @@ class AppImages {
   static String basicPng = "assets/images/basic.png";
   static String classicPng = "assets/images/classic.png";
   static String simplePng = "assets/images/simple.png";
-
 }

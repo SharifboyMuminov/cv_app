@@ -8,7 +8,6 @@ import 'package:cv_app/screens/auth/widget/auth_input.dart';
 import 'package:cv_app/screens/tab/profile/generate_cv/widgets/salary_textfield.dart';
 import 'package:cv_app/screens/widget/zoom_tap.dart';
 import 'package:cv_app/utils/app_size.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as mat;
@@ -69,7 +68,7 @@ class _EditProfileState extends State<EditProfile> {
               ),
             ),
             backgroundColor: Colors.white.withOpacity(.7),
-            title: Text("edit_profile".tr()),
+            title: const Text("Edit profile"),
           ),
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),

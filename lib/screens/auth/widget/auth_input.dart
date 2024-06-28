@@ -22,7 +22,7 @@ class AuthMyInput extends StatelessWidget {
     this.maxLength,
     this.digitsOnly = false,
     this.isCounterShow,
-     this.changed,
+    this.changed,
   });
 
   final TextEditingController textEditingController;
@@ -52,14 +52,11 @@ class AuthMyInput extends StatelessWidget {
       obscureText: obscureText ?? false,
       textInputAction: textInputAction ?? TextInputAction.next,
       keyboardType: textInputType ?? TextInputType.text,
-      style: AppTextStyle.seoulRobotoSemiBold.copyWith(
-        fontSize: 16.sp,
-        fontWeight: FontWeight.w500
-
-      ),
+      style: AppTextStyle.seoulRobotoSemiBold
+          .copyWith(fontSize: 16.sp, fontWeight: FontWeight.w500),
       onChanged: changed,
       decoration: InputDecoration(
-        counterText: isCounterShow!=null?null:"",
+        counterText: isCounterShow != null ? null : "",
         contentPadding:
             EdgeInsets.symmetric(horizontal: 16.we, vertical: 15.he),
         focusedBorder: OutlineInputBorder(

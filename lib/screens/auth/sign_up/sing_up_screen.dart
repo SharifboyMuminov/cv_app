@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:cv_app/bloc/auth/auth_bloc.dart';
 import 'package:cv_app/bloc/auth/auth_event.dart';
 import 'package:cv_app/bloc/auth/auth_state.dart';
@@ -7,16 +8,17 @@ import 'package:cv_app/screens/auth/forget_new_password/forget_new_password_scre
 import 'package:cv_app/screens/auth/forget_password_code/forget_password_code_screen.dart';
 import 'package:cv_app/screens/auth/log_in/log_in_screen.dart';
 import 'package:cv_app/screens/auth/verification/verification_screen.dart';
-import 'package:cv_app/screens/auth/widget/auth_button.dart';
 import 'package:cv_app/screens/auth/widget/auth_input.dart';
 import 'package:cv_app/screens/tab/tab_screen.dart';
 import 'package:cv_app/screens/widget/global_button.dart';
 import 'package:cv_app/utils/app_colors.dart';
-import 'package:cv_app/utils/app_images.dart';
 import 'package:cv_app/utils/app_reg_exp.dart';
 import 'package:cv_app/utils/app_size.dart';
 import 'package:cv_app/utils/app_text_style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as mat;
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -50,11 +52,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
     height = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      backgroundColor: CupertinoColors.systemGrey6,
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarBrightness:
+                Platform.isIOS ? Brightness.light : Brightness.dark),
+        backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
         centerTitle: true,
+        bottom: PreferredSize(
+          preferredSize: mat.Size(
+            MediaQuery.sizeOf(context).width,
+            0.4.h,
+          ),
+          child: Container(
+            height: 0.4.h,
+            width: double.infinity,
+            color: CupertinoColors.systemGrey,
+          ),
+        ),
         title: Text(
-          "Ro‘yxatdan o‘tish",
+          "Register",
           style: AppTextStyle.seoulRobotoRegular.copyWith(
             color: AppColors.c010A27,
             fontSize: 20.sp,
@@ -71,43 +89,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       EdgeInsets.symmetric(horizontal: 20.we, vertical: 16.he),
                   child: Column(
                     children: [
-                      AuthMyButton(
-                        onTab: () {},
-                        title: "Google orqali kirish",
-                        iconPathSvg: AppImages.googleLogoSvg,
-                      ),
-                      12.getH(),
-                      AuthMyButton(
-                        onTab: () {},
-                        title: "Apple orqali kirish",
-                        iconPathSvg: AppImages.appleLogoSvg,
-                      ),
-                      20.getH(),
-                      Text(
-                        "Yoki",
-                        style: AppTextStyle.seoulRobotoRegular.copyWith(
-                          color: AppColors.c010A27.withOpacity(0.40),
-                          fontSize: 16.sp,
-                        ),
-                      ),
-                      20.getH(),
+                      40.getH(),
                       AuthMyInput(
                         textEditingController: controllerFullName,
-                        hintText: 'Ismingiz',
+                        hintText: 'Full name',
                         errorText: errorTextForName,
                       ),
                       12.getH(),
                       AuthMyInput(
                         textInputType: TextInputType.emailAddress,
                         textEditingController: controllerEmail,
-                        hintText: 'Elektron pochta',
+                        hintText: 'Email address',
                         errorText: errorTextForEmail,
                       ),
                       12.getH(),
                       AuthMyInput(
                         textInputAction: TextInputAction.done,
                         textEditingController: controllerPassword,
-                        hintText: 'Parol',
+                        hintText: 'Password',
                         isPasswordInput: obscureText,
                         obscureText: obscureText,
                         onTabEye: () {
@@ -134,14 +133,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     );
                               }
                             : null,
-                        title: "Ro‘yxatdan o‘tish",
+                        title: "REGISTER",
                       ),
                       20.getH(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Profilngiz bormi?",
+                            "Do you have an account?",
                             style: AppTextStyle.seoulRobotoRegular.copyWith(
                               color: AppColors.c010A27,
                               fontSize: 16.sp,
@@ -167,7 +166,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               }
                             },
                             child: Text(
-                              "Kirish",
+                              "Login",
                               style: AppTextStyle.seoulRobotoRegular.copyWith(
                                 color: AppColors.cF07448,
                                 fontSize: 16.sp,
@@ -188,7 +187,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 child: Text(
                   textAlign: TextAlign.center,
-                  "Ro'yxatdan o'tayotib, shaxsiy ma'lumotlarni qayta ishlash va ilovadan foydalanish shartlarini qabul qilasiz.",
+                  "By registering, you accept the terms of processing of personal data and use of the application.",
                   style: AppTextStyle.seoulRobotoRegular.copyWith(
                       color: AppColors.c010A27.withOpacity(0.40),
                       fontSize: 14.sp),
@@ -212,7 +211,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (state.fromStatus == FromStatus.authenticated) {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
-
           return const TabScreen();
         },
       ), (route) => false);

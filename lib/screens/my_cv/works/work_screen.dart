@@ -35,9 +35,7 @@ class _WorkScreenState extends State<WorkScreen> {
     Future.microtask(() {
       workExperienceCount = context.read<CvBloc>().state.workModels.length;
       workExperience = [...context.read<CvBloc>().state.workModels];
-      setState(() {
-        
-      });
+      setState(() {});
     });
     _listenControllers();
     super.initState();

@@ -253,22 +253,28 @@ class ApiProvider extends ApiClient {
   Future<NetworkResponse> uploadImage(File file) async {
     final fileName = file.path.split('/').last;
     NetworkResponse networkResponse = NetworkResponse();
+    debugPrint("Good: ${file.path}");
+
     try {
       // debugPrint("MyId:  $myId ----------------- ");
-      final formData = FormData.fromMap({
-        'file': await MultipartFile.fromFile(
-          file.path,
-          filename: fileName,
-        )
-      });
+      final formData = FormData.fromMap(
+        {
+          'file': await MultipartFile.fromFile(
+            file.path,
+            filename: fileName,
+          )
+        },
+      );
       Response response = await secureDio.post(
         "https://api.cvmaker.uz/v1/media/user-photo",
         data: formData,
       );
+      debugPrint("Good: ${response.data} -----------");
 
       int statusCode = (response.statusCode ?? 400);
 
       if (statusCode >= 200 && statusCode <= 300) {
+
         networkResponse.data = response.data;
       } else {
         networkResponse.errorText = "Error :(";
@@ -345,7 +351,6 @@ class ApiProvider extends ApiClient {
     String userId = StorageRepository.getString(key: "user_id");
 
     if (userId.isEmpty) {
-      // debugPrint("empty_user_id");
       networkResponse.errorText = "empty_user_id";
       return networkResponse;
     }

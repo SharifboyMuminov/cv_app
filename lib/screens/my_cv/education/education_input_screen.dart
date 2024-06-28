@@ -4,10 +4,12 @@ import 'package:cv_app/data/my_models/education/education_model.dart';
 import 'package:cv_app/screens/my_cv/widget/add_button.dart';
 import 'package:cv_app/screens/widget/cv_input.dart';
 import 'package:cv_app/screens/widget/global_button.dart';
+import 'package:cv_app/screens/widget/zoom_tap.dart';
 import 'package:cv_app/utils/app_colors.dart';
 import 'package:cv_app/utils/app_images.dart';
 import 'package:cv_app/utils/app_size.dart';
 import 'package:cv_app/utils/app_text_style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,6 +33,7 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
   String startDate = "start date";
   String endDate = "end date";
 
+  List<String> courses = [];
   List<EducationModel> educations = [];
   int educationsCount = 0;
 
@@ -141,19 +144,87 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
                     hintText: "Enter score",
                   ),
                   10.getH(),
-                  Text(
-                    "Please separate the directions you read with commas!",
-                    style: AppTextStyle.seoulRobotoMedium.copyWith(
-                      color: AppColors.c010A27,
-                      fontSize: 13.sp,
-                    ),
+                  Wrap(
+                    children: [
+                      ...List.generate(
+                        courses.length,
+                        (index) {
+                          return ScaleOnPress(
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  right: 8.w,
+                                  left: 0.w,
+                                  bottom: 10.h,
+                                  top: 5.h),
+                              padding: EdgeInsets.all(10.sp),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.r),
+                                border: Border.all(
+                                    color: CupertinoColors.systemGrey),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    courses[index],
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14.sp,
+                                    ),
+                                  ),
+                                  5.getW(),
+                                  ScaleOnPress(
+                                    onTap: () {
+                                      setState(() {
+                                        courses.removeAt(index);
+                                      });
+                                    },
+                                    child: const Icon(Icons.close),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    ],
                   ),
-                  CvMyInput(
-                    isMaxLines: true,
-                    textInputAction: TextInputAction.done,
-                    margin: EdgeInsets.symmetric(vertical: 8.he),
-                    textEditingController: controllerCourses,
-                    hintText: "Enter courses",
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CvMyInput(
+                          textInputAction: TextInputAction.done,
+                          textEditingController: controllerCourses,
+                          hintText: "Enter courses",
+                        ),
+                      ),
+                      10.getW(),
+                      IconButton(
+                        style: IconButton.styleFrom(
+                            foregroundColor: CupertinoColors.systemOrange,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 15.he, horizontal: 15.he),
+                            backgroundColor: controllerCourses.text.isEmpty
+                                ? CupertinoColors.systemOrange.withOpacity(.5)
+                                : CupertinoColors.systemOrange,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.r))),
+                        onPressed: () {
+                          setState(() {
+                            if (controllerCourses.text.isNotEmpty &&
+                                controllerCourses.text.trim().isNotEmpty) {
+                              courses.add(controllerCourses.text.trim());
+                              controllerCourses.clear();
+                            }
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
                   ),
                   40.getH(),
                   Row(
@@ -267,7 +338,7 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
       location: controllerLocation.text,
       score: controllerScore.text,
       area: controllerArea.text,
-      courses: controllerCourses.text.split(","),
+      courses: courses,
       endDate: endDate.length == 4 ? endDate : "",
       institution: controllerInstitution.text,
       studyType: controllerStudyType.text,
@@ -278,6 +349,7 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
     controllerScore.clear();
     controllerArea.clear();
     controllerCourses.clear();
+    courses = [];
     controllerInstitution.clear();
     controllerStudyType.clear();
     setState(() {});
@@ -349,7 +421,7 @@ class _EducationInputScreenState extends State<EducationInputScreen> {
         controllerStudyType.text.isNotEmpty &&
         controllerLocation.text.isNotEmpty &&
         controllerScore.text.isNotEmpty &&
-        controllerCourses.text.isNotEmpty;
+        courses.isNotEmpty;
   }
 
   @override

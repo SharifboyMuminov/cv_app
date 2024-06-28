@@ -44,7 +44,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           statusMessage: "_register",
         ),
       );
-
     } else {
       emit(
         state.copyWith(

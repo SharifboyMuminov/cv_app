@@ -3,8 +3,6 @@ class MetaModel {
 
   MetaModel({required this.template});
 
-
-
   factory MetaModel.initial() {
     return MetaModel(template: "");
   }
