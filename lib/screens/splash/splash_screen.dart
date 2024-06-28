@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushReplacement(
             context,
             PageTransition(
-              child: const MainInputScreen(),
+              child: const TabScreen(),
               duration: const Duration(seconds: 1),
               type: PageTransitionType.fade,
               alignment: Alignment.center,

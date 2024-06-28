@@ -285,6 +285,33 @@ class _MyCvScreenState extends State<MyCvScreen> {
                   );
               context.read<CvBloc>().add(CvInitialEvent());
             }
+          } else if (state.fromStatus == FromStatus.error) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog.adaptive(
+                  content: Text(
+                    state.errorText,
+                    style: AppTextStyle.seoulRobotoMedium.copyWith(
+                      color: AppColors.c010A27,
+                      fontSize: 13.sp,
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Ok",
+                        style: AppTextStyle.seoulRobotoRegular.copyWith(
+                          color: AppColors.c1CB0F6,
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
           }
         },
       ),
