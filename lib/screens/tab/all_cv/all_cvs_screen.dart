@@ -82,14 +82,37 @@ class _AllCvsScreenState extends State<AllCvsScreen> {
                   children: [
                     BlocBuilder<AllCvBloc, AllCvState>(
                       builder: (BuildContext context, AllCvState state) {
+                        if (state.fromStatus == FromStatus.error) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              400.getH(),
+                              Text(
+                                "Empty :)",
+                                style: AppTextStyle.seoulRobotoMedium.copyWith(
+                                  color: AppColors.c010A27,
+                                  fontSize: 18.sp,
+                                ),
+                              ),
+                              GlobalMyButton(
+                                  onTab: () {
+                                    context
+                                        .read<AllCvBloc>()
+                                        .add(AllCvReturnEvent());
+                                  },
+                                  title: "Call All Cv"),
+                            ],
+                          );
+                        }
+
                         if (state.fromStatus == FromStatus.success) {
                           if (state.currentResumes.isEmpty) {
                             return Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                400.getH(),
+                                350.getH(),
                                 Text(
-                                  "Empty :)",
+                                  state.errorText,
                                   style:
                                       AppTextStyle.seoulRobotoMedium.copyWith(
                                     color: AppColors.c010A27,
@@ -98,8 +121,11 @@ class _AllCvsScreenState extends State<AllCvsScreen> {
                                 ),
                                 GlobalMyButton(
                                     onTab: () {
-                                      context.read<AllCvBloc>().add(AllCvReturnEvent());
-                                    }, title: "Call All Cv"),
+                                      context
+                                          .read<AllCvBloc>()
+                                          .add(AllCvCallEvent());
+                                    },
+                                    title: "Call All Cv"),
                               ],
                             );
                           }
