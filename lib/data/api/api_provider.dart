@@ -2,9 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cv_app/data/api/api_client.dart';
 import 'package:cv_app/data/local/storage_repository.dart';
+import 'package:cv_app/data/models/file_status/file_status_model.dart';
 import 'package:cv_app/data/models/network_response.dart';
+import 'package:cv_app/data/models/resume/resume_model.dart';
 import 'package:cv_app/data/models/user/user_model.dart';
 import 'package:cv_app/data/my_models/cv/cv_model.dart';
+import 'package:cv_app/server/file_menager_server.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -203,6 +206,48 @@ class ApiProvider extends ApiClient {
     return networkResponse;
   }
 
+// TODO downloadFile -----------------------
+  Future<NetworkResponse> downloadFile({required String urlPdfFile}) async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    try {
+      FileStatusModel fileStatusModel = await FileManagerService().checkFile(
+          "https://media.cvmaker.uz/resumes/JohnDoeRust4a738CVMaker.pdf");
+      // debugPrint("Error: ${fileStatusModel.newFileLocation}");
+
+      if (fileStatusModel.isExist) {
+        networkResponse.data = fileStatusModel;
+        return networkResponse;
+        // OpenFilex.open(fileStatusModel.newFileLocation);
+      }
+      // debugPrint("Error: ${StorageRepository.getString(key: "access_token")}");
+
+      Response response = await dio.download(
+          urlPdfFile, fileStatusModel.newFileLocation,
+          onReceiveProgress: (count, total) async {});
+
+      int statusCode = (response.statusCode ?? 400);
+      if (statusCode >= 200 && statusCode <= 300) {
+        networkResponse.data = fileStatusModel;
+      } else {
+        debugPrint("Error else -------");
+        networkResponse.errorText = "Error Invalid Url :(";
+      }
+
+      // OpenFilex.open(fileStatusModel.newFileLocation);
+    } on SocketException {
+      debugPrint("Error SocketException -------");
+
+      networkResponse.errorText = "No Internet connection";
+    } catch (error) {
+      debugPrint("Error catch (error) -------");
+
+      networkResponse.errorText = "Invalid :(";
+    }
+
+    return networkResponse;
+  }
+
 // TODO uploadImage -----------------------
 
   Future<NetworkResponse> uploadImage(File file) async {
@@ -217,6 +262,37 @@ class ApiProvider extends ApiClient {
         )
       });
       Response response = await secureDio.post(
+        "https://api.cvmaker.uz/v1/media/user-photo",
+        data: formData,
+      );
+
+      int statusCode = (response.statusCode ?? 400);
+
+      if (statusCode >= 200 && statusCode <= 300) {
+        networkResponse.data = response.data;
+      } else {
+        networkResponse.errorText = "Error :(";
+      }
+    } catch (e) {
+      // debugPrint(e.toString());
+      networkResponse.errorText = "Boshqa xatolik: $e";
+    }
+
+    return networkResponse;
+  }
+
+  Future<NetworkResponse> uploadImageForCv(File file) async {
+    final fileName = file.path.split('/').last;
+    NetworkResponse networkResponse = NetworkResponse();
+    try {
+      // debugPrint("MyId:  $myId ----------------- ");
+      final formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(
+          file.path,
+          filename: fileName,
+        )
+      });
+      Response response = await dio.post(
         "https://api.cvmaker.uz/v1/media/user-photo",
         data: formData,
       );
@@ -311,6 +387,43 @@ class ApiProvider extends ApiClient {
         data: jsonEncode(cvModel.toJson()),
       );
       debugPrint("Natija: --- ${response.data}");
+    } on SocketException {
+      // debugPrint("No Internet connection");
+
+      networkResponse.errorText = "No Internet connection";
+    } catch (error) {
+      debugPrint("Invalid code :(");
+
+      networkResponse.errorText = "Invalid input :(";
+    }
+
+    return networkResponse;
+  }
+
+  //TODO CV  -----------------
+
+  Future<NetworkResponse> cllAllCv() async {
+    NetworkResponse networkResponse = NetworkResponse();
+
+    try {
+      Response response = await dio.get(
+        "https://api.cvmaker.uz/v1/resume/list",
+      );
+      // debugPrint("Natija: --- ${response.data}");
+
+      int statusCode = (response.statusCode ?? 400);
+
+      if (statusCode >= 200 && statusCode <= 300) {
+        networkResponse.data = (response.data["resumes"] as List?)
+                ?.map(
+                  (value) => ResumeModel.fromJson(value),
+                )
+                .toList() ??
+            [];
+      } else {
+        // debugPrint("Error: ${response.statusCode}   -------------");
+        networkResponse.errorText = "Error :(";
+      }
     } on SocketException {
       // debugPrint("No Internet connection");
 

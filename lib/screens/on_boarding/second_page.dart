@@ -6,9 +6,7 @@ class SecondPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [Center(child: Image.asset("assets/images/book.png"))],
-      ),
+      body: Center(child: Image.asset("assets/images/image2.png")),
     );
   }
 }

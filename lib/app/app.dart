@@ -1,14 +1,16 @@
+import 'package:cv_app/bloc/all_cv/all_cv_bloc.dart';
+import 'package:cv_app/bloc/all_cv/all_cv_event.dart';
 import 'package:cv_app/bloc/auth/auth_bloc.dart';
 import 'package:cv_app/bloc/cv_bloc/cv_bloc.dart';
+import 'package:cv_app/bloc/download_cv/download_cv_bloc.dart';
 import 'package:cv_app/bloc/user/user_bloc.dart';
 import 'package:cv_app/bloc/user/user_event.dart';
 import 'package:cv_app/data/api/api_provider.dart';
+import 'package:cv_app/data/repositories/all_cv_repository.dart';
 import 'package:cv_app/data/repositories/auth_repository.dart';
 import 'package:cv_app/data/repositories/cv_repository.dart';
+import 'package:cv_app/data/repositories/download_cv_repository.dart';
 import 'package:cv_app/data/repositories/user_repository.dart';
-import 'package:cv_app/screens/auth/sign_up/sing_up_screen.dart';
-import 'package:cv_app/screens/my_cv/my_cv_screen.dart';
-import 'package:cv_app/screens/tab/tab_screen.dart';
 import 'package:cv_app/screens/splash/splash_screen.dart';
 import 'package:cv_app/utils/app_size.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +34,8 @@ class App extends StatelessWidget {
         RepositoryProvider(create: (_) => UserRepository(apiProvider)),
         RepositoryProvider(create: (_) => AuthRepository(apiProvider)),
         RepositoryProvider(create: (_) => CvRepository(apiProvider)),
+        RepositoryProvider(create: (_) => DownloadCvRepository(apiProvider)),
+        RepositoryProvider(create: (_) => AllCvRepository(apiProvider)),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -49,6 +53,16 @@ class App extends StatelessWidget {
             create: (context) => CvBloc(
               context.read<CvRepository>(),
             ),
+          ),
+          BlocProvider(
+            create: (context) => DownloadCvBloc(
+              context.read<DownloadCvRepository>(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => AllCvBloc(
+              context.read<AllCvRepository>(),
+            )..add(AllCvCallEvent()),
           ),
         ],
         child: ScreenUtilInit(
