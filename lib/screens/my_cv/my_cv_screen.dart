@@ -299,7 +299,9 @@ class _MyCvScreenState extends State<MyCvScreen> {
                   ),
                   actions: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
                       child: Text(
                         "Ok",
                         style: AppTextStyle.seoulRobotoRegular.copyWith(

@@ -27,7 +27,6 @@ class CvInitialEvent extends CvEvent {
 }
 
 class CvChangeImageFileEvent extends CvEvent {
-
   final File imageFile;
 
   CvChangeImageFileEvent({required this.imageFile});

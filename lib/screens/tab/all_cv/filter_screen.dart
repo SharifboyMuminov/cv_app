@@ -55,7 +55,7 @@ class _FilterScreenState extends State<FilterScreen> {
           ),
         ),
         backgroundColor: Colors.white.withOpacity(.7),
-        title: Text("All Cv"),
+        title: const Text("All Cv"),
       ),
       body: Column(
         children: [

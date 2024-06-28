@@ -10,22 +10,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CvBloc extends Bloc<CvEvent, CvState> {
   CvBloc(this._cvRepository) : super(CvState.initial()) {
-    on<CvGenerateEvent>(_cvGenerate,transformer: droppable());
-    on<CvBasicsSaveEvent>(_basicsSave,transformer: droppable());
-    on<CvChangeImageFileEvent>(_cvChangeImageFile,transformer: droppable());
-    on<CvInitialEvent>(_cvInitial,transformer: droppable());
-    on<CvChangPdfStyleEvent>(_changePdfStyle,transformer: droppable());
-    on<CvLocationSaveEvent>(_locationSave,transformer: droppable());
-    on<CvMetaSaveEvent>(_metaSave,transformer: droppable());
-    on<CvChangeProfileEvent>(_changeProfile,transformer: droppable());
-    on<CvChangeEducationEvent>(_changeEducation,transformer: droppable());
-    on<CvChangeWorkEvent>(_changeWork,transformer: droppable());
-    on<CvChangeProjectsEvent>(_changeProject,transformer: droppable());
-    on<CvChangeCertificateEvent>(_changeCertificate,transformer: droppable());
-    on<CvChangeSkillEvent>(_changeSkill,transformer: droppable());
-    on<CvChangeSoftSkillEvent>(_changeSoftSkill,transformer: droppable());
-    on<CvChangeLanguageEvent>(_changeLanguage,transformer: droppable());
-    on<CvChangeInterestEvent>(_changeInterest,transformer: droppable());
+    on<CvGenerateEvent>(_cvGenerate, transformer: droppable());
+    on<CvBasicsSaveEvent>(_basicsSave, transformer: droppable());
+    on<CvChangeImageFileEvent>(_cvChangeImageFile, transformer: droppable());
+    on<CvInitialEvent>(_cvInitial, transformer: droppable());
+    on<CvChangPdfStyleEvent>(_changePdfStyle, transformer: droppable());
+    on<CvLocationSaveEvent>(_locationSave, transformer: droppable());
+    on<CvMetaSaveEvent>(_metaSave, transformer: droppable());
+    on<CvChangeProfileEvent>(_changeProfile, transformer: droppable());
+    on<CvChangeEducationEvent>(_changeEducation, transformer: droppable());
+    on<CvChangeWorkEvent>(_changeWork, transformer: droppable());
+    on<CvChangeProjectsEvent>(_changeProject, transformer: droppable());
+    on<CvChangeCertificateEvent>(_changeCertificate, transformer: droppable());
+    on<CvChangeSkillEvent>(_changeSkill, transformer: droppable());
+    on<CvChangeSoftSkillEvent>(_changeSoftSkill, transformer: droppable());
+    on<CvChangeLanguageEvent>(_changeLanguage, transformer: droppable());
+    on<CvChangeInterestEvent>(_changeInterest, transformer: droppable());
   }
 
   final CvRepository _cvRepository;

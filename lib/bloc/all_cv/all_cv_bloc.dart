@@ -18,9 +18,9 @@ class AllCvBloc extends Bloc<AllCvEvent, AllCvState> {
             allResumes: [],
           ),
         ) {
-    on<AllCvCallEvent>(_allCvCall,transformer: droppable());
-    on<AllCvFilterEvent>(_filter,transformer: droppable());
-    on<AllCvReturnEvent>(_returnCv,transformer: droppable());
+    on<AllCvCallEvent>(_allCvCall, transformer: droppable());
+    on<AllCvFilterEvent>(_filter, transformer: droppable());
+    on<AllCvReturnEvent>(_returnCv, transformer: droppable());
   }
 
   final AllCvRepository _allCvRepository;
@@ -56,8 +56,6 @@ class AllCvBloc extends Bloc<AllCvEvent, AllCvState> {
           fromStatus: FromStatus.success,
         ),
       );
-
-
     } else {
       emit(
         state.copyWith(

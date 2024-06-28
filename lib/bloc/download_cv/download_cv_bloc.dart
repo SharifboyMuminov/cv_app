@@ -27,7 +27,7 @@ class DownloadCvBloc extends Bloc<DownloadCvEvent, DownloadCvState> {
   final DownloadCvRepository _downloadCvRepository;
 
   Future<void> _downloadCvNew(DownloadCvNewEvent event, emit) async {
-    if(state.fromStatus != FromStatus.loading){
+    if (state.fromStatus != FromStatus.loading) {
       emit(state.copyWith(fromStatus: FromStatus.loading));
 
       NetworkResponse networkResponse =

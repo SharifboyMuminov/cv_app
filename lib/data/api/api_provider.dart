@@ -273,7 +273,6 @@ class ApiProvider extends ApiClient {
       int statusCode = (response.statusCode ?? 400);
 
       if (statusCode >= 200 && statusCode <= 300) {
-
         networkResponse.data = response.data;
       } else {
         networkResponse.errorText = "Error :(";

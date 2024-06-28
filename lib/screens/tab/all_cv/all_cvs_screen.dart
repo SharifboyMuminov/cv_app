@@ -19,7 +19,6 @@ import 'package:flutter/material.dart' as mat;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:open_filex/open_filex.dart';
 
 class AllCvsScreen extends StatefulWidget {
   const AllCvsScreen({super.key});
@@ -65,6 +64,7 @@ class _AllCvsScreenState extends State<AllCvsScreen> {
                 ),
               ),
             ],
+            automaticallyImplyLeading: false,
             flexibleSpace: ClipRect(
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
@@ -74,7 +74,7 @@ class _AllCvsScreenState extends State<AllCvsScreen> {
               ),
             ),
             backgroundColor: Colors.white.withOpacity(.7),
-            title: Text("All Cv"),
+            title: const Text("All Cv"),
           ),
           body: downloadCvState.fromStatus == FromStatus.loading
               ? const Center(child: CircularProgressIndicator.adaptive())
@@ -184,8 +184,7 @@ class _AllCvsScreenState extends State<AllCvsScreen> {
         );
       },
       listener: (BuildContext context, DownloadCvState downloadCvListenState) {
-        if (downloadCvListenState.fromStatus == FromStatus.success) {
-        }
+        if (downloadCvListenState.fromStatus == FromStatus.success) {}
       },
     );
   }

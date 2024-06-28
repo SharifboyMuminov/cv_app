@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ProfileInputScreen extends StatefulWidget {
   const ProfileInputScreen({super.key});
@@ -180,48 +179,6 @@ class _ProfileInputScreenState extends State<ProfileInputScreen> {
     return controllerNetwork.text.isNotEmpty &&
         controllerUsername.text.isNotEmpty &&
         controllerUrl.text.isNotEmpty;
-  }
-
-  _openUrl(String url) async {
-    final youtubeUrl = Uri.parse(url);
-
-    try {
-      await launchUrl(youtubeUrl);
-    } catch (_) {
-      _showInvalidUrl();
-    }
-  }
-
-  _showInvalidUrl() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog.adaptive(
-          title: Text(
-            "Invalid Url :)",
-            style: AppTextStyle.seoulRobotoMedium.copyWith(
-              color: AppColors.c2A3256,
-              fontSize: 17.sp,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(
-                "Ok",
-                style: AppTextStyle.seoulRobotoMedium.copyWith(
-                  fontSize: 16.sp,
-                  color: AppColors.c1CB0F6,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
