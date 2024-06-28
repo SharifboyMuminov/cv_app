@@ -1,7 +1,10 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
+import 'package:cv_app/bloc/user/user_bloc.dart';
+import 'package:cv_app/bloc/user/user_event.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import '../data/models/image_model.dart';
 
 void takeAnImage(
@@ -21,9 +24,9 @@ void takeAnImage(
           onPressed: () async {
             Navigator.pop(context);
           },
-          child: Text(
-            "cancel".tr(),
-            style: const TextStyle(color: CupertinoColors.activeBlue),
+          child: const Text(
+            "Cancel",
+            style: TextStyle(color: CupertinoColors.activeBlue),
           ),
         ),
         actions: [
@@ -31,9 +34,9 @@ void takeAnImage(
             onPressed: () async {
               await _getImageFromCamera(context);
             },
-            child: Text(
-              "takeCamera".tr(),
-              style: const TextStyle(
+            child: const Text(
+              "Take from Camera",
+              style: TextStyle(
                   color: CupertinoColors.activeBlue,
                   fontWeight: FontWeight.w400),
             ),
@@ -43,9 +46,9 @@ void takeAnImage(
               await _getImageFromGallery(context,
                   limit: limit, isProfile: isProfile);
             },
-            child: Text(
-              "takeGallery".tr(),
-              style: const TextStyle(
+            child: const Text(
+              "Choose from gallery",
+              style: TextStyle(
                   color: CupertinoColors.activeBlue,
                   fontWeight: FontWeight.w400),
             ),
@@ -68,6 +71,12 @@ Future<void> _getImageFromGallery(
     maxWidth: 1024,
     source: ImageSource.gallery,
   );
+
+  if (image != null) {
+    File file = File(image.path);
+    if (!context.mounted) return;
+    context.read<UserBloc>().add(UserProfilePhotoEvent(file: file));
+  }
   if (!context.mounted) return;
   Navigator.pop(context);
 }
@@ -82,6 +91,11 @@ Future<void> _getImageFromCamera(
     maxHeight: 1024,
     maxWidth: 1024,
   );
+  if (image != null) {
+    File file = File(image.path);
+    if (!context.mounted) return;
+    context.read<UserBloc>().add(UserProfilePhotoEvent(file: file));
+  }
   if (!context.mounted) return;
   Navigator.pop(context);
 }

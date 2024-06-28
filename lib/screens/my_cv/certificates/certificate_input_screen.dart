@@ -38,7 +38,6 @@ class _CertificateInputScreenState extends State<CertificateInputScreen> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

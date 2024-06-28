@@ -1,6 +1,4 @@
 import 'dart:ui';
-
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,8 +39,8 @@ class _AllCvsScreenState extends State<AllCvsScreen> {
             ),
           ),
         ),
-        backgroundColor: Colors.white.withOpacity(.7),
-        title: Text("all_cvs".tr()),
+        backgroundColor: Colors.white.withOpacity(.6),
+        title: const Text("All cvs"),
       ),
       body: Scrollbar(
         thickness: 6,

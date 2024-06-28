@@ -10,21 +10,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MoneyInput extends StatelessWidget {
-  const MoneyInput({
-    super.key,
-    required this.textEditingController,
-    required this.hintText,
-    this.textInputType,
-    this.textInputAction,
-    this.obscureText,
-    this.onTabEye,
-    this.isPasswordInput,
-    this.errorText,
-    this.maxLength,
-    this.digitsOnly = false,
-     this. isNumber
-
-  });
+  const MoneyInput(
+      {super.key,
+      required this.textEditingController,
+      required this.hintText,
+      this.textInputType,
+      this.textInputAction,
+      this.obscureText,
+      this.onTabEye,
+      this.isPasswordInput,
+      this.errorText,
+      this.maxLength,
+      this.digitsOnly = false,
+      this.isNumber});
 
   final TextEditingController textEditingController;
   final String hintText;
@@ -44,16 +42,17 @@ class MoneyInput extends StatelessWidget {
       maxLength: maxLength,
       inputFormatters: digitsOnly
           ? [
-         CurrencyInputFormatter(
-             mantissaLength: 0,
-             maxTextLength: 1,
-             useSymbolPadding: false,
-             trailingSymbol: " so'm",
-             thousandSeparator: ThousandSeparator.Space,
-           ),
-      ]:isNumber!=null?[
-        AppRegExp.phoneFormatter
-      ]:[],
+              CurrencyInputFormatter(
+                mantissaLength: 0,
+                maxTextLength: 1,
+                useSymbolPadding: false,
+                trailingSymbol: " so'm",
+                thousandSeparator: ThousandSeparator.Space,
+              ),
+            ]
+          : isNumber != null
+              ? [AppRegExp.phoneFormatter]
+              : [],
       controller: textEditingController,
       obscureText: obscureText ?? false,
       textInputAction: textInputAction ?? TextInputAction.next,
@@ -63,7 +62,7 @@ class MoneyInput extends StatelessWidget {
       ),
       decoration: InputDecoration(
         contentPadding:
-        EdgeInsets.symmetric(horizontal: 16.we, vertical: 15.he),
+            EdgeInsets.symmetric(horizontal: 16.we, vertical: 15.he),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
@@ -102,19 +101,17 @@ class MoneyInput extends StatelessWidget {
         errorText: errorText,
         suffixIcon: isPasswordInput != null
             ? IconButton(
-          onPressed: onTabEye,
-          icon: SvgPicture.asset(
-            isPasswordInput!
-                ? AppImages.openEyeSvg
-                : AppImages.closeEyeSvg,
-            width: 24.we,
-            height: 24.we,
-          ),
-        )
+                onPressed: onTabEye,
+                icon: SvgPicture.asset(
+                  isPasswordInput!
+                      ? AppImages.openEyeSvg
+                      : AppImages.closeEyeSvg,
+                  width: 24.we,
+                  height: 24.we,
+                ),
+              )
             : null,
       ),
     );
   }
 }
-
-

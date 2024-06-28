@@ -16,13 +16,13 @@ import 'package:cv_app/screens/my_cv/widget/my_cv_button.dart';
 import 'package:cv_app/screens/my_cv/works/work_screen.dart';
 import 'package:cv_app/screens/widget/global_button.dart';
 import 'package:cv_app/utils/app_colors.dart';
-import 'package:cv_app/utils/app_images.dart';
 import 'package:cv_app/utils/app_size.dart';
 import 'package:cv_app/utils/app_text_style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as mat;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class MyCvScreen extends StatefulWidget {
   const MyCvScreen({super.key});
@@ -37,21 +37,32 @@ class _MyCvScreenState extends State<MyCvScreen> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: CupertinoColors.systemGrey6,
       appBar: AppBar(
-        centerTitle: false,
+        centerTitle: true,
         title: Text(
           "Create Cv",
           style: AppTextStyle.seoulRobotoMedium.copyWith(
-            color: AppColors.c010A27,
-            fontSize: 20.sp,
-          ),
+              color: AppColors.c010A27,
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w500),
         ),
         leading: IconButton(
-          onPressed: () {},
-          icon: SvgPicture.asset(
-            AppImages.arrowBackSvg,
-            width: 24.we,
-            height: 24.we,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_ios_new)),
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        bottom: PreferredSize(
+          preferredSize: mat.Size(
+            MediaQuery.sizeOf(context).width,
+            0.4.h,
+          ),
+          child: Container(
+            height: 0.4.h,
+            width: double.infinity,
+            color: CupertinoColors.systemGrey,
           ),
         ),
       ),
@@ -248,7 +259,6 @@ class _MyCvScreenState extends State<MyCvScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-
                           return const UiPdfScreen();
                         },
                       ),
@@ -263,7 +273,6 @@ class _MyCvScreenState extends State<MyCvScreen> {
           );
         },
         listener: (BuildContext context, CvState state) {},
-
       ),
     );
   }

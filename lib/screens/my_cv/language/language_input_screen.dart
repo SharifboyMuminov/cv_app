@@ -8,6 +8,7 @@ import 'package:cv_app/utils/app_colors.dart';
 import 'package:cv_app/utils/app_images.dart';
 import 'package:cv_app/utils/app_size.dart';
 import 'package:cv_app/utils/app_text_style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,6 +27,7 @@ class _LanguageInputScreenState extends State<LanguageInputScreen> {
 
   List<LanguageModel> languageModels = [];
   int languagesCount = 0;
+  double sliver = 0;
 
   @override
   void initState() {
@@ -90,12 +92,13 @@ class _LanguageInputScreenState extends State<LanguageInputScreen> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                languageModels[index].fluency,
+                                "${languageModels[index].language}  :  ${languageModels[index].fluency}",
                                 style: AppTextStyle.seoulRobotoRegular.copyWith(
                                   color: AppColors.c010A27,
                                   fontSize: 14.sp,
                                 ),
                               ),
+                              10.getW(),
                               Icon(
                                 Icons.close,
                                 weight: 20.we,
@@ -113,11 +116,57 @@ class _LanguageInputScreenState extends State<LanguageInputScreen> {
                     textEditingController: controllerLanguage,
                     hintText: "Enter language",
                   ),
-                  CvMyInput(
-                    textInputAction: TextInputAction.done,
-                    margin: EdgeInsets.symmetric(vertical: 6.he),
-                    textEditingController: controllerFluency,
-                    hintText: "Enter fluency",
+                  15.getH(),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Easy 3/10",
+                            style: TextStyle(
+                                color: CupertinoColors.destructiveRed,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 13.sp),
+                          ),
+                          Text(
+                            "Medium 5/10",
+                            style: TextStyle(
+                                color: CupertinoColors.activeOrange,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          Text(
+                            "Perfect 10/10",
+                            style: TextStyle(
+                                color: CupertinoColors.activeGreen,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CupertinoSlider(
+                                activeColor: CupertinoColors.activeOrange,
+                                value: sliver,
+                                onChanged: (v) {
+                                  setState(() {
+                                    sliver = v;
+                                    controllerFluency.text =
+                                        (v * 10).round() < 3
+                                            ? "Easy 3/10"
+                                            : ((v * 10).round() > 3 &&
+                                                    (v * 10).round() < 5)
+                                                ? "Medium 5/10"
+                                                : "Perfect 10/10";
+                                  });
+                                }),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                   10.getH(),
                   Align(
@@ -133,6 +182,7 @@ class _LanguageInputScreenState extends State<LanguageInputScreen> {
                         languageModels.add(languageModel);
                         controllerFluency.clear();
                         controllerLanguage.clear();
+                        sliver = 0;
                         setState(() {});
                       },
                       active: check(),

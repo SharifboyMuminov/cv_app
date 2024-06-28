@@ -3,8 +3,8 @@ class ImageModel {
   final String imageDocId;
 
   factory ImageModel.fromJson(
-      Map<String, dynamic> json,
-      ) {
+    Map<String, dynamic> json,
+  ) {
     return ImageModel(
       imageUrl: json['imageUrl'],
       imageDocId: json['imageDocId'],
@@ -12,9 +12,9 @@ class ImageModel {
   }
 
   Map<String, dynamic> toJson() => {
-    "imageUrl": imageUrl,
-    "imageDocId": imageDocId,
-  };
+        "imageUrl": imageUrl,
+        "imageDocId": imageDocId,
+      };
 
   ImageModel({
     required this.imageUrl,
